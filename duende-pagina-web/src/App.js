@@ -1,8 +1,12 @@
 import './App.css';
+import './Assets/tipografias.css';
 
 function App() {
-  return (
-    <p>Hola</p>
+  return (<>
+     
+  
+  </>
+ 
   );
 }
 
