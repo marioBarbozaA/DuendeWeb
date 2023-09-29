@@ -1,6 +1,7 @@
 import React from 'react';
 import '../Login/Login.css'; // Asegúrate de tener un archivo CSS para estilizar este componente
-import IconButton from '../../Buttons/Button.js'; // Asegúrate de proporcionar la ruta correcta al archivo de tu componente IconButton
+import IconButton from '../../../Components/Buttons/Button.js'; // Asegúrate de proporcionar la ruta correcta al archivo de tu componente IconButton
+import InputText from "../../../Components/Inputs/InputText.js";
 import Fondo from "../../../Imagenes/Fondo-Login.png";
 import instagram from "../../../Imagenes/instagram.png"
 
@@ -21,29 +22,25 @@ function Registro() {
           <h2>Registrarse</h2>
           <form>
             <div className="form-login">
-              <h3 className="subtitulo-logins" >Nombre</h3>
-              <input type="text" id="nombre" name="nombre" required />
+            <InputText labelText="Nombre completo" inputClassname="form-login" 
+              typeInput="text" idInput="nombre" inputName="nombre"/>
             </div>
             <div className="form-login">
-            <h3 className="subtitulo-logins" >Correo Electrónico</h3>
-              <input type="email" id="correo" name="correo" required />
+            <InputText labelText="Correo Electrónico" inputClassname="form-login" 
+              typeInput="email" idInput="email" inputName="email"/>
             </div>
             <div className="form-login">
-            <h3 className="subtitulo-logins" >Teléfono</h3>
-              <input type="text" id="telefono" name="telefono" required />
+            <InputText labelText="Teléfono" inputClassname="form-login" 
+              typeInput="text" idInput="telefono" inputName="telefono"/>
+
             </div>
             <div className="form-login">
-            <h3 className="subtitulo-logins" >Contraseña</h3>
-              <input type="password" id="contraseña" name="contraseña" required />
+            <InputText labelText="Contraseña" inputClassname="form-login" 
+              typeInput="password" idInput="password" inputName="password"/>
             </div>
             <div className="form-login">
-            <h3 className="subtitulo-logins" >Confirmar Contraseña</h3>
-              <input
-                type="password"
-                id="confirmarContraseña"
-                name="confirmarContraseña"
-                required
-              />
+            <InputText labelText="Confirmar contraseña" inputClassname="form-login" 
+              typeInput="password" idInput="password" inputName="password"/>
             </div>
             <IconButton
               buttonText="Registrar"

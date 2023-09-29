@@ -1,5 +1,6 @@
 import React from 'react';
-import IconButton from '../../Buttons/Button.js'; // Asegúrate de proporcionar la ruta correcta al archivo de tu componente IconButton
+import IconButton from '../../../Components/Buttons/Button.js'; // Asegúrate de proporcionar la ruta correcta al archivo de tu componente IconButton
+import InputText from "../../../Components/Inputs/InputText.js";
 import Fondo from "../../../Imagenes/Fondo-Login.png";
 import instagram from "../../../Imagenes/instagram.png";
 import './Login.css';
@@ -18,22 +19,17 @@ function Login() {
       </div>
       <div className="right-side">
         <div className="login-box">
+
           <h2>Iniciar Sesión</h2>
           <form>
             <div className="form-login">
-              <h3 className="subtitulo-logins">
-                Correo Electrónico
-              </h3>
-              <input type="email" id="email" name="email" required />
+              <InputText labelText="Correo Electrónico" inputClassname="form-login" 
+              typeInput="email" idInput="email" inputName="email"/>
             </div>
             <div className="form-login">
-              <h3 className="subtitulo-logins">
-                Contraseña
-              </h3>
-              <input type="password" 
-                id="password"
-                name="password" 
-                required />
+            <InputText labelText="Contraseña" inputClassname="form-login" 
+              typeInput="password" idInput="password" inputName="password"/>
+
             </div>
             <div className="opciones-login">
               <a href="/Recuperacion">Recuperar Contraseña</a>

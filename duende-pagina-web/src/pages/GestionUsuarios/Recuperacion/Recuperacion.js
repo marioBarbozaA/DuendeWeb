@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Login/Login.css'; // Asegúrate de tener un archivo CSS para estilizar este componente
-import IconButton from '../../Buttons/Button.js'; // Asegúrate de proporcionar la ruta correcta al archivo de tu componente IconButton
+import IconButton from '../../../Components/Buttons/Button.js'; // Asegúrate de proporcionar la ruta correcta al archivo de tu componente IconButton
 import Fondo from "../../../Imagenes/Fondo-Login.png";
 import instagram from "../../../Imagenes/instagram.png";
 

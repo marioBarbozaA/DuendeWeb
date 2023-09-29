@@ -42,21 +42,6 @@
   font-size: 24px;
 }
 
-/* Estilos para el formulario de entrada */
-.form-login input {
-  width: 80%; /* Ancho completo del contenedor */
-  height: 30px;
-  background-color: white; /* Fondo blanco */
-  border: none; /* Sin borde */
-  border-radius: 15px; /* Esquinas redondeadas */
-  padding: 10px; /* Espaciado interno */
-  margin-bottom: 0px; /* Espaciado inferior entre los campos */
-}
-.form-login {
-  text-align: left;
-  margin-left: 30px;
-}
-
 /*Para recuperar contra y registarse */
 .opciones-login {
   margin-left: 10%;
