@@ -1,8 +1,8 @@
 import React from 'react';
-import IconButton from '../Buttons/Button.js'; // Asegúrate de proporcionar la ruta correcta al archivo de tu componente IconButton
-import Fondo from "../../Imagenes/Fondo-Login.png";
-import instagram from "../../Imagenes/instagram.png"
-import './Login.css'
+import IconButton from '../../Buttons/Button.js'; // Asegúrate de proporcionar la ruta correcta al archivo de tu componente IconButton
+import Fondo from "../../../Imagenes/Fondo-Login.png";
+import instagram from "../../../Imagenes/instagram.png";
+import './Login.css';
 
 
 function Login() {
