@@ -2,9 +2,13 @@ import React from 'react';
 import Antifaz from "../../../Imagenes/antifaz.jpg";
 import Duende from "../../../Imagenes/Acerca-de-nosotros.png";
 import "./MainPageUser.css"
+import NavBar from '../../../Components/NavBar/NavBar';
 
 function MainPageUser() {
     return (
+      
+      <div>
+        <NavBar/>
         <section className="bienvenida-section">
         <div className="contenedor-bienvenida">
         <div className="texto-Bienvenida">
@@ -19,6 +23,7 @@ function MainPageUser() {
             </div>
             </div>
         </section>
+        </div>
       );
     
 
