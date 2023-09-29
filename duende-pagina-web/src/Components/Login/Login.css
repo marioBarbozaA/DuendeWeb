@@ -50,7 +50,7 @@
   border: none; /* Sin borde */
   border-radius: 15px; /* Esquinas redondeadas */
   padding: 10px; /* Espaciado interno */
-  margin-bottom: 15px; /* Espaciado inferior entre los campos */
+  margin-bottom: 0px; /* Espaciado inferior entre los campos */
 }
 .form-login {
   text-align: left;
@@ -64,7 +64,8 @@
 
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 60px;
+  margin-top: 15px;
 }
 
 .opciones-login a {

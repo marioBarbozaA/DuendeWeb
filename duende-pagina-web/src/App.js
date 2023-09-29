@@ -7,7 +7,7 @@ import Register from './Components/Register/Register.js';
 function App() {
   return (<>
      <div className="App">
-      <Register/>
+      <Login/>
      </div>
   </>
  
