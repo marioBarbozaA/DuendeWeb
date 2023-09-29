@@ -36,8 +36,8 @@ function Login() {
                 required />
             </div>
             <div className="opciones-login">
-              <a href="/">Recuperar Contraseña</a>
-              <a href="/">Registrarse</a>
+              <a href="/Recuperacion">Recuperar Contraseña</a>
+              <a href="/Register">Registrarse</a>
             </div>
             <IconButton
               buttonText="Iniciar Sesión"
