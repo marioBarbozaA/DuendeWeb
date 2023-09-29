@@ -1,0 +1,12 @@
+.login-button {
+  background-color: var(
+    --color-morado-oscuro
+  ); /* Fondo de color morado oscuro */
+  color: white; /* Color de texto blanco */
+  font-family: "Playfair Display", serif; /* Fuente de texto */
+  border-radius: 25px; /* Bordes redondeados */
+  padding: 10px 20px; /* Espaciado interno */
+  cursor: pointer;
+  border: none; /* Elimina el borde */
+  font-size: 24px;
+}

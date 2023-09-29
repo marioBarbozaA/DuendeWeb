@@ -4,24 +4,25 @@
 /* Estilos para títulos */
 h1 {
   font-family: "Playfair Display", serif;
-  font-size: 92px;
-  font-weight: bold;
+  font-size: 80px;
   color: var(--color-morado-oscuro);
   margin-bottom: 20px;
+  font-weight: lighter;
 }
 
 h2 {
+  font-weight: lighter;
   font-family: "Playfair Display", serif;
-  font-size: 64px;
-  font-weight: bold;
+  font-size: 48px;
   color: var(--color-blanco);
   margin-bottom: 15px;
 }
 
 h3 {
+  font-weight: lighter;
+
   font-family: "Playfair Display", serif;
   font-size: 48px;
-  font-weight: bold;
   color: var(--color-morado-oscuro);
   margin-bottom: 10px;
 }
