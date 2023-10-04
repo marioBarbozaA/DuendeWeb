@@ -7,7 +7,7 @@ export default class NavBar extends Component {
         return (
             <nav
             className="navbar navbar-expand-lg navbar-dark p-3"
-            style={{ background: "#5a4252" }}
+            style={{ background: "var(--color-moradito)" }}
           >
             <div className="container">
 
@@ -54,3 +54,4 @@ export default class NavBar extends Component {
         )
     }
 }
+

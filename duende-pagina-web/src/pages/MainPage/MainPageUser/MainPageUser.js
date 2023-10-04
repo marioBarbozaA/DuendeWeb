@@ -3,6 +3,7 @@ import ModulosMainPage from '../../../Components/ModulosMainPage/ModulosMainPage
 import Duende from "../../../Imagenes/Acerca-de-nosotros.png";
 import "./MainPageUser.css"
 import NavBar from '../../../Components/NavBar/NavBar';
+import Footer from '../../../Components/Footer/Footer';
 import Curso from "../../../Imagenes/graduation.png";
 import CarritoG from "../../../Imagenes/shopping-cart.png";
 import Galeria from "../../../Imagenes/make-up.png";
@@ -44,6 +45,7 @@ function MainPageUser() {
                 text='Nuestra galería de maquillaje es un espacio dedicado a la creatividad y el arte de la belleza. Aquí, podrás inspirarte con una colección de obras maestras de maquillaje. Explora una amplia gama de estilos, desde maquillaje de fantasía y body painting hasta looks de pasarela y belleza cotidiana.'
                 imageUrl={Galeria}
                 linkTo='/'/>
+                
               </div>
         </section>
 
@@ -56,6 +58,7 @@ function MainPageUser() {
             </div>
           </div>
     </section>
+    <Footer/>
         </div>
 
       );
