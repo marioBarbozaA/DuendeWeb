@@ -8,6 +8,7 @@ import Recuperacion from './pages/GestionUsuarios/Recuperacion/Recuperacion.js';
 import Login from './pages/GestionUsuarios/Login/Login.js';
 import Register from './pages/GestionUsuarios/Register/Register.js';
 import MainPageUser from './pages/MainPage/MainPageUser/MainPageUser.js';
+import MainPageEcomerceUser from './pages/Ecomerce/MainPageEcomerceUser/MainPageEcomerceUser.js';
 //<Login/>
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/Login" element={<Login/>}/>
           <Route path="/Register" element={<Register/>}/>
           <Route path="/MainPageUser" element={<MainPageUser/>}/>
+          <Route path="/MainPageEcomerceUser" element={<MainPageEcomerceUser/>}/>
         </Routes>
       </Router>
      </div>

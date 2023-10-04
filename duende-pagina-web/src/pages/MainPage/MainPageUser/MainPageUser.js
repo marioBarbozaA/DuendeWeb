@@ -49,7 +49,7 @@ function MainPageUser() {
 
         <section className="acerca-de-nosotros-section">
           <div className="acerca-de-nosotros-content">
-            <h2>Acerca de Nosotros</h2>
+            <h2 className='acerca-de-nosotros-title'>Acerca de Nosotros</h2>
             <div className="creadora-info">
               <p>En Concepción de Tres Ríos, Duende Maquillista es la cuna de la creatividad en maquillaje. Nuestra fundadora, una apasionada del arte de la caracterización, transforma rostros en obras de arte, desde catrinas misteriosas hasta icónicos villanos. Ofrecemos servicios de maquillaje profesional, cursos de automaquillaje y una tienda repleta de productos de belleza y accesorios. Únete a nosotros en este viaje donde la belleza y la imaginación se entrelazan en cada trazo.</p>
               <img src={Duende} alt="Imagen de la Creadora" />
