@@ -24,11 +24,12 @@ function Login() {
           <form>
             <div className="form-login">
               <InputText labelText="Correo Electrónico" inputClassname="form-login" 
-              typeInput="email" idInput="email" inputName="email"/>
+              typeInput="email" idInput="email" inputName="email" className="input-login"/>
             </div>
             <div className="form-login">
             <InputText labelText="Contraseña" inputClassname="form-login" 
-              typeInput="password" idInput="password" inputName="password"/>
+              typeInput="password" idInput="password" inputName="password" 
+              className="input-login"/>
 
             </div>
             <div className="opciones-login">
