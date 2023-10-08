@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
+import LogoDuende from '../../Imagenes/Logo-Duende.png'
 
 export default class Footer extends Component {
     render() {
@@ -28,7 +29,9 @@ export default class Footer extends Component {
                     </div>                
                     <div class="col-xs-12 col-md-6 col-lg-3">
                     <a class="d-inline-flex align-items-center mb-2" href="/">Columna 3</a>
-                    <img src="../../Imagenes/Logo-Duende.png" alt="Logo" width="100" height="100" class="d-inline-block align-text-top"/>
+                    <div className="LogoFooter">
+                    <img src={LogoDuende} alt="Logo" width="200" height="150" class="d-inline-block align-text-top"/>
+                    </div>
                     </div>                
                
                 </div>

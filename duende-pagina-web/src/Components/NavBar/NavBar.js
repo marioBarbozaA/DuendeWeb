@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
 
-export default class NavBar extends Component {
-    render() {
+function NavBar(props) {
+    
         return (
             <nav
             className="navbar navbar-expand-lg navbar-dark p-3"
@@ -27,7 +27,7 @@ export default class NavBar extends Component {
               </div>
 
               <Link className="navbar-brand" to="/">
-                <img src="../../Imagenes/Logo-Duende.png" />
+                <img src={props.imagen} alt="logo" />
               </Link>
 
               <div className="collapse navbar-collapse" id="navbarNav">
@@ -53,5 +53,6 @@ export default class NavBar extends Component {
           </nav>
         )
     }
-}
+
+export default NavBar;
 

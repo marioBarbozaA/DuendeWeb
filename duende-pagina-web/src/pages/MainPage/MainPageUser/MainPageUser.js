@@ -7,10 +7,13 @@ import Footer from '../../../Components/Footer/Footer';
 import Curso from "../../../Imagenes/graduation.png";
 import CarritoG from "../../../Imagenes/shopping-cart.png";
 import Galeria from "../../../Imagenes/make-up.png";
+import Logo from "../../../Imagenes/Logo-Duende.png";
+
+
 function MainPageUser() {
     return (
       <div className='MainPageUser-container'>
-        <NavBar/>
+        <NavBar imagen = {Logo} />
         <section className="bienvenida-section">
         <div className="contenedor-bienvenida">
         <div className="texto-Bienvenida">

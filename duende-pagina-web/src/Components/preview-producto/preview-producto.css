@@ -1,0 +1,60 @@
+/* preview-producto.css (o el nombre que prefieras) */
+.preview-producto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 5px;
+  margin: 0px;
+  width: 65vh;
+  margin-bottom: 2.5%;
+}
+
+.imgProducto {
+  width: 50%;
+  height: auto;
+}
+.imgProducto img {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+}
+
+.preview-producto h3 {
+  margin: 10px 0;
+  font-size: 35px;
+}
+
+.preview-producto p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.preview-producto .login-button {
+  margin-top: auto;
+  color: #fff; /* Color del texto del botón */
+  border: none;
+  padding: 5px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.preview-producto .login-button:hover {
+  background-color: var(
+    --color-moradito
+  ); /* Color del botón al pasar el mouse */
+}
+
+.precio-boton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+}
+.precio-boton img {
+  width: 60%;
+}
+.precio-boton .login-button {
+  border-radius: 30px;
+}
