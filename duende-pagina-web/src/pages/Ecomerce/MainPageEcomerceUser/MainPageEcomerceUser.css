@@ -12,3 +12,25 @@
   width: 100%;
   background-color: var(--color-piel);
 }
+
+.filtros-boton-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Agrega estos estilos a tu archivo de estilos CSS */
+.filtros-boton-container select {
+  border: none;
+  border-bottom: 2px solid #000; /* Color del borde inferior */
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: "Playfair Display", serif; /* Asegúrate de especificar la fuente deseada */
+  margin-left: 10vh;
+  outline: none; /* Quita el contorno */
+}
+.filtros-boton-container button {
+  margin-right: 92vh;
+}

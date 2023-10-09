@@ -9,6 +9,10 @@ import Login from './pages/GestionUsuarios/Login/Login.js';
 import Register from './pages/GestionUsuarios/Register/Register.js';
 import MainPageUser from './pages/MainPage/MainPageUser/MainPageUser.js';
 import MainPageEcomerceUser from './pages/Ecomerce/MainPageEcomerceUser/MainPageEcomerceUser.js';
+import CarritoDeCompras from './pages/Ecomerce/MainPageEcomerceUser/carrito-compras/CarritoDeCompras.js';
+import FinalizaCompraUser from './pages/Ecomerce/MainPageEcomerceUser/FinalizarCompraUser/FinalizarCompra.js';
+import HistorialComprasUser from './pages/Ecomerce/MainPageEcomerceUser/HistorialComprasUser/HistorialComprasUser';
+
 //<Login/>
 
 function App() {
@@ -21,6 +25,9 @@ function App() {
           <Route path="/Register" element={<Register/>}/>
           <Route path="/MainPageUser" element={<MainPageUser/>}/>
           <Route path="/MainPageEcomerceUser" element={<MainPageEcomerceUser/>}/>
+          <Route path="/CarritoDeCompras" element={<CarritoDeCompras/>}/>
+          <Route path="/FinalizaCompraUser" element={<FinalizaCompraUser/>}/>
+          <Route path="/HistorialComprasUser" element={<HistorialComprasUser/>}/>
         </Routes>
       </Router>
      </div>

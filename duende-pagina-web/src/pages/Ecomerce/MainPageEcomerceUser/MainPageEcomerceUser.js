@@ -8,6 +8,7 @@ import Logo from '../../../Imagenes/Logo-Duende.png';
 import Footer from '../../../Components/Footer/Footer';
 import PopUpProducto from '../MainPageEcomerceUser/pop-up-producto-user/PopUpProducto.js';
 import './MainPageEcomerceUser.css';
+import { Link } from 'react-router-dom';
 
 
 
@@ -15,9 +16,14 @@ import './MainPageEcomerceUser.css';
 function MainPageEcomerceUser() {
 const [popUpOpen, setPopUpOpen] = useState(false);
 const [selectedProduct, setSelectedProduct] = useState(null); // Agrega un estado para el producto seleccionado
-  const handleLogin = () => {
-    // Lógica para manejar el inicio de sesión
-  };
+const [selectedCategory, setSelectedCategory] = useState(''); // Estado para la categoría seleccionada
+
+const uniqueCategories = [...new Set(productosJSON.map((producto) => producto.categoria))];
+
+  // Filtra los productos por categoría
+  const filteredProductos = selectedCategory
+    ? productosJSON.filter((producto) => producto.categoria === selectedCategory)
+    : productosJSON;
 
   return (
     <>
@@ -25,18 +31,29 @@ const [selectedProduct, setSelectedProduct] = useState(null); // Agrega un estad
     <div className='MainPageEcomerce-container'>
       <h1>Productos</h1>
       <div className='filtros-boton-container'>
-        <div className='filtros-container'>
-          <IconButton
+      <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          <option value="">Todas las categorías</option>
+          {uniqueCategories.map((categoria) => (
+            <option key={categoria} value={categoria}>
+              {categoria}
+            </option>
+          ))}
+      </select>
+            <Link to="/HistorialComprasUser" className="nav-link">
+            <IconButton
             buttonClassname="login-button"
-            handleOnClick={handleLogin}
             buttonText="Ver Historial"
           />
+            </Link>
+          
         </div>
-      </div>
 
       {/* Mapea los productos desde el JSON y crea un componente PreviewProducto para cada uno */}
       <div className="productos-container">
-        {productosJSON.map((producto, index) => (
+        {filteredProductos.map((producto, index) => (
           <PreviewProducto
             key={index}
             imagen={Producto} // {producto.imagen}
