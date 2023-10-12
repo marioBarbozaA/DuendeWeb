@@ -6,6 +6,7 @@ import Producto from '../../../../Imagenes/Aretes.png';
 import trash from '../../../../Imagenes/trash1.png';
 import Logo from '../../../../Imagenes/Logo-Duende.png';
 import Footer from '../../../../Components/Footer/Footer.js';
+import { Link } from 'react-router-dom';
 
 import './CarritoDeCompras.css'; // Importa el archivo CSS para estilizar
 
@@ -58,7 +59,14 @@ function CarritoDeCompras() {
 	return (
 		<>
 			<div className='carrito-general'>
-				<NavBar imagen={Logo} />
+				<NavBar
+					imagen={Logo}
+					pathMain='MainPageUser'
+					pathCarrito='CarritoDeCompras'
+					pathCuenta='Cuenta'
+					pathGaleria='GalleryUser'
+					pathTienda='MainPageEcomerceUser'
+				/>
 
 				<div className='carrito-container'>
 					<h1>Carrito de Compras</h1>
@@ -112,11 +120,13 @@ function CarritoDeCompras() {
 						<p>${calcularTotal()}</p>
 					</div>
 					<div className='realizar-compra'>
-						<IconButton
+						<Link to='/FinalizaCompraUser' className='nav-link'>
+							<p>Realizar Compra</p>
+						</Link>
+						{/*<IconButton
 							buttonText='Realizar Compra'
 							buttonClassname='login-button '
-							// Agrega la lógica para realizar la compra
-						/>
+											/>*/}
 					</div>
 				</div>
 				<Footer />

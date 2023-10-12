@@ -12,7 +12,14 @@ import Logo from '../../../Imagenes/Logo-Duende.png';
 function MainPageUser() {
 	return (
 		<div className='MainPageUser-container'>
-			<NavBar imagen={Logo} />
+			<NavBar
+				imagen={Logo}
+				pathMain='MainPageUser'
+				pathCarrito='CarritoDeCompras'
+				pathCuenta='Cuenta'
+				pathGaleria='GalleryUser'
+				pathTienda='MainPageEcomerceUser'
+			/>
 			<section className='bienvenida-section'>
 				<div className='contenedor-bienvenida'>
 					<div className='texto-Bienvenida'>
@@ -23,7 +30,7 @@ function MainPageUser() {
 							elit sodales convallis nec eget leo. Etiam lacinia ut neque nec
 							ullamcorper.
 						</p>
-						<a href='#leer-mas'>Leer Más</a>
+						<a href='#parrafo-especifico'>Leer Más</a>
 					</div>
 				</div>
 			</section>
@@ -57,7 +64,7 @@ function MainPageUser() {
 				<div className='acerca-de-nosotros-content'>
 					<h2 className='acerca-de-nosotros-title'>Acerca de Nosotros</h2>
 					<div className='creadora-info'>
-						<p>
+						<p id='parrafo-especifico'>
 							En Concepción de Tres Ríos, Duende Maquillista es la cuna de la
 							creatividad en maquillaje. Nuestra fundadora, una apasionada del
 							arte de la caracterización, transforma rostros en obras de arte,

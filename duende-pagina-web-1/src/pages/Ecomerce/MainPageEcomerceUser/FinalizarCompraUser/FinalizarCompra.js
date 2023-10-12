@@ -117,7 +117,14 @@ function FinalizarCompra() {
 
 	return (
 		<>
-			<NavBar imagen={Logo} />
+			<NavBar
+				imagen={Logo}
+				pathMain='MainPageUser'
+				pathCarrito='CarritoDeCompras'
+				pathCuenta='Cuenta'
+				pathGaleria='GalleryUser'
+				pathTienda='MainPageEcomerceUser'
+			/>
 			<div className='container-finalizar-compra'>
 				<h1>Finaliza tu compra</h1>
 				<div className='contenedor-arriba'>

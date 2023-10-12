@@ -113,3 +113,16 @@ td.borrar-producto {
 	font-size: 24px;
 	margin-bottom: 0%;
 }
+.realizar-compra p {
+	background-color: var(
+		--color-morado-oscuro
+	); /* Fondo de color morado oscuro */
+	color: white; /* Color de texto blanco */
+	font-family: 'Playfair Display', serif; /* Fuente de texto */
+	border-radius: 15px; /* Bordes redondeados */
+	padding: 10px 20px; /* Espaciado interno */
+	cursor: pointer;
+	border: none; /* Elimina el borde */
+	font-size: 24px;
+	margin-top: 10px;
+}

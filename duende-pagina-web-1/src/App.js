@@ -12,7 +12,8 @@ import MainPageEcomerceUser from './pages/Ecomerce/MainPageEcomerceUser/MainPage
 import CarritoDeCompras from './pages/Ecomerce/MainPageEcomerceUser/carrito-compras/CarritoDeCompras.js';
 import FinalizaCompraUser from './pages/Ecomerce/MainPageEcomerceUser/FinalizarCompraUser/FinalizarCompra.js';
 import HistorialComprasUser from './pages/Ecomerce/MainPageEcomerceUser/HistorialComprasUser/HistorialComprasUser.js';
-
+import Cuenta from './pages/GestionUsuarios/Cuenta/Cuenta.js';
+import GalleryUser from './pages/Gallery/GalleryUser/GalleryUser.js';
 // <Login/>
 
 function App() {
@@ -38,6 +39,8 @@ function App() {
 							path='/HistorialComprasUser'
 							element={<HistorialComprasUser />}
 						/>
+						<Route path='/Cuenta' element={<Cuenta />} />
+						<Route path='/GalleryUser' element={<GalleryUser />} />
 					</Routes>
 				</Router>
 			</div>

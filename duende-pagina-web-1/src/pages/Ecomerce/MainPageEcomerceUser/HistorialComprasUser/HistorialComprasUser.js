@@ -31,25 +31,25 @@ function HistorialComprasUser() {
 		},
 		// Agrega más compras si es necesario
 	];
-
-	const [popupVisible, setPopupVisible] = useState(false);
+	const [popUpOpen, setPopUpOpen] = useState(false);
 	const [selectedCompra, setSelectedCompra] = useState(null);
 
 	// Función para mostrar el popup con los detalles de la compra
 	const mostrarPopup = compra => {
 		setSelectedCompra(compra);
-		setPopupVisible(true);
-	};
-
-	// Función para ocultar el popup
-	const cerrarPopup = () => {
-		setSelectedCompra(null);
-		setPopupVisible(false);
+		setPopUpOpen(true);
 	};
 
 	return (
 		<>
-			<NavBar imagen={Logo} />
+			<NavBar
+				imagen={Logo}
+				pathMain='MainPageUser'
+				pathCarrito='CarritoDeCompras'
+				pathCuenta='Cuenta'
+				pathGaleria='GalleryUser'
+				pathTienda='MainPageEcomerceUser'
+			/>
 			<div className='container-historial'>
 				<h1>Historial de Compras</h1>
 				<table className='historial-table'>
@@ -64,7 +64,11 @@ function HistorialComprasUser() {
 					</thead>
 					<tbody>
 						{compras.map(compra => (
-							<tr key={compra.id} onClick={() => mostrarPopup(compra)}>
+							<tr
+								key={compra.id}
+								onClick={() => mostrarPopup(compra)}
+								className='compras-opciones'
+							>
 								<td className='id-casilla'>{compra.id}</td>
 								<td>{compra.fechaCompra}</td>
 								<td>{compra.estado}</td>
@@ -78,8 +82,14 @@ function HistorialComprasUser() {
 			<Footer />
 
 			{/* Popup de detalles de la compra */}
-			{popupVisible && (
-				<PopUpHistorialUser compra={selectedCompra} onClose={cerrarPopup} />
+			{popUpOpen && (
+				<PopUpHistorialUser
+					compra={selectedCompra}
+					onClose={() => {
+						setPopUpOpen(false); // Abrir el pop-up al hacer clic
+						console.log(popUpOpen);
+					}}
+				/>
 			)}
 		</>
 	);

@@ -30,8 +30,8 @@ function MainPageEcomerceUser() {
 				imagen={Logo}
 				pathMain='MainPageUser'
 				pathCarrito='CarritoDeCompras'
-				pathCuenta=''
-				pathGaleria=''
+				pathCuenta='Cuenta'
+				pathGaleria='GalleryUser'
 				pathTienda='MainPageEcomerceUser'
 			/>
 			<div className='MainPageEcomerce-container'>
