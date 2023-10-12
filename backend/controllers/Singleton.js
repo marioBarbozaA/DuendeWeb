@@ -1,6 +1,6 @@
 const SingletonConnexion = require('./SingeltonConnexion.js');
 
-const User = require('../models/auth/user.js');
+const User = require('../models/auth/User.js');
 const Usertype = require('../models/auth/usertype.js');
 const Appointment = require('../models/appointment.js');
 const Product = require('../models/Product.js');

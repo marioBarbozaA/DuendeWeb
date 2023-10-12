@@ -1,4 +1,5 @@
 require('dotenv').config();
+const PORT = process.env.PORT || 3500;
 
 const express = require('express');
 const initializeDatabase = require('./db.js');
@@ -16,9 +17,7 @@ app.use('/Product', require('./routes/ProductRoute.js'));
 app.use('/message', require('./routes/MessageRoute.js'));
 
 //listen for requests
-app.listen(process.env.PORT, () => {
-    console.log('listening for requests on port 4000');
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 
 //connect to mongodb
 initializeDatabase();
