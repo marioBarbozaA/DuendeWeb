@@ -67,7 +67,6 @@
 .right-side-popup h3 {
 	color: white;
 	font-size: 35px;
-	font-family: 'Playfair Display', serif; /* Fuente de texto */
 }
 
 .right-side-popup p {
@@ -107,26 +106,18 @@
 	display: flex;
 	flex: row;
 }
-
-.mensaje-duende .input-correo-telefono input {
-	width: 400px;
-}
 /* Estilos para los inputs */
-.mensaje-duende input,
+input,
 textarea {
 	margin: 10px 0;
 	border: 1px solid #ccc; /* Borde ligero */
 	border-radius: 25px; /* Esquinas redondeadas en los inputs */
-	width: 80%;
+	width: 60%;
 	margin: 5px;
 	height: 50px;
-	height: 2.5vh;
 	border-radius: 15px;
 	background-color: var(--color-piel); /* Fondo de color piel */
 	font-family: 'Playfair Display', serif; /* Fuente de texto */
 	font-weight: bold; /* Texto en negrita */
 	outline: none;
-}
-.mensaje-duende textarea {
-	height: 100px;
 }
