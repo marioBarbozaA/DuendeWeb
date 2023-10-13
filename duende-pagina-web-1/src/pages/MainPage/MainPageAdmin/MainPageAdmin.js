@@ -1,12 +1,13 @@
 import React from 'react';
 import ModulosMainPage from '../../../Components/ModulosMainPage/ModulosMainPage.js';
 import Duende from '../../../Imagenes/Acerca-de-nosotros.png';
-import './MainPageUser.css';
+import '../MainPageUser/MainPageUser.css';
 import NavBar from '../../../Components/NavBar/NavBar';
 import Footer from '../../../Components/Footer/Footer';
 import Curso from '../../../Imagenes/graduation.png';
 import CarritoG from '../../../Imagenes/shopping-cart.png';
 import Galeria from '../../../Imagenes/make-up.png';
+import agenda from '../../../Imagenes/Agenda.png';
 import Logo from '../../../Imagenes/Logo-Duende.png';
 
 function MainPageUser() {
@@ -14,11 +15,12 @@ function MainPageUser() {
 		<div className='MainPageUser-container'>
 			<NavBar
 				imagen={Logo}
-				pathMain='MainPageUser'
+				pathMain='MainPageAdmin'
 				pathCarrito='CarritoDeCompras'
 				pathCuenta='Cuenta'
 				pathGaleria='GalleryUser'
-				pathTienda='MainPageEcomerceUser'
+				pathTienda='MainPageEcomerceAdmin'
+				mostrarCarrito={false}
 			/>
 			<section className='bienvenida-section'>
 				<div className='contenedor-bienvenida'>
@@ -55,7 +57,13 @@ function MainPageUser() {
 						title='Galería duende'
 						text='Nuestra galería de maquillaje es un espacio dedicado a la creatividad y el arte de la belleza. Aquí, podrás inspirarte con una colección de obras maestras de maquillaje. Explora una amplia gama de estilos, desde maquillaje de fantasía y body painting hasta looks de pasarela y belleza cotidiana.'
 						imageUrl={Galeria}
-						linkTo='/GalleryUser'
+						linkTo='/'
+					/>
+					<ModulosMainPage
+						title='Agenda Duende'
+						text='La Agenda Duende Ayudará a organizarte de manera efectiva. Ya sea que necesites registrar tus cursos, entregas o simplemente mantenerte al tanto de tus compromisos diarios, nuestra Agenda Duende es la herramienta perfecta para ti. Te ayudará a mantenerte al día con tus tareas y actividades.'
+						imageUrl={agenda}
+						linkTo='/'
 					/>
 				</div>
 			</section>

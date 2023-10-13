@@ -16,8 +16,6 @@
 .filtros-boton-container {
 	width: 100%;
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
 }
 
 /* Agrega estos estilos a tu archivo de estilos CSS */
@@ -30,7 +28,13 @@
 	font-family: 'Playfair Display', serif; /* Asegúrate de especificar la fuente deseada */
 	margin-left: 10vh;
 	outline: none; /* Quita el contorno */
+	margin-right: 31%;
 }
 .filtros-boton-container button {
-	margin-right: 92vh;
+	margin-bottom: 0px;
+}
+.botones-ecomerce-admin {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
 }

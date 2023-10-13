@@ -45,11 +45,13 @@ function NavBar(props) {
 								Cuenta
 							</Link>
 						</li>
-						<li className='nav-item'>
-							<Link to={`/${pathCarrito}`} className='nav-link'>
-								Carrito
-							</Link>
-						</li>
+						{props.mostrarCarrito && ( // Mostrar el enlace del "Carrito" solo si mostrarCarrito es true
+							<li className='nav-item'>
+								<Link to={`/${pathCarrito}`} className='nav-link'>
+									Carrito
+								</Link>
+							</li>
+						)}
 					</ul>
 				</div>
 			</div>

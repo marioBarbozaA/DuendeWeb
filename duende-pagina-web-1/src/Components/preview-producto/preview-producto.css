@@ -10,6 +10,16 @@
 	margin-bottom: 2.5%;
 }
 
+.preview-producto {
+	transition:
+		transform 0.2s,
+		background-color 0.2s;
+}
+.preview-producto:hover {
+	cursor: pointer;
+	transform: scale(1.05); /* Agranda el elemento en un 5% */
+}
+
 .imgProducto {
 	width: 50%;
 	height: auto;
