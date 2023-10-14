@@ -1,6 +1,7 @@
 require('dotenv').config();
 const PORT = process.env.PORT || 3500;
-
+const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
 const express = require('express');
 const initializeDatabase = require('./db.js');
 
@@ -16,8 +17,12 @@ app.use('shopppingCart', require('./routes/ShoppingCartRoute.js'));
 app.use('/Product', require('./routes/ProductRoute.js'));
 app.use('/message', require('./routes/MessageRoute.js'));
 
+//
+app.use(cors(corsOptions));
+
+
 //listen for requests
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 
 //connect to mongodb
-initializeDatabase();
+// initializeDatabase();

@@ -1,13 +1,12 @@
 const DB = require('../config/dbConn.js');
 const dbConn = DB.dbConnect;
 const dbDisconn = DB.dbDisconnect;
-//Databse singleton
+
 class SingletonConnexion {
     static instance;
     static count = 0;
   
     constructor() {
-      //Database connection
       //dbConn();
     }
   

@@ -1,1 +1,1 @@
-const SingletonDAO = require('./SingeltonDAO.js');
+const SingletonDAO = require('./Singleton.js');
