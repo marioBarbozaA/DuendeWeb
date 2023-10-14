@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import './PopUpProductoAdmin.css';
-//import Producto from '../../../../Imagenes/Aretes.png';
 import trash from '../../../../Imagenes/trash.png';
-
+import Confirmacion from '../../../../Components/Confirmacion/Confirmacion';
 import IconButton from '../../../../Components/Buttons/Button.js';
 
 function PopUpProducto({ producto, onClose, onProductoChange }) {
 	const [editingProducto, setEditingProducto] = useState(producto);
+	const [confirmacionVisible, setConfirmacionVisible] = useState(false);
 
 	const handleFieldChange = (fieldName, value) => {
 		setEditingProducto({ ...editingProducto, [fieldName]: value });
@@ -14,6 +14,7 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 
 	const handleSaveChanges = () => {
 		onProductoChange(editingProducto);
+		onClose();
 	};
 
 	if (!producto) {
@@ -34,6 +35,16 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 
 	const borrarImagenes = () => {
 		// Lógica para manejar el inicio de sesión
+	};
+	const mostrarConfirmacion = () => {
+		setConfirmacionVisible(true);
+	};
+
+	const ocultarConfirmacion = () => {
+		setConfirmacionVisible(false);
+	};
+	const handleGuardarCambios = () => {
+		mostrarConfirmacion();
 	};
 
 	return (
@@ -147,13 +158,21 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 						/>
 					</h2>
 
-					<IconButton
-						buttonText='Guardar Cambios'
-						buttonClassname='popup-button'
-						onClick={handleSaveChanges}
-					/>
+					<button
+						className='popup-button' // Agrega las clases de estilo que desees
+						onClick={handleGuardarCambios}
+					>
+						Guardar Cambios
+					</button>
 				</div>
 			</div>
+			{confirmacionVisible && (
+				<Confirmacion
+					mensaje='¿Estás seguro de que deseas guardar los cambios?'
+					onAceptar={handleSaveChanges} // Función a ejecutar al aceptar
+					onCancelar={ocultarConfirmacion} // Función a ejecutar al cancelar
+				/>
+			)}
 		</div>
 	);
 }
