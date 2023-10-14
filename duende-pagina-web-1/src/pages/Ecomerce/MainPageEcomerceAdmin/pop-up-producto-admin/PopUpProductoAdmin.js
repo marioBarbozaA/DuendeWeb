@@ -7,11 +7,18 @@ import IconButton from '../../../../Components/Buttons/Button.js';
 function PopUpProducto({ producto, onClose, onProductoChange }) {
 	const [editingProducto, setEditingProducto] = useState(producto);
 	const [confirmacionVisible, setConfirmacionVisible] = useState(false);
-
+	const [confirmacionEliminarVisible, setConfirmacionEliminarVisible] =
+		useState(false);
 	const handleFieldChange = (fieldName, value) => {
 		setEditingProducto({ ...editingProducto, [fieldName]: value });
 	};
+	const mostrarConfirmacionEliminar = () => {
+		setConfirmacionEliminarVisible(true);
+	};
 
+	const ocultarConfirmacionEliminar = () => {
+		setConfirmacionEliminarVisible(false);
+	};
 	const handleSaveChanges = () => {
 		onProductoChange(editingProducto);
 		onClose();
@@ -33,8 +40,8 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 		}
 	};
 
-	const borrarImagenes = () => {
-		// Lógica para manejar el inicio de sesión
+	const borrarProducto = () => {
+		console.log('Borrar Producto');
 	};
 	const mostrarConfirmacion = () => {
 		setConfirmacionVisible(true);
@@ -83,7 +90,7 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 									backgroundSize: '50% 50%',
 									backgroundPosition: 'center center',
 								}}
-								onClick={borrarImagenes}
+								onClick={mostrarConfirmacionEliminar}
 							></button>
 						</div>
 					</div>
@@ -171,6 +178,13 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 					mensaje='¿Estás seguro de que deseas guardar los cambios?'
 					onAceptar={handleSaveChanges} // Función a ejecutar al aceptar
 					onCancelar={ocultarConfirmacion} // Función a ejecutar al cancelar
+				/>
+			)}
+			{confirmacionEliminarVisible && (
+				<Confirmacion
+					mensaje='¿Estás seguro de que deseas eliminar este producto?'
+					onAceptar={borrarProducto} // Función a ejecutar al aceptar
+					onCancelar={ocultarConfirmacionEliminar} // Función a ejecutar al cancelar
 				/>
 			)}
 		</div>
