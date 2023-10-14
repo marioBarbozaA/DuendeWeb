@@ -8,7 +8,7 @@ import Logo from '../../../Imagenes/Logo-Duende.png';
 import Footer from '../../../Components/Footer/Footer';
 import PopUpProductoAdmin from '../MainPageEcomerceAdmin/pop-up-producto-admin/PopUpProductoAdmin.js';
 import PopupAnnadirProducto from '../MainPageEcomerceAdmin/pop-up-annadir-producto/PopupAnnadirProducto.js';
-
+import { Link } from 'react-router-dom';
 import './MainPageEcomerceAdmin.css';
 
 function MainPageEcomerceAdmin() {
@@ -72,10 +72,13 @@ function MainPageEcomerceAdmin() {
 							buttonText='Añadir Producto'
 							handleOnClick={handleOpenAgregarProducto}
 						/>
-						<IconButton
-							buttonClassname='login-button'
-							buttonText='Registrar Compra'
-						/>
+
+						<Link to='/HistorialVentas' className='nav-link'>
+							<IconButton
+								buttonClassname='login-button'
+								buttonText='Registrar Compra'
+							/>
+						</Link>
 					</div>
 				</div>
 

@@ -16,10 +16,12 @@ import CarritoDeCompras from './pages/Ecomerce/MainPageEcomerceUser/carrito-comp
 import FinalizaCompraUser from './pages/Ecomerce/MainPageEcomerceUser/FinalizarCompraUser/FinalizarCompra.js';
 import HistorialComprasUser from './pages/Ecomerce/MainPageEcomerceUser/HistorialComprasUser/HistorialComprasUser.js';
 import GalleryUser from './pages/Gallery/GalleryUser/GalleryUser.js';
+import HistorialVentas from './pages/Ecomerce/MainPageEcomerceAdmin/Historial-ventas/HistorialVentas.js';
 
 //Administrador
 import MainPageAdmin from './pages/MainPage/MainPageAdmin/MainPageAdmin.js';
 import MainPageEcomerceAdmin from './pages/Ecomerce/MainPageEcomerceAdmin/MainPageEcomerceAdmin.js';
+
 function App() {
 	return (
 		<>
@@ -50,6 +52,7 @@ function App() {
 							path='/MainPageEcomerceAdmin'
 							element={<MainPageEcomerceAdmin />}
 						/>
+						<Route path='/HistorialVentas' element={<HistorialVentas />} />
 					</Routes>
 				</Router>
 			</div>

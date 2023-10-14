@@ -50,7 +50,7 @@ function MainPageUser() {
 						title='Tienda duende'
 						text='¡Te damos la bienvenida a nuestra Tienda Exclusiva de Belleza y Productos de Lujo! Aquí encontrarás una cuidadosa selección de artículos de alta calidad que abarcan mucho más que el maquillaje. Nuestra tienda ofrece una experiencia de compra única, donde podrás descubrir productos de belleza, cuidado personal y accesorios de lujo.'
 						imageUrl={CarritoG}
-						linkTo='/MainPageEcomerceUser'
+						linkTo='/MainPageEcomerceAdmin'
 					/>
 
 					<ModulosMainPage
