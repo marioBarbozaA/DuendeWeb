@@ -136,7 +136,111 @@ class Singleton {
     //-------------------------------------------------------------------------------------
     //                                Appointment Functions
     //-------------------------------------------------------------------------------------
+    async createAppointment(req, res, next) {
+        try {
+            const jsonAppointment = req.body;
+            await Appointment.create({
+                "participants": jsonAppointment.participants,
+                "type": jsonAppointment.type,
+                "details": jsonAppointment.details,
+                "date": jsonAppointment.date,
+                "image": jsonAppointment.image,
+                "status": jsonAppointment.status,
+                "startingTime": jsonAppointment.startingTime,
+                "endingTime": jsonAppointment.endingTime,
+                "orderNumber": jsonAppointment.orderNumber
+            });
+    
+            res.status(201).json({ state: true, message: 'El compromiso se ha creado exitosamente' });
+        } catch (error) {
+            res.status(500).json({ message: `Error del servidor: ${error}` });
+        }
+        next();
+    }
 
+    async updateAppointment(req, res, next) {
+        try {
+            const jsonAppointment = req.body;
+            const appointmentId = jsonAppointment._id; 
+    
+            // Verificar si el compromiso a actualizar existe por su _id
+            const appointmentFound = await Appointment.findOne({ _id: appointmentId });
+    
+            if (!appointmentFound) {
+                return res.status(404).json({ message: 'El compromiso no se encuentra' });
+            }
+    
+            
+            const updateFields = {
+                "participants": jsonAppointment.participants,
+                "type": jsonAppointment.type,
+                "details": jsonAppointment.details,
+                "date": jsonAppointment.date,
+                "image": jsonAppointment.image,
+                "status": jsonAppointment.status,
+                "startingTime": jsonAppointment.startingTime,
+                "endingTime": jsonAppointment.endingTime,
+                "orderNumber": jsonAppointment.orderNumber
+            };
+    
+            // Actualizar el compromiso en la base de datos
+            await Appointment.updateOne({ _id: appointmentId }, { $set: updateFields });
+    
+            res.status(200).json({ state: true, message: 'El compromiso se ha modificado exitosamente' });
+        } catch (error) {
+            res.status(500).json({ message: `Error del servidor: ${error}` });
+        }
+        next();
+    }
+
+    async deleteAppointment(req, res, next) {
+        try {
+            const jsonAppointment = req.body;
+    
+            await Appointment.deleteOne({ _id: jsonAppointment._id });
+    
+            res.status(200).json({ state: true, message: 'El compromiso se ha eliminado exitosamente' });
+        } catch (error) {
+            res.status(500).json({ message: `Error del servidor: ${error}` });
+        }
+        next();
+    }
+    
+    async getAppointmentById(req, res, next) {
+        try {
+            const appointmentId = req.params.appointmentId; // Obtener el ID del compromiso de los parámetros de la URL
+            const appointment = await Appointment.findOne({ _id: appointmentId });
+    
+            if (!appointment) {
+                return res.status(404).json({ message: 'El compromiso no se encuentra' });
+            }
+    
+            res.status(200).json(appointment);
+        } catch (error) {
+            res.status(500).json({ message: `Error del servidor: ${error}` });
+        }
+        next();
+    }
+    
+    async getAllAppointments(req, res, next) {
+        try {
+            const appointments = await Appointment.find({});
+    
+            if (appointments.length === 0) {
+                return res.status(404).json({ message: 'No se encontraron compromisos en la agenda' });
+            }
+    
+            res.status(200).json(appointments);
+        } catch (error) {
+            res.status(500).json({ message: `Error del servidor: ${error}` });
+        }
+        next();
+    }
+    
+
+    //-------------------------------------------------------------------------------------
+    //                                
+    //-------------------------------------------------------------------------------------
     async registerUser(req, res, next) {
         next();
     }
