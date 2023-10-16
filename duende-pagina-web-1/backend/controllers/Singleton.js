@@ -53,23 +53,32 @@ class Singleton {
         next();
     }
 
+
     async updateGalleryImage(req, res, next) {
         try {
-            const jsonImage = req.body; 
+            const jsonImage = req.body;
+            const imageId = jsonImage._id; 
+        
+            const imageFound = await GalleryImage.findOne({ _id: imageId });
+    
+            if (!imageFound) {
+                return res.status(404).json({ message: 'La imagen no se encuentra' });
+            }
 
-            await GalleryImage.updateOne({ _id: jsonImage._id }, {
-                $set: {
-                    "name": jsonImage.name,
-                    "category": jsonImage.category,
-                    "subCategory": jsonImage.subCategory,
-                    "description": jsonImage.description,
-                    "date": jsonImage.date,
-                    "tags": jsonImage.tags,
-                    "mainImage": jsonImage.mainImage,
-                    "images": jsonImage.images,
-                    "status": jsonImage.status
-                }
-            });
+            const updateFields = {
+                "name": jsonImage.name,
+                "category": jsonImage.category,
+                "subCategory": jsonImage.subCategory,
+                "description": jsonImage.description,
+                "date": jsonImage.date,
+                "tags": jsonImage.tags,
+                "mainImage": jsonImage.mainImage,
+                "images": jsonImage.images,
+                "status": jsonImage.status
+            };
+    
+            // Actualizar la imagen en la base de datos
+            await GalleryImage.updateOne({ _id: imageId }, { $set: updateFields });
     
             res.status(200).json({ state: true, message: 'La imagen se ha modificado exitosamente' });
         } catch (error) {
@@ -77,18 +86,21 @@ class Singleton {
         }
         next();
     }
+    
 
     async deleteGalleryImage(req, res, next) {
         try {
-            const jsonImage = req.body; 
-    
-            const imageFound = await GalleryImage.findOne({ _id: jsonImage.imageId });
+            const jsonImage = req.body;
+            const imageId = jsonImage.imageId; 
+            
+            const imageFound = await GalleryImage.findOne({ _id: imageId });
     
             if (!imageFound) {
                 return res.status(404).json({ message: 'La imagen no se encuentra' });
             }
     
-            await GalleryImage.deleteOne({ _id: jsonImage.imageId });
+            // Eliminar la imagen de la base de datos
+            await GalleryImage.deleteOne({ _id: imageId });
     
             res.status(200).json({ state: true, message: 'La imagen se ha eliminado exitosamente' });
         } catch (error) {
@@ -96,6 +108,7 @@ class Singleton {
         }
         next();
     }
+    
 
     async getGalleryImagesByCategory(req, res, next) {
         try {
@@ -163,7 +176,7 @@ class Singleton {
             const jsonAppointment = req.body;
             const appointmentId = jsonAppointment._id; 
     
-            // Verificar si el compromiso a actualizar existe por su _id
+            
             const appointmentFound = await Appointment.findOne({ _id: appointmentId });
     
             if (!appointmentFound) {
@@ -196,6 +209,12 @@ class Singleton {
     async deleteAppointment(req, res, next) {
         try {
             const jsonAppointment = req.body;
+
+            const appointmentFound = await Appointment.findOne({ _id: appointmentId });
+    
+            if (!appointmentFound) {
+                return res.status(404).json({ message: 'El compromiso no se encuentra' });
+            }
     
             await Appointment.deleteOne({ _id: jsonAppointment._id });
     
