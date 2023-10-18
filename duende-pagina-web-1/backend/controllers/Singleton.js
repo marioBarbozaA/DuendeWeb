@@ -145,7 +145,22 @@ class Singleton {
     //-------------------------------------------------------------------------------------
     //                                 Message Functions
     //-------------------------------------------------------------------------------------
+    
+    async getAllMessages(req, res, next){
+        try {
+            const messages = await Message.find({});
+            
+            if (messages.length===0){
+                return res.status(404).json({message: `No se encontraron mensajes`})
+            }
 
+            res.status(200).json(messages);
+        } catch (error){
+            res.status(500).jeson({message: `Error del servidor: ${error}`})
+        }
+        next();
+    }
+    
     //-------------------------------------------------------------------------------------
     //                                Appointment Functions
     //-------------------------------------------------------------------------------------
