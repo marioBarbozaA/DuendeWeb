@@ -146,6 +146,48 @@ class Singleton {
     //                                 Message Functions
     //-------------------------------------------------------------------------------------
     
+    async addMessage(req, res, next) {
+        try {
+            const jsonMessage = req.body;
+            await Message.create({
+                "user": jsonMessage.user,
+                "message": jsonMessage.message,
+                "response": jsonMessage.response,
+                "type": jsonMessage.type,
+                "date": jsonMessage.date,
+                "galleryImageId": jsonMessage.galleryImageId,
+                "status": jsonMessage.status
+            });
+    
+            res.status(201).json({ state: true, message: 'El mensaje se ha agregado exitosamente' });
+        } catch (error) {
+            res.status(500).json({ message: `Error del servidor: ${error}` });
+        }
+        next();
+    }
+
+    async deleteMessage(req, res, next) {
+        try {
+            const jsonMessage = req.body;
+            const messageId = jsonMessage.messageId; 
+    
+        
+            const messageFound = await Message.findOne({ _id: messageId });
+    
+            if (!messageFound) {
+                return res.status(404).json({ message: 'El mensaje no se encuentra' });
+            }
+    
+            // Eliminar el mensaje de la base de datos
+            await Message.deleteOne({ _id: messageId });
+    
+            res.status(200).json({ state: true, message: 'El mensaje se ha eliminado exitosamente' });
+        } catch (error) {
+            res.status(500).json({ message: `Error del servidor: ${error}` });
+        }
+        next();
+    }
+
     async getAllMessages(req, res, next){
         try {
             const messages = await Message.find({});
