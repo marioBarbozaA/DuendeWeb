@@ -124,6 +124,7 @@ function FinalizarCompra() {
 				pathCuenta='Cuenta'
 				pathGaleria='GalleryUser'
 				pathTienda='MainPageEcomerceUser'
+				mostrarCarrito={true}
 			/>
 			<div className='container-finalizar-compra'>
 				<h1>Finaliza tu compra</h1>

@@ -44,11 +44,12 @@ function HistorialVentas() {
 		<>
 			<NavBar
 				imagen={Logo}
-				pathMain='MainPageUser'
+				pathMain='MainPageAdmin'
 				pathCarrito='CarritoDeCompras'
 				pathCuenta='Cuenta'
 				pathGaleria='GalleryUser'
-				pathTienda='MainPageEcomerceUser'
+				pathTienda='MainPageEcomerceAdmin'
+				mostrarCarrito={false}
 			/>
 			<div className='container-historial'>
 				<h1>Ventas</h1>

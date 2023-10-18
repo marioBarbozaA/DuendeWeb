@@ -21,6 +21,7 @@ import HistorialVentas from './pages/Ecomerce/MainPageEcomerceAdmin/Historial-ve
 //Administrador
 import MainPageAdmin from './pages/MainPage/MainPageAdmin/MainPageAdmin.js';
 import MainPageEcomerceAdmin from './pages/Ecomerce/MainPageEcomerceAdmin/MainPageEcomerceAdmin.js';
+import GalleryAdmin from './pages/Gallery/GalleryAdmin/GalleryAdmin.js';
 
 function App() {
 	return (
@@ -53,6 +54,7 @@ function App() {
 							element={<MainPageEcomerceAdmin />}
 						/>
 						<Route path='/HistorialVentas' element={<HistorialVentas />} />
+						<Route path='/GalleryAdmin' element={<GalleryAdmin />} />
 					</Routes>
 				</Router>
 			</div>

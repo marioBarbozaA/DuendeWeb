@@ -4,6 +4,7 @@
 	width: 100%;
 	align-items: center;
 	margin: 30px;
+	min-height: 100vh;
 }
 .MainPageEcomerce-container {
 	display: flex;

@@ -66,6 +66,7 @@ function CarritoDeCompras() {
 					pathCuenta='Cuenta'
 					pathGaleria='GalleryUser'
 					pathTienda='MainPageEcomerceUser'
+					mostrarCarrito={true}
 				/>
 
 				<div className='carrito-container'>

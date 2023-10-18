@@ -19,6 +19,7 @@ function MainPageUser() {
 				pathCuenta='Cuenta'
 				pathGaleria='GalleryUser'
 				pathTienda='MainPageEcomerceUser'
+				mostrarCarrito={true}
 			/>
 			<section className='bienvenida-section'>
 				<div className='contenedor-bienvenida'>

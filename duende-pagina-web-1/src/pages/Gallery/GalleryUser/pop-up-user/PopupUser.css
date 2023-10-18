@@ -109,7 +109,7 @@
 }
 
 .mensaje-duende .input-correo-telefono input {
-	width: 400px;
+	width: 25vh;
 }
 /* Estilos para los inputs */
 .mensaje-duende input,
@@ -122,7 +122,7 @@ textarea {
 	height: 50px;
 	height: 2.5vh;
 	border-radius: 15px;
-	background-color: var(--color-piel); /* Fondo de color piel */
+	background-color: white; /* Fondo de color piel */
 	font-family: 'Playfair Display', serif; /* Fuente de texto */
 	font-weight: bold; /* Texto en negrita */
 	outline: none;

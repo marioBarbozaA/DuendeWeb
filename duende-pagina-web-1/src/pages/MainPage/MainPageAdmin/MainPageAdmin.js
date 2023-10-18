@@ -10,7 +10,7 @@ import Galeria from '../../../Imagenes/make-up.png';
 import agenda from '../../../Imagenes/Agenda.png';
 import Logo from '../../../Imagenes/Logo-Duende.png';
 
-function MainPageUser() {
+function MainPageAdmin() {
 	return (
 		<div className='MainPageUser-container'>
 			<NavBar
@@ -91,4 +91,4 @@ function MainPageUser() {
 	);
 }
 
-export default MainPageUser;
+export default MainPageAdmin;

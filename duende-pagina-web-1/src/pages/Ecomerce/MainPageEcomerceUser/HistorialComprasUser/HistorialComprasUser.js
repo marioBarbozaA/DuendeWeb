@@ -49,6 +49,7 @@ function HistorialComprasUser() {
 				pathCuenta='Cuenta'
 				pathGaleria='GalleryUser'
 				pathTienda='MainPageEcomerceUser'
+				mostrarCarrito={true}
 			/>
 			<div className='container-historial'>
 				<h1>Historial de Compras</h1>
