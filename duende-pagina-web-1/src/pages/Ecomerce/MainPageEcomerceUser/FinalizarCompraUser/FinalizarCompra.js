@@ -7,7 +7,7 @@ import './FinalizarCompra.css';
 import data from './provincias.json';
 
 function FinalizarCompra() {
-	const [numero, setNumero] = useState('');
+	const [nombre, setNombre] = useState('');
 	const [telefono, setTelefono] = useState('');
 	const [email, setEmail] = useState('');
 	const [detalles, setDetalles] = useState('');
@@ -70,6 +70,16 @@ function FinalizarCompra() {
 		setComprobante(file);
 	};
 
+	const validarTelefono = telefono => {
+		const telefonoRegex = /^\d{8}$/;
+		return telefonoRegex.test(telefono);
+	};
+
+	// Función para validar una dirección de correo electrónico
+	const validarEmail = email => {
+		const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+		return emailRegex.test(email);
+	};
 	//Funcion para Obtener el total
 
 	// Función para calcular el total del carrito
@@ -99,19 +109,20 @@ function FinalizarCompra() {
 	// Función para finalizar el pago
 	const finalizarPago = () => {
 		if (
-			numero &&
-			telefono &&
-			email &&
+			nombre &&
+			validarTelefono(telefono) && // Validar número de teléfono
+			validarEmail(email) && // Validar dirección de correo electrónico
 			selectedProvincia &&
 			selectedCanton &&
 			selectedDistrito &&
 			detalles &&
 			comprobante
 		) {
-			// Lógica para finalizar el pago
 			alert('Pago finalizado con éxito');
 		} else {
-			alert('Por favor completa todos los campos antes de finalizar el pago');
+			alert(
+				'Por favor completa todos los campos correctamente antes de finalizar el pago.',
+			);
 		}
 	};
 
@@ -132,9 +143,9 @@ function FinalizarCompra() {
 					<div className='lado-inputs'>
 						<input
 							type='text'
-							placeholder='Número'
-							value={numero}
-							onChange={e => setNumero(e.target.value)}
+							placeholder='Nombre'
+							value={nombre}
+							onChange={e => setNombre(e.target.value)}
 						/>
 						<br />
 						<input

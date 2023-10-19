@@ -33,26 +33,42 @@ function HistorialVentas() {
 	];
 	const [popUpOpen, setPopUpOpen] = useState(false);
 	const [selectedCompra, setSelectedCompra] = useState(null);
+	const [filter, setFilter] = useState(''); // Estado para el filtro de estado
 
 	// Función para mostrar el popup con los detalles de la compra
 	const mostrarPopup = compra => {
 		setSelectedCompra(compra);
 		setPopUpOpen(true);
 	};
-
+	const comprasFiltradas = filter
+		? compras.filter(compra => compra.estado === filter)
+		: compras;
 	return (
 		<>
 			<NavBar
 				imagen={Logo}
 				pathMain='MainPageAdmin'
 				pathCarrito='CarritoDeCompras'
-				pathCuenta='Cuenta'
-				pathGaleria='GalleryUser'
+				pathCuenta='CuentaAdmin'
+				pathGaleria='GalleryAdmin'
 				pathTienda='MainPageEcomerceAdmin'
 				mostrarCarrito={false}
 			/>
 			<div className='container-historial'>
 				<h1>Ventas</h1>
+				{/* Agregar un filtro para seleccionar el estado */}
+				<div className='filtros-boton-container'>
+					<select
+						value={filter}
+						onChange={e => setFilter(e.target.value)}
+						className='filtro-estado'
+					>
+						<option value=''>Todos</option>
+						<option value='Aprobado'>Aprobado</option>
+						<option value='Pendiente'>Pendiente</option>
+						<option value='Rechazado'>Rechazado</option>
+					</select>
+				</div>
 				<table className='historial-table'>
 					<thead>
 						<tr>
@@ -64,7 +80,7 @@ function HistorialVentas() {
 						</tr>
 					</thead>
 					<tbody>
-						{compras.map(compra => (
+						{comprasFiltradas.map(compra => (
 							<tr
 								key={compra.id}
 								onClick={() => mostrarPopup(compra)}

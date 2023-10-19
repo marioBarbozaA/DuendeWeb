@@ -6,11 +6,7 @@ function PopUpUser({ producto, onClose }) {
 	if (!producto) {
 		return null; // No mostrar el pop-up si no hay producto seleccionado
 	}
-	function formatTagsWithHashtags(tags) {
-		// Usar map para agregar "#" delante de cada etiqueta y luego unirse con espacios
-		const formattedTags = tags.map(tag => `#${tag}`).join(' ');
-		return formattedTags;
-	}
+
 	return (
 		<div className='popup-container-gallery'>
 			<div className='popup-content-gallery'>
@@ -37,9 +33,7 @@ function PopUpUser({ producto, onClose }) {
 					<h3 className='texto-categoria'>{producto.categoria}</h3>
 					<p className='Descripcion-maquillaje'>{producto.descripcion}</p>
 					<p className='texto-pequenno-pop-up'>{producto.subcategoria}</p>
-					<p className='texto-pequenno-pop-up'>
-						{formatTagsWithHashtags(producto.etiquetas)}
-					</p>
+					<p className='texto-pequenno-pop-up'>{producto.etiquetas}</p>
 					<p className='texto-pequenno-pop-up'> {producto.fecha}</p>
 					{/* Nuevo div "mensaje-duende" */}
 					<div className='mensaje-duende'>

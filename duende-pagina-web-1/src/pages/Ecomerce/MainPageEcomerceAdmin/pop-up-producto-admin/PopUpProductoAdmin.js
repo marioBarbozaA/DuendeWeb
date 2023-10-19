@@ -24,6 +24,17 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 		onClose();
 	};
 
+	const validarCampos = () => {
+		return (
+			editingProducto.subtitulo.trim() !== '' &&
+			editingProducto.categoria.trim() !== '' &&
+			editingProducto.descripcion.trim() !== '' &&
+			editingProducto.precio !== '' &&
+			editingProducto.cantidadDisponible !== '' &&
+			editingProducto.imagen !== null
+		);
+	};
+
 	if (!producto) {
 		return null; // No mostrar el pop-up si no hay producto seleccionado
 	}
@@ -51,7 +62,13 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 		setConfirmacionVisible(false);
 	};
 	const handleGuardarCambios = () => {
-		mostrarConfirmacion();
+		if (validarCampos()) {
+			mostrarConfirmacion();
+		} else {
+			alert(
+				'Por favor completa todos los campos obligatorios antes de guardar los cambios.',
+			);
+		}
 	};
 
 	return (
@@ -165,10 +182,7 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 						/>
 					</h2>
 
-					<button
-						className='popup-button' // Agrega las clases de estilo que desees
-						onClick={handleGuardarCambios}
-					>
+					<button className='popup-button' onClick={handleGuardarCambios}>
 						Guardar Cambios
 					</button>
 				</div>

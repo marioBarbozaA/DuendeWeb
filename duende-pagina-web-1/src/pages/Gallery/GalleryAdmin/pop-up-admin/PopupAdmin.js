@@ -54,16 +54,50 @@ function EditGalleryItem({ producto, onClose, onEdit }) {
 	const ocultarConfirmacion = () => {
 		setConfirmacionVisible(false);
 	};
+
+	const validarCampos = () => {
+		return (
+			editingProducto.titulo.trim() !== '' &&
+			editingProducto.descripcion.trim() !== '' &&
+			editingProducto.categoria.trim() !== '' &&
+			editingProducto.subcategoria.trim() !== '' &&
+			editingProducto.imagen !== null
+		);
+	};
 	const handleGuardarCambios = () => {
-		mostrarConfirmacion();
+		if (validarCampos() && validarEtiquetas(editingProducto.etiquetas)) {
+			mostrarConfirmacion();
+		} else {
+			alert(
+				'Por favor completa todos los campos obligatorios y correctamente antes de guardar los cambios.',
+			);
+		}
 	};
 
+	const validarEtiquetas = etiquetas => {
+		if (typeof etiquetas === 'string') {
+			etiquetas = etiquetas.trim();
+			const etiquetasRegex = /^#([a-zA-Z0-9]+, #)*[a-zA-Z0-9]+$/;
+			return etiquetasRegex.test(etiquetas);
+		} else if (Array.isArray(etiquetas)) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+	function etiquetasAString(etiquetas) {
+		if (Array.isArray(etiquetas)) {
+			return etiquetas.join(', ');
+		} else {
+			return etiquetas.toString();
+		}
+	}
 	return (
 		<div className='popup-container-gallery'>
 			<div className='popup-content-gallery'>
 				<div className='left-side-popup-gallery'>
 					{editingProducto.imagen ? (
-						<img src={editingProducto.imagen} alt={editingProducto.subtitulo} />
+						<img src={editingProducto.imagen} alt={editingProducto.titulo} />
 					) : (
 						<label className='image-input-label'>
 							<input
@@ -142,10 +176,15 @@ function EditGalleryItem({ producto, onClose, onEdit }) {
 							></input>
 						</div>
 						<div className='Descripcion-editar'>
-							<p className='Titulos-edit'>Tags</p>
+							<p className='Titulos-edit'>Tags (Formato: #tag1, #tag2)</p>
 							<textarea
+								placeholder='Formato: #tag1, #tag2, #tag3'
 								type='text'
-								value={editingProducto.etiquetas}
+								value={
+									Array.isArray(editingProducto.etiquetas)
+										? etiquetasAString(editingProducto.etiquetas)
+										: editingProducto.etiquetas
+								}
 								onChange={e => handleFieldChange('etiquetas', e.target.value)}
 							></textarea>
 						</div>

@@ -26,7 +26,13 @@ function AgregarProducto({ onClose, onAgregar }) {
 	};
 
 	const handleGuardarCambios = () => {
-		mostrarConfirmacion();
+		if (validarCampos() && validarEtiquetas(nuevoProducto.etiquetas)) {
+			mostrarConfirmacion();
+		} else {
+			alert(
+				'Por favor completa todos los campos correctamente antes de agregar el producto.',
+			);
+		}
 	};
 
 	const handleImageChange = e => {
@@ -44,6 +50,19 @@ function AgregarProducto({ onClose, onAgregar }) {
 	const agregarProducto = () => {
 		onAgregar(nuevoProducto);
 		onClose();
+	};
+	const validarCampos = () => {
+		return (
+			nuevoProducto.titulo.trim() !== '' &&
+			nuevoProducto.descripcion.trim() !== '' &&
+			nuevoProducto.categoria.trim() !== '' &&
+			nuevoProducto.subcategoria.trim() !== '' &&
+			nuevoProducto.imagen !== null
+		);
+	};
+	const validarEtiquetas = etiquetas => {
+		const etiquetasRegex = /^#([a-zA-Z0-9]+, #)*[a-zA-Z0-9]+$/;
+		return etiquetasRegex.test(etiquetas);
 	};
 
 	return (
@@ -115,6 +134,7 @@ function AgregarProducto({ onClose, onAgregar }) {
 						<div className='Descripcion-editar'>
 							<p className='Titulos-edit'>Tags</p>
 							<textarea
+								placeholder='Formato: #tag1, #tag2, #tag3'
 								type='text'
 								value={nuevoProducto.etiquetas}
 								onChange={e => handleFieldChange('etiquetas', e.target.value)}

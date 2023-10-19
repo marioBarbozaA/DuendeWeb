@@ -19,6 +19,7 @@ function CarritoDeCompras() {
 			subtitulo: 'Producto 1',
 			precio: 20.99,
 			cantidad: 2,
+			stock: 10,
 		},
 		{
 			id: 2,
@@ -26,6 +27,7 @@ function CarritoDeCompras() {
 			subtitulo: 'Producto 2',
 			precio: 15.49,
 			cantidad: 1,
+			stock: 5,
 		},
 		// Agrega más productos según sea necesario
 	]);
@@ -96,6 +98,7 @@ function CarritoDeCompras() {
 										<td>
 											<CantidadCounter
 												cantidad={producto.cantidad}
+												stock={producto.stock}
 												onCantidadChange={nuevaCantidad =>
 													actualizarCantidad(producto.id, nuevaCantidad)
 												}

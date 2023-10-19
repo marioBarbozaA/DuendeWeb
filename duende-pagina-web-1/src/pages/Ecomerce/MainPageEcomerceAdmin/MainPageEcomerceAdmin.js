@@ -18,15 +18,23 @@ function MainPageEcomerceAdmin() {
 
 	const [popUpAgregarProductoOpen, setPopUpAgregarProductoOpen] =
 		useState(false); // Estado para el pop-up "Añadir Producto"
+	const [searchTerm, setSearchTerm] = useState('');
 
 	const uniqueCategories = [
 		...new Set(productosJSON.map(producto => producto.categoria)),
 	];
 
 	// Filtra los productos por categoría
+	// Filtra los productos por categoría
 	const filteredProductos = selectedCategory
-		? productosJSON.filter(producto => producto.categoria === selectedCategory)
-		: productosJSON;
+		? productosJSON.filter(
+				producto =>
+					producto.categoria === selectedCategory &&
+					producto.subtitulo.toLowerCase().includes(searchTerm.toLowerCase()),
+		  )
+		: productosJSON.filter(producto =>
+				producto.subtitulo.toLowerCase().includes(searchTerm.toLowerCase()),
+		  );
 
 	const handleOpenAgregarProducto = () => {
 		setPopUpAgregarProductoOpen(true); // Abre el pop-up "Añadir Producto" al hacer clic
@@ -47,8 +55,8 @@ function MainPageEcomerceAdmin() {
 				imagen={Logo}
 				pathMain='MainPageAdmin'
 				pathCarrito='CarritoDeCompras'
-				pathCuenta='Cuenta'
-				pathGaleria='GalleryUser'
+				pathCuenta='CuentaAdmin'
+				pathGaleria='GalleryAdmin'
 				pathTienda='MainPageEcomerceAdmin'
 				mostrarCarrito={false}
 			/>
@@ -79,6 +87,13 @@ function MainPageEcomerceAdmin() {
 								buttonText='Registrar Compra'
 							/>
 						</Link>
+						<input
+							className='search-bar'
+							type='text'
+							placeholder='Buscar producto'
+							value={searchTerm}
+							onChange={e => setSearchTerm(e.target.value)}
+						/>
 					</div>
 				</div>
 

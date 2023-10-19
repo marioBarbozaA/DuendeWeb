@@ -19,12 +19,12 @@ function Cuenta() {
 		<>
 			<NavBar
 				imagen={Logo}
-				pathMain='MainPageUser'
+				pathMain='MainPageAdmin'
 				pathCarrito='CarritoDeCompras'
-				pathCuenta='Cuenta'
-				pathGaleria='GalleryUser'
-				pathTienda='MainPageEcomerceUser'
-				mostrarCarrito={true}
+				pathCuenta='CuentaAdmin'
+				pathGaleria='GalleryAdmin'
+				pathTienda='MainPageEcomerceAdmin'
+				mostrarCarrito={false}
 			/>
 
 			<div className='configuracion-usuario'>

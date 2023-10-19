@@ -73,7 +73,30 @@ function PopUpHistorialUser(props) {
 						placeholder='Agregar notas...'
 					/>
 					<p>Estado:</p>
-					<select value={estado} onChange={handleEstadoChange}>
+					<select
+						value={estado}
+						onChange={handleEstadoChange}
+						style={{
+							color:
+								estado === 'Aceptado'
+									? 'green'
+									: estado === 'Pendiente'
+									? 'yellow'
+									: 'red',
+							backgroundColor:
+								estado === 'Aceptado'
+									? 'black'
+									: estado === 'Pendiente'
+									? 'black'
+									: 'black',
+							border:
+								estado === 'Aceptado'
+									? '2px solid green'
+									: estado === 'Pendiente'
+									? '2px solid yellow'
+									: '2px solid red',
+						}}
+					>
 						<option value='Aceptado'>Aceptado</option>
 						<option value='Pendiente'>Pendiente</option>
 						<option value='Rechazado'>Rechazado</option>

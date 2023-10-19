@@ -18,7 +18,11 @@ function PopupAnnadirProducto({ onClose, onProductoCreate }) {
 	};
 
 	const handleCreateProduct = () => {
-		onProductoCreate(nuevoProducto);
+		if (validarCampos()) {
+			onProductoCreate(nuevoProducto);
+		} else {
+			alert('Por favor completa todos los campos antes de crear el producto.');
+		}
 	};
 
 	const handleImageChange = e => {
@@ -30,7 +34,16 @@ function PopupAnnadirProducto({ onClose, onProductoCreate }) {
 		console.log('Quitar imagen llamado'); // Verificar si la función se llama correctamente
 		setNuevoProducto({ ...nuevoProducto, imagen: null });
 	};
-
+	const validarCampos = () => {
+		return (
+			nuevoProducto.subtitulo.trim() !== '' &&
+			nuevoProducto.categoria.trim() !== '' &&
+			nuevoProducto.descripcion.trim() !== '' &&
+			nuevoProducto.precio !== '' &&
+			nuevoProducto.cantidadDisponible !== '' &&
+			nuevoProducto.imagen !== null
+		);
+	};
 	return (
 		<div className='popup-container'>
 			<div className='popup-content'>
@@ -134,11 +147,9 @@ function PopupAnnadirProducto({ onClose, onProductoCreate }) {
 						/>
 					</h2>
 
-					<IconButton
-						buttonText='Crear Producto' // Cambia el texto del botón a "Crear Producto"
-						buttonClassname='popup-button'
-						onClick={handleCreateProduct}
-					/>
+					<button className='popup-button' onClick={handleCreateProduct}>
+						Crear Producto
+					</button>
 				</div>
 			</div>
 		</div>

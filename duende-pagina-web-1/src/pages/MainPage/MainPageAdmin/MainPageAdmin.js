@@ -17,8 +17,8 @@ function MainPageAdmin() {
 				imagen={Logo}
 				pathMain='MainPageAdmin'
 				pathCarrito='CarritoDeCompras'
-				pathCuenta='Cuenta'
-				pathGaleria='GalleryUser'
+				pathCuenta='CuentaAdmin'
+				pathGaleria='GalleryAdmin'
 				pathTienda='MainPageEcomerceAdmin'
 				mostrarCarrito={false}
 			/>
@@ -43,7 +43,7 @@ function MainPageAdmin() {
 						title='Cursos duende'
 						text='¡Bienvenidos a nuestra sección de cursos de maquillaje! Aquí encontrarás una amplia variedad de programas diseñados para ayudarte a descubrir y perfeccionar tus habilidades en el emocionante mundo del maquillaje. Ya seas un principiante que busca aprender los conceptos básicos o un profesional en busca de técnicas avanzadas, tenemos algo para ti.'
 						imageUrl={Curso}
-						linkTo='/MainPageUser'
+						linkTo='/MainPageAdmin'
 					/>
 
 					<ModulosMainPage
@@ -57,13 +57,13 @@ function MainPageAdmin() {
 						title='Galería duende'
 						text='Nuestra galería de maquillaje es un espacio dedicado a la creatividad y el arte de la belleza. Aquí, podrás inspirarte con una colección de obras maestras de maquillaje. Explora una amplia gama de estilos, desde maquillaje de fantasía y body painting hasta looks de pasarela y belleza cotidiana.'
 						imageUrl={Galeria}
-						linkTo='/'
+						linkTo='/GalleryAdmin'
 					/>
 					<ModulosMainPage
 						title='Agenda Duende'
 						text='La Agenda Duende Ayudará a organizarte de manera efectiva. Ya sea que necesites registrar tus cursos, entregas o simplemente mantenerte al tanto de tus compromisos diarios, nuestra Agenda Duende es la herramienta perfecta para ti. Te ayudará a mantenerte al día con tus tareas y actividades.'
 						imageUrl={agenda}
-						linkTo='/'
+						linkTo='/MainPageAdmin'
 					/>
 				</div>
 			</section>

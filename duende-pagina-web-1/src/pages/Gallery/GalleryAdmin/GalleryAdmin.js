@@ -49,7 +49,7 @@ function GalleryAdmin() {
 				imagen={Logo}
 				pathMain='MainPageAdmin'
 				pathCarrito='CarritoDeCompras'
-				pathCuenta='Cuenta'
+				pathCuenta='CuentaAdmin'
 				pathGaleria='GalleryAdmin'
 				pathTienda='MainPageEcomerceAdmin'
 				mostrarCarrito={false}
