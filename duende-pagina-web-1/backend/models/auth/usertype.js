@@ -6,6 +6,6 @@ const usertypeSchema = new mongoose.Schema({
   // Otros campos específicos de usertype
 });
 
-const Usertype = mongoose.model('Usertype', usertypeSchema);
+const Usertype = mongoose.model('Usertype', usertypeSchema, 'usertypes');
 
 module.exports = Usertype;
