@@ -9,7 +9,7 @@ const galleryImageSchema = new mongoose.Schema({
     tags: [String],
     mainImage: String,
     images: [String],
-    status: Boolean
+    status: {type: Boolean, default: true} 
 });
 
 module.exports = mongoose.model('GalleryImage', galleryImageSchema);
