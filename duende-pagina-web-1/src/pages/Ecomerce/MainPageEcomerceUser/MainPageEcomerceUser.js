@@ -14,6 +14,7 @@ function MainPageEcomerceUser() {
 	const [popUpOpen, setPopUpOpen] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null); // Agrega un estado para el producto seleccionado
 	const [selectedCategory, setSelectedCategory] = useState(''); // Estado para la categoría seleccionada
+	const [searchTerm, setSearchTerm] = useState('');
 
 	const uniqueCategories = [
 		...new Set(productosJSON.map(producto => producto.categoria)),
@@ -21,9 +22,14 @@ function MainPageEcomerceUser() {
 
 	// Filtra los productos por categoría
 	const filteredProductos = selectedCategory
-		? productosJSON.filter(producto => producto.categoria === selectedCategory)
-		: productosJSON;
-
+		? productosJSON.filter(
+				producto =>
+					producto.categoria === selectedCategory &&
+					producto.subtitulo.toLowerCase().includes(searchTerm.toLowerCase()),
+		  )
+		: productosJSON.filter(producto =>
+				producto.subtitulo.toLowerCase().includes(searchTerm.toLowerCase()),
+		  );
 	return (
 		<>
 			<NavBar
@@ -33,6 +39,7 @@ function MainPageEcomerceUser() {
 				pathCuenta='Cuenta'
 				pathGaleria='GalleryUser'
 				pathTienda='MainPageEcomerceUser'
+				mostrarCarrito={true}
 			/>
 			<div className='MainPageEcomerce-container'>
 				<h1>Productos</h1>
@@ -48,12 +55,21 @@ function MainPageEcomerceUser() {
 							</option>
 						))}
 					</select>
+
 					<Link to='/HistorialComprasUser' className='nav-link'>
 						<IconButton
 							buttonClassname='login-button'
 							buttonText='Ver Historial'
 						/>
 					</Link>
+
+					<input
+						className='search-bar'
+						type='text'
+						placeholder='Buscar producto'
+						value={searchTerm}
+						onChange={e => setSearchTerm(e.target.value)}
+					/>
 				</div>
 
 				{/* Mapea los productos desde el JSON y crea un componente PreviewProducto para cada uno */}

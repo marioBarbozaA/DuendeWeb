@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import NavBar from '../../../../Components/NavBar/NavBar.js';
 import Footer from '../../../../Components/Footer/Footer.js';
 import Logo from '../../../../Imagenes/Logo-Duende.png';
-import PopUpHistorialUser from '../pop-up-historial-user/PopUpHistorialUser.js'; // Importa el nuevo componente
-import './HistorialComprasUser.css';
+import PopupVentas from '../pop-up-ventas/PopupVentas.js'; // Importa el nuevo componente
+import './HistorialVentas.css';
 
-function HistorialComprasUser() {
+function HistorialVentas() {
 	// Supongamos que tienes un arreglo de compras del usuario
 	const compras = [
 		{
@@ -33,26 +33,42 @@ function HistorialComprasUser() {
 	];
 	const [popUpOpen, setPopUpOpen] = useState(false);
 	const [selectedCompra, setSelectedCompra] = useState(null);
+	const [filter, setFilter] = useState(''); // Estado para el filtro de estado
 
 	// Función para mostrar el popup con los detalles de la compra
 	const mostrarPopup = compra => {
 		setSelectedCompra(compra);
 		setPopUpOpen(true);
 	};
-
+	const comprasFiltradas = filter
+		? compras.filter(compra => compra.estado === filter)
+		: compras;
 	return (
 		<>
 			<NavBar
 				imagen={Logo}
-				pathMain='MainPageUser'
+				pathMain='MainPageAdmin'
 				pathCarrito='CarritoDeCompras'
-				pathCuenta='Cuenta'
-				pathGaleria='GalleryUser'
-				pathTienda='MainPageEcomerceUser'
-				mostrarCarrito={true}
+				pathCuenta='CuentaAdmin'
+				pathGaleria='GalleryAdmin'
+				pathTienda='MainPageEcomerceAdmin'
+				mostrarCarrito={false}
 			/>
 			<div className='container-historial'>
-				<h1>Historial de Compras</h1>
+				<h1>Ventas</h1>
+				{/* Agregar un filtro para seleccionar el estado */}
+				<div className='filtros-boton-container'>
+					<select
+						value={filter}
+						onChange={e => setFilter(e.target.value)}
+						className='filtro-estado'
+					>
+						<option value=''>Todos</option>
+						<option value='Aprobado'>Aprobado</option>
+						<option value='Pendiente'>Pendiente</option>
+						<option value='Rechazado'>Rechazado</option>
+					</select>
+				</div>
 				<table className='historial-table'>
 					<thead>
 						<tr>
@@ -64,7 +80,7 @@ function HistorialComprasUser() {
 						</tr>
 					</thead>
 					<tbody>
-						{compras.map(compra => (
+						{comprasFiltradas.map(compra => (
 							<tr
 								key={compra.id}
 								onClick={() => mostrarPopup(compra)}
@@ -84,7 +100,7 @@ function HistorialComprasUser() {
 
 			{/* Popup de detalles de la compra */}
 			{popUpOpen && (
-				<PopUpHistorialUser
+				<PopupVentas
 					compra={selectedCompra}
 					onClose={() => {
 						setPopUpOpen(false); // Abrir el pop-up al hacer clic
@@ -96,4 +112,4 @@ function HistorialComprasUser() {
 	);
 }
 
-export default HistorialComprasUser;
+export default HistorialVentas;

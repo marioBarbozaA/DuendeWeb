@@ -5,9 +5,9 @@
 		"categoria": "Naturaleza",
 		"subcategoria": "Montañas",
 		"etiquetas": [
-			"paisaje",
-			"naturaleza",
-			"montañas"
+			"#paisaje",
+			"#naturaleza",
+			"#montañas"
 		],
 		"fecha": "2023-09-15",
 		"imagen": "https://ejemplo.com/imagen1.jpg"
@@ -18,9 +18,9 @@
 		"categoria": "Retratos",
 		"subcategoria": "Retrato Artístico",
 		"etiquetas": [
-			"retrato",
-			"arte",
-			"mujer"
+			"#retrato",
+			"#arte",
+			"#mujer"
 		],
 		"fecha": "2023-08-28",
 		"imagen": "https://ejemplo.com/imagen2.jpg"
@@ -31,9 +31,9 @@
 		"categoria": "Arte Abstracto",
 		"subcategoria": "Pintura",
 		"etiquetas": [
-			"abstracto",
-			"arte",
-			"azul"
+			"#abstracto",
+			"#arte",
+			"#azul"
 		],
 		"fecha": "2023-07-10",
 		"imagen": "https://ejemplo.com/imagen3.jpg"
@@ -44,9 +44,9 @@
 		"categoria": "Ciudades",
 		"subcategoria": "Fotografía Urbana",
 		"etiquetas": [
-			"ciudad",
-			"noche",
-			"urbano"
+			"#ciudad",
+			"#noche",
+			"#urbano"
 		],
 		"fecha": "2023-06-22",
 		"imagen": "https://ejemplo.com/imagen4.jpg"
@@ -57,9 +57,9 @@
 		"categoria": "Arte Clásico",
 		"subcategoria": "Pintura al Óleo",
 		"etiquetas": [
-			"bodegón",
-			"arte",
-			"frutas"
+			"#bodegón",
+			"#arte",
+			"#frutas"
 		],
 		"fecha": "2023-05-05",
 		"imagen": "https://ejemplo.com/imagen5.jpg"

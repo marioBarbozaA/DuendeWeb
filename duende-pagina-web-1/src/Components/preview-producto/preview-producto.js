@@ -3,7 +3,13 @@ import IconButton from '../Buttons/Button.js';
 import carrito from '../../Imagenes/add-to-cart.png';
 import './preview-producto.css';
 
-function PreviewProducto({ imagen, subtitulo, precio, onClick }) {
+function PreviewProducto({
+	imagen,
+	subtitulo,
+	precio,
+	onClick,
+	mostrarCarrito = true,
+}) {
 	const onAgregarCarrito = () => {
 		// Lógica para manejar el inicio de sesión
 	};
@@ -15,12 +21,14 @@ function PreviewProducto({ imagen, subtitulo, precio, onClick }) {
 			<h3>{subtitulo}</h3>
 			<div className='precio-boton'>
 				<h3>${precio}</h3>
-				<IconButton
-					icon={carrito}
-					buttonClassname='login-button'
-					handleOnClick={onAgregarCarrito}
-					// Puedes agregar un ícono apropiado para el carrito como prop si lo deseas
-				/>
+				{mostrarCarrito && (
+					<IconButton
+						icon={carrito}
+						buttonClassname='login-button'
+						handleOnClick={onAgregarCarrito}
+						// Puedes agregar un ícono apropiado para el carrito como prop si lo deseas
+					/>
+				)}
 			</div>
 		</div>
 	);

@@ -2,23 +2,29 @@ import NavBar from '../../../Components/NavBar/NavBar';
 import Logo from '../../../Imagenes/Logo-Duende.png';
 import Footer from '../../../Components/Footer/Footer';
 import { useState } from 'react';
-import productosJSON from './Gallery.json';
-import PreviewGallery from '../../../Components/preview-gallery/preview-gallery.js';
+import productosJSON from '../GalleryUser/Gallery.json';
+import PreviewGallery from '../../../Components/preview-gallery-admin/preview-gallery-admin.js';
 import Maquillaje from '../../../Imagenes/Acerca-de-nosotros.png';
-import PopUpUser from './pop-up-user/PopupUser.js';
-function GalleryUser() {
+import PopUpUser from './pop-up-admin/PopupAdmin.js';
+import IconButton from '../../../Components/Buttons/Button';
+import PopUpAnnadir from './pop-up-annadir-imagen/PopupAnnadir.js';
+import './GalleryAdmin.css';
+function GalleryAdmin() {
 	//const [searchTerm, setSearchTerm] = useState('');
 	const [galleryItem, setGalleryItems] = useState(null);
 	const [selectedCategory, setSelectedCategory] = useState('');
 	const [popUpOpen, setPopUpOpen] = useState(false);
+	const [popUpAgregarProductoOpen, setPopUpAgregarProductoOpen] =
+		useState(false); // Estado para el pop-up "Añadir Producto"
 	const [searchTerm, setSearchTerm] = useState('');
 
-	// Función para filtrar los elementos de la galería según la categoría seleccionada
-
+	const handleOpenAgregarProducto = () => {
+		setPopUpAgregarProductoOpen(true); // Abre el pop-up "Añadir Producto" al hacer clic
+	};
 	const uniqueCategories = [
 		...new Set(productosJSON.map(producto => producto.categoria)),
 	];
-
+	// Filtra los productos por categoría
 	const filteredProductos = selectedCategory
 		? productosJSON.filter(
 				producto =>
@@ -28,16 +34,25 @@ function GalleryUser() {
 		: productosJSON.filter(producto =>
 				producto.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
 		  );
+
+	const handleAgregarProducto = nuevoProducto => {
+		// Aquí debes implementar la lógica para agregar el nuevo producto a tus datos (por ejemplo, productosJSON)
+		// Luego, cierra el pop-up de "Añadir Producto"
+		setPopUpAgregarProductoOpen(false);
+	};
+	const handleCloseAgregarProducto = () => {
+		setPopUpAgregarProductoOpen(false); // Cierra el pop-up "Añadir Producto"
+	};
 	return (
 		<>
 			<NavBar
 				imagen={Logo}
-				pathMain='MainPageUser'
+				pathMain='MainPageAdmin'
 				pathCarrito='CarritoDeCompras'
-				pathCuenta='Cuenta'
-				pathGaleria='GalleryUser'
-				pathTienda='MainPageEcomerceUser'
-				mostrarCarrito={true}
+				pathCuenta='CuentaAdmin'
+				pathGaleria='GalleryAdmin'
+				pathTienda='MainPageEcomerceAdmin'
+				mostrarCarrito={false}
 			/>
 			<div className='MainPageEcomerce-container'>
 				<h1>Galería Duende</h1>
@@ -53,14 +68,21 @@ function GalleryUser() {
 							</option>
 						))}
 					</select>
-					<input
-						className='search-bar' // Agrega la clase CSS aquí
-						type='text'
-						placeholder='Buscar producto'
-						value={searchTerm}
-						onChange={e => setSearchTerm(e.target.value)}
+				</div>
+				<div className='botones-gallery-admin'>
+					<IconButton
+						buttonClassname='login-button'
+						buttonText='Añadir Imagen'
+						handleOnClick={handleOpenAgregarProducto}
 					/>
 				</div>
+				<input
+					className='search-bar'
+					type='text'
+					placeholder='Buscar producto'
+					value={searchTerm}
+					onChange={e => setSearchTerm(e.target.value)}
+				/>
 				<div className='productos-container'>
 					{filteredProductos.map((producto, index) => (
 						<PreviewGallery
@@ -69,11 +91,18 @@ function GalleryUser() {
 							titulo={producto.titulo}
 							onClick={() => {
 								setGalleryItems(producto); // Establecer el producto seleccionado
-								setPopUpOpen(true); // Abrir el pop-up al hacer clic
+								setPopUpOpen(true); // Abrir el pop-up al hacer clic en la imagen
 							}}
 						/>
 					))}
 				</div>
+				{/* Mostrar el pop-up de "Añadir Producto" si está abierto */}
+				{popUpAgregarProductoOpen && (
+					<PopUpAnnadir
+						onClose={handleCloseAgregarProducto}
+						onProductoCreate={handleAgregarProducto}
+					/>
+				)}
 				{popUpOpen && (
 					<PopUpUser
 						producto={galleryItem} // Pasa el producto seleccionado al pop-up
@@ -86,4 +115,4 @@ function GalleryUser() {
 	);
 }
 
-export default GalleryUser;
+export default GalleryAdmin;

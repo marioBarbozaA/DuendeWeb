@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CantidadCounter.css';
-function CantidadCounter({ stock, onCantidadChange }) {
-	const [cantidad, setCantidad] = useState(0);
+
+function CantidadCounter({ stock, cantidad, onCantidadChange }) {
+	const [cantidadLocal, setCantidadLocal] = useState(cantidad);
+
+	useEffect(() => {
+		setCantidadLocal(cantidad);
+	}, [cantidad]);
 
 	const handleRestar = () => {
-		if (cantidad > 0) {
-			setCantidad(cantidad - 1);
-			onCantidadChange(cantidad - 1);
+		if (cantidadLocal > 0) {
+			const nuevaCantidad = cantidadLocal - 1;
+			setCantidadLocal(nuevaCantidad);
+			onCantidadChange(nuevaCantidad);
 		}
 	};
 
 	const handleSumar = () => {
-		if (cantidad < stock) {
-			setCantidad(cantidad + 1);
-			onCantidadChange(cantidad + 1);
+		if (cantidadLocal < stock) {
+			const nuevaCantidad = cantidadLocal + 1;
+			setCantidadLocal(nuevaCantidad);
+			onCantidadChange(nuevaCantidad);
 		}
 	};
 
 	return (
 		<div className='cantidad-counter'>
 			<button onClick={handleRestar}>-</button>
-			<span>{cantidad}</span>
+			<span>{cantidadLocal}</span>
 			<button onClick={handleSumar}>+</button>
 		</div>
 	);

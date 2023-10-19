@@ -27,18 +27,18 @@ function PopUpProducto({ producto, onClose }) {
 						} /*src={producto.imagen} alt={producto.subtitulo}*/
 					/>
 					<div className='fotos-producto-pequennas'>
-						<img
+						{/*<img
 							src={Producto}
 							alt={
 								producto.subtitulo
-							} /*src={producto.imagen} alt={producto.subtitulo}*/
+							} 
 						/>
 						<img
 							src={Producto}
 							alt={
 								producto.subtitulo
-							} /*src={producto.imagen} alt={producto.subtitulo}*/
-						/>
+							} 
+						/>*/}
 					</div>
 				</div>
 				<div className='right-side-popup'>
