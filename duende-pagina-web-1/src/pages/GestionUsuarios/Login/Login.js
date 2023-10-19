@@ -41,7 +41,7 @@ function Login() {
 							/>
 						</div>
 						<div className='opciones-login'>
-							<a href='/Recuperacion'>Recuperar Contraseña</a>
+							<a href='/Recovery'>Recuperar Contraseña</a>
 							<a href='/Register'>Registrarse</a>
 						</div>
 						<IconButton
