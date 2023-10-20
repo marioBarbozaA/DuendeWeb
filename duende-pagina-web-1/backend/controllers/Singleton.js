@@ -64,6 +64,7 @@ class Singleton {
 
             //check for find the user usernames in the db
             const { email, password } = req.body;
+            console.log(email, password);
             const userFound = await User.findOne({ email: email }).exec();
             if (!userFound) {
                 res.status(400).json({ status: false, message: 'User has no register' });
