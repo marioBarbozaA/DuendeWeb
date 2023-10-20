@@ -1,14 +1,44 @@
 import React from 'react';
-import IconButton from '../../../Components/Buttons/Button.js'; // Asegúrate de proporcionar la ruta correcta al archivo de tu componente IconButton
-import InputText from '../../../Components/Inputs/InputText.js';
 import Fondo from '../../../Imagenes/Fondo-Login.png';
 import instagram from '../../../Imagenes/instagram.png';
 import './Login.css';
+import { useState } from 'react';
+
+import axios from 'axios';
 
 function Login() {
-	const handleLogin = () => {
-		// Lógica para manejar el inicio de sesión
-	};
+
+	// Initialize state variables for email and password
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+  
+	const handleLogin = async (e) => {
+		e.preventDefault(); // Prevent default form submission
+		try {
+		  console.log('Button clicked.');
+			console.log('Email:', email);
+			console.log('Password:', password);
+
+			const response = await axios.post('http://localhost:3500/login/auth', {
+			email,
+			password,
+		  });
+	
+		  if (response.data.status) {
+			// Login successful, handle the user's session or redirect
+			console.log('User logged in:', response.data.message);
+		  } else {
+			// Login failed, display an error message to the user
+			console.error('Login failed:', response.data.message);
+		  }
+		} catch (error) {
+		  console.error('Error:', error);
+		  // Log the response data if available
+			if (error.response) {
+				console.error('Response Data:', error.response.data);
+			}
+		}
+	  };
 
 	return (
 		<div className='login-container'>
@@ -17,40 +47,46 @@ function Login() {
 				<img src={Fondo} alt='Imagen de inicio de sesión' />
 			</div>
 			<div className='right-side'>
-				<div className='login-box'>
-					<h2>Iniciar Sesión</h2>
-					<form>
-						<div className='form-login'>
-							<InputText
-								labelText='Correo Electrónico'
-								inputClassname='form-login'
-								typeInput='email'
-								idInput='email'
-								inputName='email'
-								className='input-login'
-							/>
-						</div>
-						<div className='form-login'>
-							<InputText
-								labelText='Contraseña'
-								inputClassname='form-login'
-								typeInput='password'
-								idInput='password'
-								inputName='password'
-								className='input-login'
-							/>
-						</div>
-						<div className='opciones-login'>
-							<a href='/Recovery'>Recuperar Contraseña</a>
-							<a href='/Register'>Registrarse</a>
-						</div>
-						<IconButton
-							buttonText='Iniciar Sesión'
-							buttonClassname='login-button'
-							handleOnClick={handleLogin}
-						/>
-					</form>
-				</div>
+			<div className='login-box'>
+          <h2>Iniciar Sesión</h2>
+          <form>
+            <div className='form-login'>
+              {/* Use a regular input element for email */}
+              <label htmlFor='email'>Correo Electrónico</label>
+              <input
+                className='input-login'
+                type='email'
+                id='email'
+                name='email'
+                autoComplete='email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className='form-login'>
+              {/* Use a regular input element for password */}
+              <label htmlFor='password'>Contraseña</label>
+              <input
+                className='input-login'
+                type='password'
+                id='password'
+                name='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className='opciones-login'>
+              <a href='/Recovery'>Recuperar Contraseña</a>
+              <a href='/Register'>Registrarse</a>
+            </div>
+            <button
+              className='login-button'
+              onClick={handleLogin}
+            >
+              Iniciar Sesión
+            </button>
+          </form>
+        </div>
 				<div className='instagram-icon'>
 					{/* Aquí puedes colocar el icono de Instagram */}
 					<img src={instagram} alt='Icono de Instagram' />
