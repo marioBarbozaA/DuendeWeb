@@ -1,4 +1,4 @@
-const SingletonConnexion = require('./SingletonConexion.js');
+const { getInstance: getConnInstance } = require('./SingletonConexion.js');
 const bcrypt = require('bcrypt');
 
 const User = require('../models/auth/user.js');
@@ -14,8 +14,8 @@ class Singleton {
     static count = 0;
 
     constructor() {
-        //Database connection
-        SingletonConnexion.dbConnect();
+        console.log('Singleton constructor called');
+        this.conn = getConnInstance();
     }
 
     static getInstance() {
@@ -33,7 +33,7 @@ class Singleton {
     /////////////////////////////////////
     ////////////  USER  /////////////////
     /////////////////////////////////////
-
+    
     async registerUser(req, res, next) {
 
         const { email, password } = req.body;
@@ -144,5 +144,13 @@ class Singleton {
     }
 }
 
-const dao = Singleton.getInstance();
-module.exports = dao;
+let instance = null;
+
+const getInstance = () => {
+    if (!instance) {
+        instance = new Singleton();
+    }
+    return instance;
+};
+
+module.exports = { getInstance };
