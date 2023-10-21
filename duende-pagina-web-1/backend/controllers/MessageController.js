@@ -1,1 +1,2 @@
-const SingletonDAO = require('./Singleton.js');
+const { getInstance: getSingleton } = require('./Singleton.js');
+const SingletonDAO = getSingleton();
