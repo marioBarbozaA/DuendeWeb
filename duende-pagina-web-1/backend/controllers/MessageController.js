@@ -1,4 +1,4 @@
-const SingletonDAO = require('./Singleton.js');
+const Singleton = require('./Singleton.js');
 
 const addMessage = async (req, res, next) => {
     await Singleton.addMessage(req, res, next);
