@@ -1,5 +1,5 @@
 const { getInstance: getSingleton } = require('./Singleton.js');
-const SingletonDAO = getSingleton();
+const Singleton = getSingleton();
 
 const createAppointment = async (req, res, next) => {
     await Singleton.createAppointment(req, res, next);
