@@ -24,6 +24,8 @@ import MainPageEcomerceAdmin from './pages/Ecomerce/MainPageEcomerceAdmin/MainPa
 import GalleryAdmin from './pages/Gallery/GalleryAdmin/GalleryAdmin.js';
 import CuentaAdmin from './pages/GestionUsuarios/CuentaAdmin/Cuenta.js';
 
+
+
 function App() {
 	return (
 		<>

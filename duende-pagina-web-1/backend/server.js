@@ -27,6 +27,12 @@ app.use((req, res, next) => {
     next();
 });
 
+// Add this middleware in your server.js or app.js file
+app.use((req, res, next) => {
+    console.log(req.body);  // Log the request body
+    next();  // Continue to the next middleware or route handler
+});
+
 // Routes
 app.use('/login', require('./routes/UserRoute.js'));
 app.use('/gallery', require('./routes/GalleryImageRoute.js'));

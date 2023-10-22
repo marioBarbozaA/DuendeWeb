@@ -131,6 +131,16 @@ class Singleton {
         next();
     }
 
+    async getAllProductsActive(req, res, next) {
+        try {
+            const products = await Product.find({ status: 'active' });
+            res.status(200).json(products);
+        } catch (error) {
+            res.status(500).json({ msg: 'Server error' + error });
+        }
+        next();
+    }
+
     async createProduct(req, res, next) {
         const productData = req.body;
         console.log(productData);
@@ -141,6 +151,21 @@ class Singleton {
             return res.status(500).json({ msg: 'Server error' + error });
         }
         next();
+    }
+
+    async updateProduct(req, res, next) {
+        const productData = req.body;
+        console.log(productData);
+        try {
+            const product = await Product.findByIdAndUpdate(productData._id, productData, { new: true, lean: true });
+            if (!product) {
+                return res.status(404).json({ msg: 'Product not found' });
+            }
+            return res.status(201).json(product);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ msg: 'Server error' + error });
+        }
     }
 }
 

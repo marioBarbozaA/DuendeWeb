@@ -36,12 +36,12 @@ function PopupAnnadirProducto({ onClose, onProductoCreate }) {
 	};
 	const validarCampos = () => {
 		return (
-			nuevoProducto.subtitulo.trim() !== '' &&
-			nuevoProducto.categoria.trim() !== '' &&
-			nuevoProducto.descripcion.trim() !== '' &&
-			nuevoProducto.precio !== '' &&
-			nuevoProducto.cantidadDisponible !== '' &&
-			nuevoProducto.imagen !== null
+			nuevoProducto.name.trim() !== '' &&
+			nuevoProducto.category.trim() !== '' &&
+			nuevoProducto.description.trim() !== '' &&
+			nuevoProducto.price !== '' &&
+			nuevoProducto.stock !== '' &&
+			nuevoProducto.mainImageUrl !== null
 		);
 	};
 	return (

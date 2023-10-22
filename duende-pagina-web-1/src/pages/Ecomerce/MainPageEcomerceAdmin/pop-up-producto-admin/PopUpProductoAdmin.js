@@ -4,8 +4,11 @@ import trash from '../../../../Imagenes/trash.png';
 import Confirmacion from '../../../../Components/Confirmacion/Confirmacion';
 import IconButton from '../../../../Components/Buttons/Button.js';
 
-function PopUpProducto({ producto, onClose, onProductoChange }) {
-	const [editingProducto, setEditingProducto] = useState(producto);
+//backend
+import axios from 'axios';
+
+function PopUpProducto({ product, onClose, onProductoChange }) {
+	const [editingProducto, setEditingProducto] = useState(product);
 	const [confirmacionVisible, setConfirmacionVisible] = useState(false);
 	const [confirmacionEliminarVisible, setConfirmacionEliminarVisible] =
 		useState(false);
@@ -26,16 +29,16 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 
 	const validarCampos = () => {
 		return (
-			editingProducto.subtitulo.trim() !== '' &&
-			editingProducto.categoria.trim() !== '' &&
-			editingProducto.descripcion.trim() !== '' &&
-			editingProducto.precio !== '' &&
-			editingProducto.cantidadDisponible !== '' &&
-			editingProducto.imagen !== null
+			editingProducto.name.trim() !== '' &&
+			editingProducto.category.trim() !== '' &&
+			editingProducto.description.trim() !== '' &&
+			editingProducto.price !== '' &&
+			editingProducto.stock !== '' &&
+			editingProducto.mainImageUrl !== null
 		);
 	};
 
-	if (!producto) {
+	if (!product) {
 		return null; // No mostrar el pop-up si no hay producto seleccionado
 	}
 
@@ -75,8 +78,8 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 		<div className='popup-container'>
 			<div className='popup-content'>
 				<div className='left-side-popup'>
-					{editingProducto.imagen ? (
-						<img src={editingProducto.imagen} alt={editingProducto.subtitulo} />
+					{editingProducto.mainImageUrl ? (
+						<img src={editingProducto.mainImageUrl} alt={editingProducto.name} />
 					) : (
 						<label className='image-input-label'>
 							<input
@@ -123,9 +126,9 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 					<h2 className='texto-h2-pop-up'>
 						<input
 							type='text'
-							value={editingProducto.subtitulo}
+							value={editingProducto.name}
 							placeholder='Titulo'
-							onChange={e => handleFieldChange('subtitulo', e.target.value)}
+							onChange={e => handleFieldChange('name', e.target.value)}
 						/>
 					</h2>
 
@@ -133,23 +136,23 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 						<input
 							type='text'
 							placeholder='Categoria'
-							value={editingProducto.categoria}
-							onChange={e => handleFieldChange('categoria', e.target.value)}
+							value={editingProducto.category}
+							onChange={e => handleFieldChange('category', e.target.value)}
 						/>
 					</p>
 					<p className='Descripcion-pop-up'>
 						<textarea
 							placeholder='Descripcion'
-							value={editingProducto.descripcion}
-							onChange={e => handleFieldChange('descripcion', e.target.value)}
+							value={editingProducto.description}
+							onChange={e => handleFieldChange('description', e.target.value)}
 						/>
 					</p>
 
 					<p className='texto-pequenno-pop-up'>
 						<select
 							placeholder='Estado'
-							value={editingProducto.estado}
-							onChange={e => handleFieldChange('estado', e.target.value)}
+							value={editingProducto.status}
+							onChange={e => handleFieldChange('status', e.target.value)}
 						>
 							<option value='disponible'>Disponible</option>
 							<option value='agotado'>Agotado</option>
@@ -159,10 +162,10 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 						<input
 							placeholder='Precio'
 							type='number'
-							value={editingProducto.precio}
+							value={editingProducto.price}
 							onChange={e =>
 								handleFieldChange(
-									'precio',
+									'price',
 									Math.max(0, parseFloat(e.target.value)),
 								)
 							}
@@ -171,10 +174,10 @@ function PopUpProducto({ producto, onClose, onProductoChange }) {
 						<input
 							type='number'
 							placeholder='Cantidad'
-							value={editingProducto.cantidadDisponible}
+							value={editingProducto.stock}
 							onChange={e =>
 								handleFieldChange(
-									'cantidadDisponible',
+									'stock',
 									Math.max(0, parseInt(e.target.value, 10)),
 								)
 							}

@@ -8,6 +8,7 @@ function PreviewGalleryAdmin({ imagen, titulo, onClick }) {
 
 	const toggleCandado = () => {
 		setCandadoCerrado(!candadoCerrado);
+		//funcion cambiar estado imagen
 	};
 
 	return (

@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import IconButton from '../../../Components/Buttons/Button.js';
 import PreviewProducto from '../../../Components/preview-producto/preview-producto.js';
-import productosJSON from '../MainPageEcomerceUser/productos.json';
-import Producto from '../../../Imagenes/Aretes.png';
 import NavBar from '../../../Components/NavBar/NavBar.js';
 import Logo from '../../../Imagenes/Logo-Duende.png';
 import Footer from '../../../Components/Footer/Footer';
@@ -10,6 +8,9 @@ import PopUpProductoAdmin from '../MainPageEcomerceAdmin/pop-up-producto-admin/P
 import PopupAnnadirProducto from '../MainPageEcomerceAdmin/pop-up-annadir-producto/PopupAnnadirProducto.js';
 import { Link } from 'react-router-dom';
 import './MainPageEcomerceAdmin.css';
+
+//backend
+import axios from 'axios';
 
 function MainPageEcomerceAdmin() {
 	const [popUpOpen, setPopUpOpen] = useState(false);
@@ -20,35 +21,59 @@ function MainPageEcomerceAdmin() {
 		useState(false); // Estado para el pop-up "Añadir Producto"
 	const [searchTerm, setSearchTerm] = useState('');
 
+	//backend
+	const [products, setProducts] = useState([]);
+
+	const fetchProducts = async () => {
+		try {
+			const response = await axios.get('http://localhost:3500/product/admin');
+			setProducts(response.data);
+		} catch (error) {
+			console.error('Error fetching products:', error);
+		}
+	};
+
+	useEffect(() => {
+        fetchProducts();
+    }, []);
+
+	///////////
+
 	const uniqueCategories = [
-		...new Set(productosJSON.map(producto => producto.categoria)),
+		...new Set(products.map(product => product.category)),
 	];
 
 	// Filtra los productos por categoría
-	// Filtra los productos por categoría
-	const filteredProductos = selectedCategory
-		? productosJSON.filter(
-				producto =>
-					producto.categoria === selectedCategory &&
-					producto.subtitulo.toLowerCase().includes(searchTerm.toLowerCase()),
-		  )
-		: productosJSON.filter(producto =>
-				producto.subtitulo.toLowerCase().includes(searchTerm.toLowerCase()),
-		  );
+	const filteredProducts = selectedCategory
+    ? products.filter(
+        product =>
+            product.category === selectedCategory &&
+            product.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    )
+    : products.filter(product =>
+        product.name.toLowerCase( ).includes(searchTerm.toLowerCase()),
+    );
 
 	const handleOpenAgregarProducto = () => {
 		setPopUpAgregarProductoOpen(true); // Abre el pop-up "Añadir Producto" al hacer clic
 	};
 
-	const handleCloseAgregarProducto = () => {
-		setPopUpAgregarProductoOpen(false); // Cierra el pop-up "Añadir Producto"
-	};
 	// Función para manejar la lógica de agregar un nuevo producto (debes implementarla)
 	const handleAgregarProducto = nuevoProducto => {
-		// Aquí debes implementar la lógica para agregar el nuevo producto a tus datos (por ejemplo, productosJSON)
-		// Luego, cierra el pop-up de "Añadir Producto"
 		setPopUpAgregarProductoOpen(false);
 	};
+
+	const handleUpdateProducto = async productoActualizado => {
+		try {
+			const res = await axios.put(`http://localhost:3500/product/admin/${productoActualizado._id}`, productoActualizado);
+			console.log(res);
+			console.log(res.data);
+			fetchProducts();
+		} catch (error) {
+			console.error('Error updating product:', error);
+		}
+	};
+
 	return (
 		<>
 			<NavBar
@@ -99,17 +124,17 @@ function MainPageEcomerceAdmin() {
 
 				{/* Mapea los productos desde el JSON y crea un componente PreviewProducto para cada uno */}
 				<div className='productos-container'>
-					{filteredProductos.map((producto, index) => (
+					{filteredProducts.map((product, index) => (
 						<PreviewProducto
-							key={index}
-							imagen={Producto} // {producto.imagen}
-							subtitulo={producto.subtitulo}
+							key={product._id || index}
+							mainImageUrl={product.mainImage} // {product.mainImage.url}
+							name={product.name}
 							mostrarCarrito={false}
-							precio={producto.precio}
+							price={product.price}
 							onClick={() => {
-								setSelectedProduct(producto); // Establecer el producto seleccionado
-								setPopUpOpen(true); // Abrir el pop-up al hacer clic
-								console.log(producto);
+								setSelectedProduct(product);
+								setPopUpOpen(true);
+								console.log(product);
 							}}
 						/>
 					))}
@@ -117,15 +142,16 @@ function MainPageEcomerceAdmin() {
 				{/* Mostrar el pop-up de "Añadir Producto" si está abierto */}
 				{popUpAgregarProductoOpen && (
 					<PopupAnnadirProducto
-						onClose={handleCloseAgregarProducto}
+						onClose={() => setPopUpAgregarProductoOpen(false)}
 						onProductoCreate={handleAgregarProducto}
 					/>
 				)}
 				{/* Mostrar el pop-up si está abierto y pasa los datos del producto */}
 				{popUpOpen && (
 					<PopUpProductoAdmin
-						producto={selectedProduct} // Pasa el producto seleccionado al pop-up
+						product={selectedProduct} // updated from producto
 						onClose={() => setPopUpOpen(false)}
+						onProductoChange={handleUpdateProducto}
 					/>
 				)}
 				<Footer />
