@@ -1,4 +1,4 @@
-const SingletonDAO = require('./Singleton.js');
+const Singleton = require('./Singleton.js');
 
 
 const addGalleryImage = async (req, res, next) => {

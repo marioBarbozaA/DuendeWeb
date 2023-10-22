@@ -6,21 +6,21 @@ const Gallery = require('./../controllers/GalleryImageController.js');
 
 
 router.route('/create')
-    post(Gallery.addGalleryImage); 
+    .post(Gallery.addGalleryImage); 
 
 router.route('/update')
-    post(Gallery.updateGalleryImage);
+    .put(Gallery.updateGalleryImage);
 
 router.route('/delete')
-    .post(deleteGalleryImage);
+    .post(Gallery.deleteGalleryImage);
 
 router.route('/getGalleryImageByID')
-    .get(getGalleryImageByID);
+    .get(Gallery.getGalleryImageByID);
 
 router.route('/getGalleryImagesByCategory')
-    .get(getGalleryImagesByCategory);
+    .get(Gallery.getGalleryImagesByCategory);
 
 router.route('/getAllImages')
-    .get(getAllImages);
+    .get(Gallery.getAllImages);
 
 module.exports = router;
