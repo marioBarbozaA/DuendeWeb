@@ -35,7 +35,7 @@ class Singleton {
     async addGalleryImage(req, res, next) {
         try {
             const jsonImage = req.body;
-            await GalleryImage.create({
+            await Gallery.create({
                 "name": jsonImage.name,
                 "category": jsonImage.category,
                 "subCategory": jsonImage.subCategory,
@@ -60,7 +60,7 @@ class Singleton {
             const jsonImage = req.body;
             const imageId = jsonImage._id; 
         
-            const imageFound = await GalleryImage.findOne({ _id: imageId });
+            const imageFound = await Gallery.findOne({ _id: imageId });
     
             if (!imageFound) {
                 return res.status(404).json({ message: 'La imagen no se encuentra' });
@@ -79,7 +79,7 @@ class Singleton {
             };
     
             // Actualizar la imagen en la base de datos
-            await GalleryImage.updateOne({ _id: imageId }, { $set: updateFields });
+            await Gallery.updateOne({ _id: imageId }, { $set: updateFields });
     
             res.status(200).json({ state: true, message: 'La imagen se ha modificado exitosamente' });
         } catch (error) {
@@ -94,14 +94,14 @@ class Singleton {
             const jsonImage = req.body;
             const imageId = jsonImage.imageId; 
             
-            const imageFound = await GalleryImage.findOne({ _id: imageId });
+            const imageFound = await Gallery.findOne({ _id: imageId });
     
             if (!imageFound) {
                 return res.status(404).json({ message: 'La imagen no se encuentra' });
             }
     
             // Eliminar la imagen de la base de datos
-            await GalleryImage.deleteOne({ _id: imageId });
+            await Gallery.deleteOne({ _id: imageId });
     
             res.status(200).json({ state: true, message: 'La imagen se ha eliminado exitosamente' });
         } catch (error) {
@@ -114,7 +114,7 @@ class Singleton {
     async getGalleryImagesByCategory(req, res, next) {
         try {
             const category = req.params.category; 
-            const images = await GalleryImage.find({ category });
+            const images = await Gallery.find({ category });
     
             if (images.length === 0) {
                 return res.status(404).json({ message: 'No se encontraron imágenes en esta categoría' });
@@ -129,7 +129,7 @@ class Singleton {
 
     async getAllImages(req, res, next) {
         try {
-            const images = await GalleryImage.find({});
+            const images = await Gallery.find({});
     
             if (images.length === 0) {
                 return res.status(404).json({ message: 'No se encontraron imágenes en la galería' });
