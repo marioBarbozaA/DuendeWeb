@@ -19,6 +19,7 @@ function MainPageUser() {
 				pathCuenta='Cuenta'
 				pathGaleria='GalleryUser'
 				pathTienda='MainPageEcomerceUser'
+				mostrarCarrito={true}
 			/>
 			<section className='bienvenida-section'>
 				<div className='contenedor-bienvenida'>
@@ -55,7 +56,7 @@ function MainPageUser() {
 						title='Galería duende'
 						text='Nuestra galería de maquillaje es un espacio dedicado a la creatividad y el arte de la belleza. Aquí, podrás inspirarte con una colección de obras maestras de maquillaje. Explora una amplia gama de estilos, desde maquillaje de fantasía y body painting hasta looks de pasarela y belleza cotidiana.'
 						imageUrl={Galeria}
-						linkTo='/'
+						linkTo='/GalleryUser'
 					/>
 				</div>
 			</section>

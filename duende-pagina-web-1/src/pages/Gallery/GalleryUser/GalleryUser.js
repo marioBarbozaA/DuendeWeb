@@ -11,20 +11,23 @@ function GalleryUser() {
 	const [galleryItem, setGalleryItems] = useState(null);
 	const [selectedCategory, setSelectedCategory] = useState('');
 	const [popUpOpen, setPopUpOpen] = useState(false);
+	const [searchTerm, setSearchTerm] = useState('');
 
 	// Función para filtrar los elementos de la galería según la categoría seleccionada
 
 	const uniqueCategories = [
 		...new Set(productosJSON.map(producto => producto.categoria)),
 	];
-	// Filtra los productos por categoría
+
 	const filteredProductos = selectedCategory
-		? productosJSON.filter(producto => producto.categoria === selectedCategory)
-		: productosJSON;
-
-	//const filterGalleryBySearch = () => {};
-	//const filterGalleryByCategory = () => {};
-
+		? productosJSON.filter(
+				producto =>
+					producto.categoria === selectedCategory &&
+					producto.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
+		  )
+		: productosJSON.filter(producto =>
+				producto.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
+		  );
 	return (
 		<>
 			<NavBar
@@ -34,6 +37,7 @@ function GalleryUser() {
 				pathCuenta='Cuenta'
 				pathGaleria='GalleryUser'
 				pathTienda='MainPageEcomerceUser'
+				mostrarCarrito={true}
 			/>
 			<div className='MainPageEcomerce-container'>
 				<h1>Galería Duende</h1>
@@ -49,6 +53,13 @@ function GalleryUser() {
 							</option>
 						))}
 					</select>
+					<input
+						className='search-bar' // Agrega la clase CSS aquí
+						type='text'
+						placeholder='Buscar producto'
+						value={searchTerm}
+						onChange={e => setSearchTerm(e.target.value)}
+					/>
 				</div>
 				<div className='productos-container'>
 					{filteredProductos.map((producto, index) => (

@@ -1,37 +1,28 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
 
-// Define the database connection URL using the environment variable
-const dbURL = process.env.MONGO_URL;
+const dbConnect = async () => {
+    try {
+        console.log('dbConnect called');
+        await mongoose.connect(process.env.MONGO_URL, { 
+            useNewUrlParser: true, 
+            useUnifiedTopology: true 
+        });
+        console.log('Database connected successfully');
+    } catch (err) {
+        console.error('Database connection error: ', err);
+    }
+};
 
-// Function to establish the database connection
-async function dbConnect() {
-  try {
-    // Establish the connection
-    await mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true });
-    console.log("Successfully connected to MongoDB Atlas!");
+const dbDisconnect = async () => {
+    try {
+        await mongoose.connection.close();
+        console.log('Database disconnected successfully');
+    } catch (err) {
+        console.error('Database disconnection error: ', err);
+    }
+};
 
-    // Event listeners for handling connection events
-    mongoose.connection.on('connected', () => {
-      console.log('MongoDB is connected');
-    });
-
-    mongoose.connection.on('error', (err) => {
-      console.error('MongoDB connection error:', err);
-    });
-
-    mongoose.connection.on('disconnected', () => {
-      console.log('Disconnected from MongoDB Atlas');
-    });
-  } catch (error) {
-    console.error("Unable to connect to MongoDB Atlas:", error);
-  }
-}
-
-// Function to disconnect from the database
-async function dbDisconnect() {
-  mongoose.connection.close();
-  console.log("Disconnected from MongoDB Atlas!");
-}
-
-module.exports = { dbConnect, dbDisconnect };
+module.exports = {
+    dbConnect,
+    dbDisconnect
+};

@@ -6,35 +6,35 @@ import LogoDuende from '../../Imagenes/Logo-Duende.png';
 export default class Footer extends Component {
 	render() {
 		return (
-			<div class='container-fluid'>
+			<div className='container-fluid'>
 				<div
-					class='row p-5 text-white'
+					className='row p-5 text-white'
 					style={{ background: 'var(--color-moradito)' }}
 				>
-					<div class='col-xs-12 col-md-6 col-lg-3'>
-						<p class='h3 mb-3'>Contacto</p>
-						<div class='mb-2'>
-							<p class='text-white '>+506 2222-2222</p>
+					<div className='col-xs-12 col-md-6 col-lg-3'>
+						<p className='h3 mb-3'>Contacto</p>
+						<div className='mb-2'>
+							<p className='text-white '>+506 2222-2222</p>
 						</div>
-						<div class='mb-2'>
-							<p class='text-white '>duende@gmail.com</p>
+						<div className='mb-2'>
+							<p className='text-white '>duende@gmail.com</p>
 						</div>
 					</div>
-					<div class='col-xs-12 col-md-6 col-lg-3'>
-						<p class='h3 mb-3'>Contenido</p>
-						<div class='mb-2'>
-							<Link to='#' class='text-white '>
+					<div className='col-xs-12 col-md-6 col-lg-3'>
+						<p className='h3 mb-3'>Contenido</p>
+						<div className='mb-2'>
+							<Link to='#' className='text-white '>
 								Tienda
 							</Link>
 						</div>
-						<div class='mb-2'>
-							<Link to='#' class='text-white '>
+						<div className='mb-2'>
+							<Link to='#' className='text-white '>
 								Galeria
 							</Link>
 						</div>
 					</div>
-					<div class='col-xs-12 col-md-6 col-lg-3'>
-						<a class='d-inline-flex align-items-center mb-2' href='/'>
+					<div className='col-xs-12 col-md-6 col-lg-3'>
+						<a className='d-inline-flex align-items-center mb-2' href='/'>
 							Columna 3
 						</a>
 						<div className='LogoFooter'>
@@ -43,7 +43,7 @@ export default class Footer extends Component {
 								alt='Logo'
 								width='200'
 								height='150'
-								class='d-inline-block align-text-top'
+								className='d-inline-block align-text-top'
 							/>
 						</div>
 					</div>

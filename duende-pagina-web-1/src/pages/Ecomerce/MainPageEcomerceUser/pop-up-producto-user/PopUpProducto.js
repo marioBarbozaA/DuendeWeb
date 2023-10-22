@@ -20,25 +20,23 @@ function PopUpProducto({ producto, onClose }) {
 		<div className='popup-container'>
 			<div className='popup-content'>
 				<div className='left-side-popup'>
-					<img
-						src={Producto}
-						alt={
-							producto.subtitulo
-						} /*src={producto.imagen} alt={producto.subtitulo}*/
-					/>
+				<img
+					src={producto.mainImage.url}
+					alt={producto.mainImage.altText || producto.name}
+				/>
 					<div className='fotos-producto-pequennas'>
-						<img
+						{/*<img
 							src={Producto}
 							alt={
 								producto.subtitulo
-							} /*src={producto.imagen} alt={producto.subtitulo}*/
+							} 
 						/>
 						<img
 							src={Producto}
 							alt={
 								producto.subtitulo
-							} /*src={producto.imagen} alt={producto.subtitulo}*/
-						/>
+							} 
+						/>*/}
 					</div>
 				</div>
 				<div className='right-side-popup'>
@@ -49,19 +47,19 @@ function PopUpProducto({ producto, onClose }) {
 							handleOnClick={onClose}
 						/>
 					</div>
-					<h2>{producto.subtitulo}</h2>
+					<h2>{producto.name}</h2>
 					<p className='texto-pequenno-pop-up'>
-						Categoría: {producto.categoria}
+						Categoría: {producto.CantidadCounter}
 					</p>
-					<p className='Descripcion-pop-up'>{producto.descripcion}</p>
+					<p className='Descripcion-pop-up'>{producto.description}</p>
 					<p className='texto-pequenno-pop-up'>
-						Disponibles: {producto.cantidadDisponible}
+						Disponibles: {producto.stock}
 					</p>
-					<p className='texto-pequenno-pop-up'>Estado: {producto.estado}</p>
+					<p className='texto-pequenno-pop-up'>Estado: {producto.status}</p>
 					<div className='cantidad-control'>
-						<h2> ${producto.precio}</h2>
+						<h2> ${producto.price}</h2>
 						<CantidadCounter
-							stock={producto.cantidadDisponible}
+							stock={producto.stock}
 							cantidad={cantidad} // La cantidad actual
 							onCantidadChange={setCantidad} // La función para cambiar la cantidad
 						/>

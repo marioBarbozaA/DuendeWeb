@@ -10,6 +10,16 @@
 	margin-bottom: 2.5%;
 }
 
+.preview-producto {
+	transition:
+		transform 0.2s,
+		background-color 0.2s;
+}
+.preview-producto:hover {
+	cursor: pointer;
+	transform: scale(1.05); /* Agranda el elemento en un 5% */
+}
+
 .imgProducto {
 	width: 50%;
 	height: auto;
@@ -18,6 +28,7 @@
 	width: 100%;
 	height: auto;
 	border-radius: 15px;
+	margin: 0;
 }
 
 .preview-producto h3 {
@@ -57,4 +68,24 @@
 }
 .precio-boton .login-button {
 	border-radius: 30px;
+}
+
+/**Este es para preview de gallery admin*/
+.candado-titulo-container {
+	display: flex;
+	align-items: center;
+}
+
+.candado-titulo-container h3 {
+	margin: 0; /* Elimina el margen predeterminado para el título */
+	margin-right: 10px; /* Espacio entre el título y el candado (ajusta según tus necesidades) */
+}
+
+.imgCandado {
+	cursor: pointer; /* Cambia el cursor al pasar sobre el candado para indicar que es interactivo */
+}
+
+.red-blur {
+	filter: grayscale(100%); /* Desaturar la imagen al 100% (escala de grises) */
+	opacity: 0.6; /* Reduce la opacidad para atenuar la imagen */
 }

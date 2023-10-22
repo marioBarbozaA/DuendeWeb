@@ -1,29 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import IconButton from '../../../Components/Buttons/Button.js';
 import PreviewProducto from '../../../Components/preview-producto/preview-producto.js';
-import productosJSON from './productos.json';
-import Producto from '../../../Imagenes/Aretes.png';
 import NavBar from '../../../Components/NavBar/NavBar.js';
 import Logo from '../../../Imagenes/Logo-Duende.png';
 import Footer from '../../../Components/Footer/Footer';
 import PopUpProducto from '../MainPageEcomerceUser/pop-up-producto-user/PopUpProducto.js';
 import './MainPageEcomerceUser.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
 
 function MainPageEcomerceUser() {
 	const [popUpOpen, setPopUpOpen] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null); // Agrega un estado para el producto seleccionado
 	const [selectedCategory, setSelectedCategory] = useState(''); // Estado para la categoría seleccionada
+	const [searchTerm, setSearchTerm] = useState('');
+
+	//backend
+	const [products, setProducts] = useState([]);
+
+	useEffect(() => {
+        async function fetchProducts() {
+            try {
+                const response = await axios.get('http://localhost:3500/product');
+                setProducts(response.data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        }
+
+        fetchProducts();
+    }, []);
+
+	/////
 
 	const uniqueCategories = [
-		...new Set(productosJSON.map(producto => producto.categoria)),
-	];
+		...new Set(products.map(product => product.category)),
+	  ];
 
 	// Filtra los productos por categoría
-	const filteredProductos = selectedCategory
-		? productosJSON.filter(producto => producto.categoria === selectedCategory)
-		: productosJSON;
-
+	const filteredProducts = selectedCategory
+    ? products.filter(
+        product =>
+          product.category === selectedCategory &&
+          product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : products.filter(product =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
 	return (
 		<>
 			<NavBar
@@ -33,6 +57,7 @@ function MainPageEcomerceUser() {
 				pathCuenta='Cuenta'
 				pathGaleria='GalleryUser'
 				pathTienda='MainPageEcomerceUser'
+				mostrarCarrito={true}
 			/>
 			<div className='MainPageEcomerce-container'>
 				<h1>Productos</h1>
@@ -48,27 +73,34 @@ function MainPageEcomerceUser() {
 							</option>
 						))}
 					</select>
+
 					<Link to='/HistorialComprasUser' className='nav-link'>
 						<IconButton
-							buttonClassname='login-button'
+							buttonclassName='login-button'
 							buttonText='Ver Historial'
 						/>
 					</Link>
-				</div>
 
+					<input
+						className='search-bar'
+						type='text'
+						placeholder='Buscar producto'
+						value={searchTerm}
+						onChange={e => setSearchTerm(e.target.value)}
+					/>
+				</div>
+								
 				{/* Mapea los productos desde el JSON y crea un componente PreviewProducto para cada uno */}
 				<div className='productos-container'>
-					{filteredProductos.map((producto, index) => (
+					{filteredProducts.map((product, index) => (
 						<PreviewProducto
 							key={index}
-							imagen={Producto} // {producto.imagen}
-							subtitulo={producto.subtitulo}
-							precio={producto.precio}
+							mainImageUrl={product.mainImage.url}
+							name={product.name}
+							price={product.price}
 							onClick={() => {
-								setSelectedProduct(producto); // Establecer el producto seleccionado
-								setPopUpOpen(true); // Abrir el pop-up al hacer clic
-
-								console.log(producto);
+								setSelectedProduct(product);
+								setPopUpOpen(true);
 							}}
 						/>
 					))}
