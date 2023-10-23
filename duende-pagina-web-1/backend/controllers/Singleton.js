@@ -267,6 +267,7 @@ class Singleton {
     async deleteAppointment(req, res, next) {
         try {
             const jsonAppointment = req.body;
+            const appointmentId = jsonAppointment._id; 
 
             const appointmentFound = await Appointment.findOne({ _id: appointmentId });
     
@@ -425,19 +426,21 @@ class Singleton {
         next();
     }
 
-    async createProduct(productData, res) {
-        console.log('Received product data:', productData);
+    async createProduct(req, res, next) {
+        const productData = req.body;
+        console.log(productData);
         try {
             const product = await Product.create(productData);
-            res.status(201).json(product);  // send a response back to client
+            return res.status(201).json(product);
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: "Server error: " + error });  // send a error response back to client
+            return res.status(500).json({ msg: 'Server error' + error });
         }
+        next();
     }
 
     async updateProduct(req, res, next) {
         const productData = req.body;
+        console.log(productData);
         try {
             const product = await Product.findByIdAndUpdate(productData._id, productData, { new: true, lean: true });
             if (!product) {
