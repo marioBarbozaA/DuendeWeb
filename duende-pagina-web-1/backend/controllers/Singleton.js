@@ -382,12 +382,7 @@ class Singleton {
 
       const token = await createAccessToken({ id: userSaved._id });
       res.cookie("token", token);
-      res.json({
-        id: userSaved._id,
-        email: userSaved.email,
-        name: userSaved.name,
-        phone: userSaved.phone,
-      });
+      res.json({ userSaved });
       res.status(200).json({ msg: "User created" });
     } catch {
       res.status(500).json({ msg: "Server error" });

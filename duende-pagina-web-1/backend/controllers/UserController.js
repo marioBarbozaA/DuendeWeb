@@ -19,36 +19,7 @@ const loginUser = async (req, res, next) => {
 };
 
 const registerUser = async (req, res, next) => {
-  const { email, password, name, phone } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ msg: "Invalid request body" });
-  }
-  //check for duplicate usernames in the db
-  const duplicate = await User.findOne({ email: email }).exec();
-
-  if (duplicate) {
-    return res.status(400).json({ msg: "User already exists" });
-  }
-
-  try {
-    //encrypt password
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    //create and store the new user
-    /*await User.create({
-      email: email,
-      password: hashedPassword,
-      name: name,
-      phone: phone,
-    });
-    */
-
-    res.status(200).json({ msg: "User created" });
-  } catch (e) {
-    res.status(500).json({ msg: "Server error" + e });
-  }
+  await SingletonDAO.registerUser(req, res, next);
 };
 
 const generateTempPassword = () => {
