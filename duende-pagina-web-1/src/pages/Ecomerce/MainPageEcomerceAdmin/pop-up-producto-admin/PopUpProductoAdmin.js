@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './PopUpProductoAdmin.css';
 import trash from '../../../../Imagenes/trash.png';
 import Confirmacion from '../../../../Components/Confirmacion/Confirmacion';
@@ -9,9 +9,16 @@ import axios from 'axios';
 
 function PopUpProducto({ product, onClose, onProductoChange }) {
 	const [editingProducto, setEditingProducto] = useState(product);
+	const editingProductoRef = useRef(editingProducto);  // Create a ref
 	const [confirmacionVisible, setConfirmacionVisible] = useState(false);
 	const [confirmacionEliminarVisible, setConfirmacionEliminarVisible] =
 		useState(false);
+
+		useEffect(() => {
+			editingProductoRef.current = editingProducto;  // Update the ref whenever editingProducto changes
+		}, [editingProducto]);
+		
+		
 	const handleFieldChange = (fieldName, value) => {
 		setEditingProducto({ ...editingProducto, [fieldName]: value });
 	};
@@ -23,7 +30,7 @@ function PopUpProducto({ product, onClose, onProductoChange }) {
 		setConfirmacionEliminarVisible(false);
 	};
 	const handleSaveChanges = () => {
-		onProductoChange(editingProducto);
+		onProductoChange(editingProductoRef.current);  // Use the ref instead of the state directly
 		onClose();
 	};
 

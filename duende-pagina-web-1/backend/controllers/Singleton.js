@@ -141,21 +141,19 @@ class Singleton {
         next();
     }
 
-    async createProduct(req, res, next) {
-        const productData = req.body;
-        console.log(productData);
+    async createProduct(productData, res) {
+        console.log('Received product data:', productData);
         try {
             const product = await Product.create(productData);
-            return res.status(201).json(product);
+            res.status(201).json(product);  // send a response back to client
         } catch (error) {
-            return res.status(500).json({ msg: 'Server error' + error });
+            console.error(error);
+            res.status(500).json({ message: "Server error: " + error });  // send a error response back to client
         }
-        next();
     }
 
     async updateProduct(req, res, next) {
         const productData = req.body;
-        console.log(productData);
         try {
             const product = await Product.findByIdAndUpdate(productData._id, productData, { new: true, lean: true });
             if (!product) {
