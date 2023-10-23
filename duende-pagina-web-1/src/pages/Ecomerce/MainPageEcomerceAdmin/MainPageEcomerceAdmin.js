@@ -59,15 +59,51 @@ function MainPageEcomerceAdmin() {
 	};
 
 	// Función para manejar la lógica de agregar un nuevo producto (debes implementarla)
-	const handleAgregarProducto = nuevoProducto => {
-		setPopUpAgregarProductoOpen(false);
-	};
+const handleAgregarProducto = async nuevoProducto => {
+    setPopUpAgregarProductoOpen(false);
+
+    // Convert the new product data to FormData to handle file uploads
+    const formData = new FormData();
+    for (const key in nuevoProducto) {
+        if (nuevoProducto[key] instanceof Array) {
+            // If the value is an array (e.g., secondaryImages), append each item individually
+            nuevoProducto[key].forEach(item => {
+                formData.append(key, item);
+            });
+        } else {
+            // Otherwise, just append the value as-is
+            formData.append(key, nuevoProducto[key]);
+        }
+    }
+
+    try {
+        // Send a POST request to the server with the new product data
+        const response = await axios.post('http://localhost:3500/product/admin', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        console.log('Product created:', response.data);
+
+        // Update the state to include the new product
+        setProducts(prevProducts => [...prevProducts, response.data]);
+        
+        // Optionally, re-fetch all products from the server to ensure state is up-to-date
+        fetchProducts();
+    } catch (error) {
+        console.error('Error creating product:', error);
+    }
+};
+
 
 	const handleUpdateProducto = async productoActualizado => {
 		try {
-			const res = await axios.put(`http://localhost:3500/product/admin/${productoActualizado._id}`, productoActualizado);
+			const res = await axios.put('http://localhost:3500/product/admin', productoActualizado, {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
 			console.log(res);
-			console.log(res.data);
 			fetchProducts();
 		} catch (error) {
 			console.error('Error updating product:', error);

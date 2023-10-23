@@ -1,6 +1,7 @@
 const { getInstance: getSingleton } = require('./Singleton.js');
 const SingletonDAO = getSingleton();
 const Product = require('../models/Product.js');
+const { saveImages } = require('./../utilities/saveImages.js');  // Import the saveImages function
 
 
 // Controller to get all products
@@ -20,24 +21,33 @@ const getAllProductsActive = async (req, res, next) => {
     }
 };
 
-// Controller to create a new product
 const createProduct = async (req, res, next) => {
-    // Assuming you receive the product data in the request body
-    const productData = req.body;
-  
-    console.log('Received product data:', productData);
-  
-    try {
-      const product = await SingletonDAO.createProduct(req, res, next);
-    } catch (error) {
-      console.error(error);
-    }
+  const productData = {
+      name: req.body.name,
+      category: req.body.category,
+      description: req.body.description,
+      status: req.body.status,
+      price: req.body.price,
+      stock: req.body.stock,
+      mainImage: req.files.mainImage ? { url: `/uploads/${req.files.mainImage[0].filename}`, altText: 'Main Image Alt Text' } : null,
+      secondaryImages: req.files.secondaryImages ? req.files.secondaryImages.map(file => ({ url: `/uploads/${file.filename}`, altText: 'Secondary Image Alt Text' })) : [],
   };
+
+  console.log('Received product data (before):', productData);
+
+  try {
+      const product = await SingletonDAO.createProduct(productData,res);
+      res.status(201).json(product);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: 'Server error' + error });
+  }
+};
+
 
 const updateProduct = async (req, res, next) => {
     // Assuming you receive the product data in the request body
     const productData = req.body;
-    console.log('Received product data:', productData);
     try {
       const product = await SingletonDAO.updateProduct(req, res, next);
     } catch (error) {

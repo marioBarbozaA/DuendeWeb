@@ -5,12 +5,14 @@ import IconButton from '../../../../Components/Buttons/Button.js';
 
 function PopupAnnadirProducto({ onClose, onProductoCreate }) {
 	const [nuevoProducto, setNuevoProducto] = useState({
-		subtitulo: '',
-		categoria: '',
-		descripcion: '',
-		estado: 'disponible',
-		precio: '', // Establecer el precio inicial en 0 u otro valor predeterminado
-		cantidadDisponible: '', // Establecer la cantidad inicial en 0 u otro valor predeterminado
+		name: '',
+		category: '',
+		description: '',
+		status: 'active',
+		price: '',
+		stock: '',
+		mainImage: null,  // Change this to mainImage
+		secondaryImages: []  // Added a secondaryImages array
 	});
 
 	const handleFieldChange = (fieldName, value) => {
@@ -18,16 +20,37 @@ function PopupAnnadirProducto({ onClose, onProductoCreate }) {
 	};
 
 	const handleCreateProduct = () => {
+		console.log('Crear producto llamado'); // Verificar si la función se llama correctamente
 		if (validarCampos()) {
-			onProductoCreate(nuevoProducto);
+			const productData = {
+				name: nuevoProducto.name,
+				category: nuevoProducto.category,
+				description: nuevoProducto.description,
+				status: nuevoProducto.status,
+				price: nuevoProducto.price,
+				stock: nuevoProducto.stock,
+				mainImage: nuevoProducto.mainImage,  // assuming this is a file path
+				secondaryImages: nuevoProducto.secondaryImages  // assuming these are file paths
+			};
+			console.log('Product data:', productData);
+			onProductoCreate(productData);
 		} else {
 			alert('Por favor completa todos los campos antes de crear el producto.');
 		}
 	};
 
-	const handleImageChange = e => {
-		const imageFile = e.target.files[0]; // Obtener el archivo de imagen seleccionado
-		setNuevoProducto({ ...nuevoProducto, imagen: imageFile });
+	const handleImageChange = (e, isMainImage = false) => {
+		const imageFile = e.target.files[0];  // Get the selected file
+		if (imageFile) {  // Check if a file was selected
+			if (isMainImage) {
+				setNuevoProducto({ ...nuevoProducto, mainImage: imageFile });  // Update the mainImage state
+			} else {
+				setNuevoProducto({
+					...nuevoProducto,
+					secondaryImages: [...nuevoProducto.secondaryImages, imageFile]  // Update the secondaryImages state
+				});
+			}
+		}
 	};
 
 	const quitarImagen = () => {
@@ -51,15 +74,11 @@ function PopupAnnadirProducto({ onClose, onProductoCreate }) {
 					{nuevoProducto.imagen ? (
 						<img
 							src={URL.createObjectURL(nuevoProducto.imagen)}
-							alt={nuevoProducto.subtitulo}
+							alt={nuevoProducto.name}
 						/>
 					) : (
 						<label className='image-input-label'>
-							<input
-								type='file'
-								accept='image/*'
-								onChange={handleImageChange}
-							/>
+							<input type='file' accept='image/*' onChange={(e) => handleImageChange(e, true)} />
 							<span className='input-icon'>+</span>
 						</label>
 					)}
@@ -88,9 +107,9 @@ function PopupAnnadirProducto({ onClose, onProductoCreate }) {
 					<h2 className='texto-h2-pop-up'>
 						<input
 							type='text'
-							value={nuevoProducto.subtitulo}
+							value={nuevoProducto.name}
 							placeholder='Titulo'
-							onChange={e => handleFieldChange('subtitulo', e.target.value)}
+							onChange={e => handleFieldChange('name', e.target.value)}
 						/>
 					</h2>
 
@@ -98,23 +117,23 @@ function PopupAnnadirProducto({ onClose, onProductoCreate }) {
 						<input
 							type='text'
 							placeholder='Categoria'
-							value={nuevoProducto.categoria}
-							onChange={e => handleFieldChange('categoria', e.target.value)}
+							value={nuevoProducto.category}
+							onChange={e => handleFieldChange('category', e.target.value)}
 						/>
 					</p>
 					<p className='Descripcion-pop-up'>
 						<textarea
 							placeholder='Descripcion'
-							value={nuevoProducto.descripcion}
-							onChange={e => handleFieldChange('descripcion', e.target.value)}
+							value={nuevoProducto.description}
+							onChange={e => handleFieldChange('description', e.target.value)}
 						/>
 					</p>
 
 					<p className='texto-pequenno-pop-up'>
 						<select
 							placeholder='Estado'
-							value={nuevoProducto.estado}
-							onChange={e => handleFieldChange('estado', e.target.value)}
+							value={nuevoProducto.status}
+							onChange={e => handleFieldChange('status', e.target.value)}
 						>
 							<option value='disponible'>Disponible</option>
 							<option value='agotado'>Agotado</option>
@@ -124,10 +143,10 @@ function PopupAnnadirProducto({ onClose, onProductoCreate }) {
 						<input
 							placeholder='Precio'
 							type='number'
-							value={nuevoProducto.precio}
+							value={nuevoProducto.price}
 							onChange={e =>
 								handleFieldChange(
-									'precio',
+									'price',
 									Math.max(0, parseFloat(e.target.value)),
 								)
 							}
@@ -136,10 +155,10 @@ function PopupAnnadirProducto({ onClose, onProductoCreate }) {
 						<input
 							type='number'
 							placeholder='Cantidad'
-							value={nuevoProducto.cantidadDisponible}
+							value={nuevoProducto.stock}
 							onChange={e =>
 								handleFieldChange(
-									'cantidadDisponible',
+									'stock',
 									Math.max(0, parseInt(e.target.value, 10)),
 								)
 							}
