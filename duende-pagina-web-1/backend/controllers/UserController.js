@@ -1,7 +1,6 @@
 const { getInstance: getSingleton } = require("./Singleton.js");
 const SingletonDAO = getSingleton();
 const User = require("../models/auth/user.js");
-const bcrypt = require("bcrypt");
 const { sendRecoveryEmail } = require("../utilities/email");
 
 const loginUser = async (req, res, next) => {
@@ -53,4 +52,9 @@ const updatePassword = async (req, res) => {
   res.json({ msg: "Recovery email sent." });
 };
 
-module.exports = { loginUser, registerUser, updatePassword };
+//logout
+const logout = async (req, res, next) => {
+  await SingletonDAO.logout(req, res, next);
+};
+
+module.exports = { loginUser, registerUser, updatePassword, logout };

@@ -353,7 +353,7 @@ class Singleton {
   }
 
   //-------------------------------------------------------------------------------------
-  //
+  // Gestion Usuarios
   //-------------------------------------------------------------------------------------
   async registerUser(req, res, next) {
     const { email, password } = req.body;
@@ -380,11 +380,10 @@ class Singleton {
       });
       const userSaved = await newUserResult.save();
 
-      const token = await createAccessToken({ id: userSaved._id });
+      const token = createAccessToken({ id: userSaved._id });
       res.cookie("token", token);
-      res.json({ userSaved });
-      res.status(200).json({ msg: "User created" });
-    } catch {
+      res.status(200).json({ userSaved, msg: "User created" });
+    } catch (error) {
       res.status(500).json({ msg: "Server error" });
     }
   }
@@ -405,6 +404,9 @@ class Singleton {
         const match = await bcrypt.compare(password, userFound.password);
 
         if (match) {
+          const token = createAccessToken({ id: userFound._id });
+          res.cookie("token", token);
+
           res.status(200).json({
             status: true,
             roles: [userFound.roles],
@@ -449,6 +451,12 @@ class Singleton {
     } catch {
       res.status(500).json({ msg: "Server error" });
     }
+  }
+
+  //CREATE  A LOGOUT
+  async logout(req, res) {
+    res.cookie("token", "", { expires: new Date(0) });
+    return res.sendStatus(200);
   }
 
   /////////////////////////////////////
