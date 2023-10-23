@@ -165,6 +165,19 @@ class Singleton {
             return res.status(500).json({ msg: 'Server error' + error });
         }
     }
+
+    async deleteProduct(req, res, next) {
+        try {
+            const product = await Product.findByIdAndDelete(req.params.id);
+            if (!product) {
+                return res.status(404).json({ msg: 'Product not found' });
+            }
+            return res.status(200).json(product);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ msg: 'Server error' + error });
+        }
+    }
 }
 
 let instance = null;

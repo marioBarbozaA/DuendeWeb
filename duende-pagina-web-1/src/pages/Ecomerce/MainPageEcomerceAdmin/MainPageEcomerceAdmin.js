@@ -186,7 +186,7 @@ const handleAgregarProducto = async nuevoProducto => {
 				{popUpOpen && (
 					<PopUpProductoAdmin
 						product={selectedProduct} // updated from producto
-						onClose={() => setPopUpOpen(false)}
+						onClose={() => [setPopUpOpen(false), fetchProducts()]}
 						onProductoChange={handleUpdateProducto}
 					/>
 				)}

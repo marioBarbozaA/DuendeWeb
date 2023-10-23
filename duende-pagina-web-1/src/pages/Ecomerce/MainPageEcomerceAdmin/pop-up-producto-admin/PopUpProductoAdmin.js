@@ -61,8 +61,15 @@ function PopUpProducto({ product, onClose, onProductoChange }) {
 		}
 	};
 
-	const borrarProducto = () => {
-		console.log('Borrar Producto');
+	const borrarProducto = async () => {
+		try {
+			const response = await axios.put(`http://localhost:3500/product/admin/${product._id}`);
+			console.log('Product deleted:', response.data);
+			// Optionally, you can call onClose to close the popup after successful deletion
+			onClose();
+		} catch (error) {
+			console.error('Error deleting product:', error);
+		}
 	};
 	const mostrarConfirmacion = () => {
 		setConfirmacionVisible(true);
