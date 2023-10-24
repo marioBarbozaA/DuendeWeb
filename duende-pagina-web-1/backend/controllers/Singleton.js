@@ -32,11 +32,11 @@ class Singleton {
     //-------------------------------------------------------------------------------------
     //                               GalleryImage Functions
     //-------------------------------------------------------------------------------------
-    async addGalleryImage(req, res, next) {
-        console.log('addGalleryImage singleton:',req.body);
+    async addGalleryImage(imageData,req, res, next) {
+        console.log('addGalleryImage singleton:',imageData);
         try {
-            const result = await Gallery.create(req.body);
-            res.status(201).json({ state: true, message: 'Se ha agregado la imagen exitosamente' });
+            const result = await Gallery.create(imageData);
+            res.status(201).json({data: imageData, result : result });
         } catch (error) {
             res.status(500).json({ message: `Error del servidor: ${error}` });
         }
@@ -317,7 +317,7 @@ class Singleton {
     //-------------------------------------------------------------------------------------
     async registerUser(req, res, next) {
 
-        const { email, password } = req.body;
+        const { email, password, name , phone } = req.body;
         if (!email || !password) {
             return res.status(400).json({ msg: 'Please enter all fields' });
         }
@@ -333,7 +333,7 @@ class Singleton {
             const hashedPassword = await bcrypt.hash(password, 10);
 
             //create and store the new user
-            const newUserResult = await User.create({ "email": email, "password": hashedPassword, name: "name", phone: "phone"});
+            const newUserResult = await User.create({ "email": email, "password": hashedPassword, name: name, phone: phone});
             res.status(200).json({ msg: 'User created' });
         } catch {
             res.status(500).json({ msg: 'Server error' });

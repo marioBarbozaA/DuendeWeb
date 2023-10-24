@@ -23,6 +23,7 @@ function GalleryAdmin() {
 	const [selectedGalleryItem, setGalleryItems] = useState(''); // Estado para el producto seleccionado
 
 	const fetchProducts = async () => {
+		console.log('Fetching products...');
 		try {
 			const response = await axios.get('http://localhost:3500/gallery/getImagesAdmin');
 			setGalleryItem(response.data);  // updated this line
@@ -94,6 +95,7 @@ function GalleryAdmin() {
 			}
 		}
 		
+		
 		try {
 			// Send a POST request to the server with the new gallery item data
 			const response = await axios.post(
@@ -106,12 +108,10 @@ function GalleryAdmin() {
 				}
 			);
 			console.log('Gallery item created:', response.data);
-	
 			// Update the state to include the new gallery item
-			setGalleryItem(prevGalleryItem => [...prevGalleryItem, response.data]);
-			
-			// Optionally, re-fetch all gallery items from the server to ensure state is up-to-date
+			setGalleryItem(prevGalleryItem => [...prevGalleryItem, response.data.data]);
 			fetchProducts();
+			
 		} catch (error) {
 			console.error('Error creating gallery item:', error);
 		}

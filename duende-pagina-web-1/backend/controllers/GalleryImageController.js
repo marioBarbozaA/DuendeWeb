@@ -1,7 +1,6 @@
 const { getInstance: getSingleton } = require('./Singleton.js');
 const SingletonDAO = getSingleton();
 
-
 const addGalleryImage = async (req, res, next) => {
   console.log('Received gallery item data (before):', req.body);
   
@@ -18,7 +17,7 @@ const addGalleryImage = async (req, res, next) => {
   };
   console.log('Received gallery item data (after):', galleryItemData);
   try {
-      const galleryItem = await SingletonDAO.addGalleryImage(galleryItemData);
+      const galleryItem = await SingletonDAO.addGalleryImage(galleryItemData,req, res, next);
       res.status(201).json(galleryItem);
   } catch (error) {
       console.error(error);
