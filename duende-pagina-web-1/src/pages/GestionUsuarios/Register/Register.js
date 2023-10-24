@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import '../Login/Login.css'; // Asegúrate de tener un archivo CSS para estilizar este componente
 import IconButton from '../../../Components/Buttons/Button.js'; // Asegúrate de proporcionar la ruta correcta al archivo de tu componente IconButton
 import InputText from '../../../Components/Inputs/InputText.js';
@@ -7,20 +7,19 @@ import instagram from '../../../Imagenes/instagram.png';
 import axios from 'axios';
 
 function Registro() {
-
 	const [formData, setFormData] = useState({
 		nombre: '',
 		email: '',
 		telefono: '',
 		password: '',
-		confirmPassword: ''
+		confirmPassword: '',
 	});
 
-	const handleInputChange = (event) => {
+	const handleInputChange = event => {
 		const { name, value } = event.target;
 		setFormData({
 			...formData,
-			[name]: value
+			[name]: value,
 		});
 	};
 
@@ -31,17 +30,20 @@ function Registro() {
 			alert('Passwords do not match');
 			return;
 		}
-		
+
 		const registerData = {
 			email: formData.email,
 			password: formData.password,
 			name: formData.nombre,
-			phone: formData.telefono
+			phone: formData.telefono,
 		};
 
 		try {
-			const response = await axios.post('http://localhost:3500/login/register', registerData);
-			console.log(response.data);  // Log the response from the server
+			const response = await axios.post(
+				'http://localhost:3500/login/register',
+				registerData,
+			);
+			console.log(response.data); // Log the response from the server
 			alert('User registered successfully');
 		} catch (error) {
 			console.error(error);
@@ -120,10 +122,10 @@ function Registro() {
 								labelText='Confirmar contraseña'
 								inputClassname='form-login'
 								typeInput='password'
-								idInput='confirmPassword'  
-								inputName='confirmPassword'  
-								value={formData.confirmPassword}  
-								onChange={handleInputChange} 
+								idInput='confirmPassword'
+								inputName='confirmPassword'
+								value={formData.confirmPassword}
+								onChange={handleInputChange}
 							/>
 						</div>
 
