@@ -4,6 +4,7 @@ const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const express = require("express");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 
 //Singleton Instance
 const { getInstance: getSingleton } = require("./controllers/Singleton.js");
@@ -13,6 +14,9 @@ const app = express();
 
 // Middleware for parsing JSON request bodies
 app.use(express.json());
+
+//cookie parser
+app.use(cookieParser());
 
 // Use CORS middleware with the defined options
 app.use(cors(corsOptions));
