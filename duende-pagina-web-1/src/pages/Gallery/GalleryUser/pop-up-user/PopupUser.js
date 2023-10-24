@@ -3,6 +3,7 @@ import Producto from '../../../../Imagenes/Acerca-de-nosotros.png';
 import IconButton from '../../../../Components/Buttons/Button.js';
 
 function PopUpUser({ producto, onClose }) {
+	console.log('Rendering PopUpUser with:', producto);
 	if (!producto) {
 		return null; // No mostrar el pop-up si no hay producto seleccionado
 	}
@@ -12,10 +13,8 @@ function PopUpUser({ producto, onClose }) {
 			<div className='popup-content-gallery'>
 				<div className='left-side-popup-gallery'>
 					<img
-						src={Producto}
-						alt={
-							producto.subtitulo
-						} /*src={producto.imagen} alt={producto.subtitulo}*/
+						src={producto.mainImage ? `http://localhost:3500${producto.mainImage.url}` : ''}
+						alt={producto.mainImage ? producto.mainImage.altText || producto.name : producto.name}
 					/>
 				</div>
 
@@ -28,16 +27,16 @@ function PopUpUser({ producto, onClose }) {
 						/>
 					</div>
 					<div className='titulo-maquillaje-container'>
-						<h2 className='titulo-maquillaje'>{producto.titulo}</h2>
+						<h2 className='titulo-maquillaje'>{producto.name}</h2>
 					</div>
-					<h3 className='texto-categoria'>{producto.categoria}</h3>
-					<p className='Descripcion-maquillaje'>{producto.descripcion}</p>
-					<p className='texto-pequenno-pop-up'>{producto.subcategoria}</p>
-					<p className='texto-pequenno-pop-up'>{producto.etiquetas}</p>
-					<p className='texto-pequenno-pop-up'> {producto.fecha}</p>
+					<h3 className='texto-categoria'>{producto.category}</h3>
+					<p className='Descripcion-maquillaje'>{producto.description}</p>
+					<p className='texto-pequenno-pop-up'>{producto.subCategory}</p>
+					<p className='texto-pequenno-pop-up'>{producto.tags}</p>
+					<p className='texto-pequenno-pop-up'> {producto.date}</p>
 					{/* Nuevo div "mensaje-duende" */}
 					<div className='mensaje-duende'>
-						<p>¿Quieres un maquillaje de {producto.titulo}?</p>
+						<p>¿Quieres un maquillaje de {producto.name}?</p>
 						<input type='text' placeholder='Nombre' />
 						<div className='input-correo-telefono'>
 							<input type='text' placeholder='Correo electrónico' />

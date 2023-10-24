@@ -1,46 +1,50 @@
 import NavBar from '../../../Components/NavBar/NavBar';
 import Logo from '../../../Imagenes/Logo-Duende.png';
 import Footer from '../../../Components/Footer/Footer';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PreviewGallery from '../../../Components/preview-gallery/preview-gallery.js';
 import Maquillaje from '../../../Imagenes/Acerca-de-nosotros.png';
 import PopUpUser from './pop-up-user/PopupUser.js';
+import './GalleryUser.css';
 
-import Axios from 'axios'; 
+import axios from 'axios'; 
 
 function GalleryUser() {
 	const [selectedCategory, setSelectedCategory] = useState('');
 	const [popUpOpen, setPopUpOpen] = useState(false);
 	const [searchTerm, setSearchTerm] = useState('');
 
-	const [galleryItem, setGalleryItems] = useState([]);
-	// Función para filtrar los elementos de la galería según la categoría seleccionada
-	 
-	 useEffect(() => {
-		// Realiza una solicitud a la API para obtener los makeups
-		Axios.get('http://localhost:3500/gallery/getAllImages')
-		  .then((response) => {
-			setGalleryItems(response.data);
-		  })
-		  .catch((error) => {
-			console.error('Error al obtener makeups:', error);
-		  });
+	//backend
+	const [selectedGalleryItem, setGalleryItem] = useState('');
+	const [gallery, setGallery] = useState([]);
+
+	const fetchProducts = useCallback(async () => {
+		try {
+		  const response = await axios.get('http://localhost:3500/gallery/getAllImages');
+		  setGallery(response.data);
+		} catch (error) {
+		  console.error('Error fetching products:', error);
+		}
+	  }, []);
+	  
+	  useEffect(() => {
+		console.log('useEffect');
+		fetchProducts();
 	  }, []);
 
-
 	const uniqueCategories = [
-		...new Set(galleryItem.map(makeup => makeup.categoria)),
+		...new Set(gallery.map(makeup => makeup.category)),
 	];
 
 	const filteredItems = selectedCategory
 		
-		? galleryItem.filter(
+		? gallery.filter(
 				makeup =>
-					makeup.categoria === selectedCategory &&
-					makeup.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
+					makeup.category === selectedCategory &&
+					makeup.name.toLowerCase().includes(searchTerm.toLowerCase()),
 		  )
-		: galleryItem.filter(makeup =>
-				makeup.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
+		: gallery.filter(makeup =>
+				makeup.name.toLowerCase().includes(searchTerm.toLowerCase()),
 		  );
 
 		  
@@ -82,18 +86,19 @@ function GalleryUser() {
 					{filteredItems.map((makeup, index) => (
 						<PreviewGallery
 							key={index}
-							imagen={Maquillaje} // {makeup.imagen}
-							titulo={makeup.titulo}
+							imagen={makeup.mainImage} // {makeup.imagen}
+							titulo={makeup.name}
 							onClick={() => {
-								setGalleryItems(makeup); // Establecer el makeup seleccionado
-								setPopUpOpen(true); // Abrir el pop-up al hacer clic
+								setGalleryItem(makeup);
+								setPopUpOpen(true);
+								console.log('popUpOpen:', popUpOpen);  // Add this line
 							}}
 						/>
 					))}
 				</div>
 				{popUpOpen && (
 					<PopUpUser
-						makeup={galleryItem} // Pasa el makeup seleccionado al pop-up
+						producto={selectedGalleryItem} // Pass the selected makeup to the pop-up
 						onClose={() => setPopUpOpen(false)}
 					/>
 				)}

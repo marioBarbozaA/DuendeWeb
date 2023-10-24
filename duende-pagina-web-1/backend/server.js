@@ -3,6 +3,7 @@ const PORT = process.env.PORT || 3500;
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const express = require('express');
+const path = require('path');
 
 //Singleton Instance
 const { getInstance: getSingleton } = require('./controllers/Singleton.js');
@@ -10,8 +11,12 @@ const { getInstance: getSingleton } = require('./controllers/Singleton.js');
 // Express app
 const app = express();
 
+// Serve static files from the "uploads" directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Middleware for parsing JSON request bodies
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Use CORS middleware with the defined options
 app.use(cors(corsOptions));

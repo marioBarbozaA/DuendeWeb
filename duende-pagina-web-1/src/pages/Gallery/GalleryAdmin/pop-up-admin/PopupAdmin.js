@@ -6,11 +6,13 @@ import trash from '../../../../Imagenes/trash.png';
 import Confirmacion from '../../../../Components/Confirmacion/Confirmacion';
 
 function EditGalleryItem({ producto, onClose, onEdit }) {
+
 	const [editingProducto, setEditingProducto] = useState(producto);
 	const [confirmacionVisible, setConfirmacionVisible] = useState(false);
 	const [confirmacionEliminarVisible, setConfirmacionEliminarVisible] =
 		useState(false);
 	const mostrarConfirmacion = () => {
+		console.log(editingProducto.mainImage);
 		setConfirmacionVisible(true);
 	};
 	const mostrarConfirmacionEliminar = () => {
@@ -57,15 +59,15 @@ function EditGalleryItem({ producto, onClose, onEdit }) {
 
 	const validarCampos = () => {
 		return (
-			editingProducto.titulo.trim() !== '' &&
-			editingProducto.descripcion.trim() !== '' &&
-			editingProducto.categoria.trim() !== '' &&
-			editingProducto.subcategoria.trim() !== '' &&
-			editingProducto.imagen !== null
+			editingProducto.name.trim() !== '' &&
+			editingProducto.description.trim() !== '' &&
+			editingProducto.category.trim() !== '' &&
+			editingProducto.subCategory.trim() !== '' &&
+			editingProducto.mainImage !== null
 		);
 	};
 	const handleGuardarCambios = () => {
-		if (validarCampos() && validarEtiquetas(editingProducto.etiquetas)) {
+		if (validarCampos() && validarEtiquetas(editingProducto.tags)) {
 			mostrarConfirmacion();
 		} else {
 			alert(
@@ -96,18 +98,10 @@ function EditGalleryItem({ producto, onClose, onEdit }) {
 		<div className='popup-container-gallery'>
 			<div className='popup-content-gallery'>
 				<div className='left-side-popup-gallery'>
-					{editingProducto.imagen ? (
-						<img src={editingProducto.imagen} alt={editingProducto.titulo} />
-					) : (
-						<label className='image-input-label'>
-							<input
-								type='file'
-								accept='image/*'
-								onChange={handleImageChange}
-							/>
-							<span className='input-icon'>+</span>
-						</label>
-					)}
+				<img
+						src={producto.mainImage ? `http://localhost:3500${producto.mainImage.url}` : ''}
+						alt={producto.mainImage ? producto.mainImage.altText || producto.name : producto.name}
+					/>
 					<div className='image-control'>
 						{/*<IconButton
 								buttonText='+'
@@ -131,13 +125,10 @@ function EditGalleryItem({ producto, onClose, onEdit }) {
 						<h2 className='titulo-maquillaje-editar'>
 							<input
 								type='text'
-								value={editingProducto.titulo}
-								onChange={e => handleFieldChange('titulo', e.target.value)}
+								value={editingProducto.name}
+								onChange={e => handleFieldChange('name', e.target.value)}
 							/>
 						</h2>
-						<div className='editar-lapiz'>
-							<img src={pen} alt={'editar-lapiz'}></img>
-						</div>
 					</div>
 				</div>
 
@@ -153,25 +144,25 @@ function EditGalleryItem({ producto, onClose, onEdit }) {
 						<div className='Descripcion-editar'>
 							<p className='Titulos-edit'>Descripción</p>
 							<textarea
-								value={editingProducto.descripcion}
-								onChange={e => handleFieldChange('descripcion', e.target.value)}
+								value={editingProducto.description}
+								onChange={e => handleFieldChange('description', e.target.value)}
 							/>
 						</div>
 						<div className='texto-categoria-editar'>
 							<p className='Titulos-edit'>Categoría</p>
 							<input
 								type='text'
-								value={editingProducto.categoria}
-								onChange={e => handleFieldChange('categoria', e.target.value)}
+								value={editingProducto.category}
+								onChange={e => handleFieldChange('category', e.target.value)}
 							/>
 						</div>
 						<div className='texto-categoria-editar'>
 							<p className='Titulos-edit'>Subcategoría</p>
 							<input
 								type='text'
-								value={editingProducto.subcategoria}
+								value={editingProducto.subCategory}
 								onChange={e =>
-									handleFieldChange('subcategoria', e.target.value)
+									handleFieldChange('subCategory', e.target.value)
 								}
 							></input>
 						</div>
@@ -181,11 +172,11 @@ function EditGalleryItem({ producto, onClose, onEdit }) {
 								placeholder='Formato: #tag1, #tag2, #tag3'
 								type='text'
 								value={
-									Array.isArray(editingProducto.etiquetas)
-										? etiquetasAString(editingProducto.etiquetas)
-										: editingProducto.etiquetas
+									Array.isArray(editingProducto.tags)
+										? etiquetasAString(editingProducto.tags)
+										: editingProducto.tags
 								}
-								onChange={e => handleFieldChange('etiquetas', e.target.value)}
+								onChange={e => handleFieldChange('tags', e.target.value)}
 							></textarea>
 						</div>
 						<div className='pop-fecha'>{editingProducto.fecha}</div>

@@ -33,20 +33,9 @@ class Singleton {
     //                               GalleryImage Functions
     //-------------------------------------------------------------------------------------
     async addGalleryImage(req, res, next) {
+        console.log('addGalleryImage singleton:',req.body);
         try {
-            const jsonImage = req.body;
-            await Gallery.create({
-                "name": jsonImage.name,
-                "category": jsonImage.category,
-                "subCategory": jsonImage.subCategory,
-                "description": jsonImage.description,
-                "date": jsonImage.date,
-                "tags": jsonImage.tags,
-                "mainImage": jsonImage.mainImage,
-                "images": jsonImage.images,
-                "status": jsonImage.status
-            });
-    
+            const result = await Gallery.create(req.body);
             res.status(201).json({ state: true, message: 'Se ha agregado la imagen exitosamente' });
         } catch (error) {
             res.status(500).json({ message: `Error del servidor: ${error}` });
@@ -129,8 +118,22 @@ class Singleton {
 
     async getAllImages(req, res, next) {
         try {
-            const images = await Gallery.find({});
+            const images = await Gallery.find({status: true});
     
+            if (images.length === 0) {
+                return res.status(404).json({ message: 'No se encontraron imágenes en la galería' });
+            }
+    
+            res.status(200).json(images);
+        } catch (error) {
+            res.status(500).json({ message: `Error del servidor: ${error}` });
+        }
+        next();
+    }
+
+    async getImagesAdmin(req, res, next) {
+        try {
+            const images = await Gallery.find({});
             if (images.length === 0) {
                 return res.status(404).json({ message: 'No se encontraron imágenes en la galería' });
             }

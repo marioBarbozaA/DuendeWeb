@@ -11,13 +11,15 @@ function AgregarProducto({ onClose, onAgregar }) {
 		categoria: '',
 		subcategoria: '',
 		etiquetas: '',
-		imagen: null,
-		fecha: new Date().toDateString(), // Establece la fecha actual o la deseada
+		mainImage: { url: '', altText: '' },
+		fecha: new Date().toDateString(),
+		secondaryImages: [] // array of objects { url: '', altText: '' }
 	});
 
 	const [confirmacionVisible, setConfirmacionVisible] = useState(false);
 
 	const mostrarConfirmacion = () => {
+		console.log('APUNTO DE INSERTAR:',nuevoProducto);
 		setConfirmacionVisible(true);
 	};
 
@@ -26,6 +28,8 @@ function AgregarProducto({ onClose, onAgregar }) {
 	};
 
 	const handleGuardarCambios = () => {
+		console.log('validar:',validarCampos());
+		console.log(validarEtiquetas(nuevoProducto.etiquetas));
 		if (validarCampos() && validarEtiquetas(nuevoProducto.etiquetas)) {
 			mostrarConfirmacion();
 		} else {
@@ -35,35 +39,60 @@ function AgregarProducto({ onClose, onAgregar }) {
 		}
 	};
 
-	const handleImageChange = e => {
+	const handleImageChange = (e) => {
 		const imageFile = e.target.files[0];
 		if (imageFile) {
-			const imageUrl = URL.createObjectURL(imageFile);
-			setNuevoProducto({ ...nuevoProducto, imagen: imageUrl });
+			setNuevoProducto({
+				...nuevoProducto,
+				mainImage: imageFile  // store the actual file object
+			});
 		}
 	};
+	
 
 	const ocultarConfirmacion = () => {
 		setConfirmacionVisible(false);
 	};
 
-	const agregarProducto = () => {
-		onAgregar(nuevoProducto);
-		onClose();
+	const handleAgregarImage = () => {
+		if (validarCampos()) {
+			// Split the tags string into an array of strings
+			const tagsArray = nuevoProducto.etiquetas.split(',').map(tag => tag.trim());
+			const formData = {
+				name: nuevoProducto.titulo,
+				category: nuevoProducto.categoria,
+				subCategory: nuevoProducto.subcategoria,
+				description: nuevoProducto.descripcion,
+				date: nuevoProducto.fecha,
+				tags: tagsArray,
+				mainImage: nuevoProducto.mainImage,
+				secondaryImages: nuevoProducto.secondaryImages
+			}
+			onAgregar(formData);
+			onClose();
+		} else {
+			alert('Por favor completa todos los campos antes de agregar el producto.');
+		}
 	};
+	
+	
 	const validarCampos = () => {
+		console.log('Validar campos:', nuevoProducto);
 		return (
 			nuevoProducto.titulo.trim() !== '' &&
 			nuevoProducto.descripcion.trim() !== '' &&
 			nuevoProducto.categoria.trim() !== '' &&
 			nuevoProducto.subcategoria.trim() !== '' &&
-			nuevoProducto.imagen !== null
+			nuevoProducto.mainImage !== ''
 		);
 	};
 	const validarEtiquetas = etiquetas => {
-		const etiquetasRegex = /^#([a-zA-Z0-9]+, #)*[a-zA-Z0-9]+$/;
+		console.log('Validar etiquetas:', etiquetas);
+		const etiquetasRegex = /^\s*(#\w+(\s*,\s*#\w+)*)?\s*$/;
 		return etiquetasRegex.test(etiquetas);
 	};
+	
+
 
 	return (
 		<div className='popup-container-gallery'>
@@ -150,7 +179,7 @@ function AgregarProducto({ onClose, onAgregar }) {
 			{confirmacionVisible && (
 				<Confirmacion
 					mensaje='¿Estás seguro de que deseas agregar el producto?'
-					onAceptar={agregarProducto}
+					onAceptar={handleAgregarImage}
 					onCancelar={ocultarConfirmacion}
 				/>
 			)}

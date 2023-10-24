@@ -1,7 +1,7 @@
 import NavBar from '../../../Components/NavBar/NavBar';
 import Logo from '../../../Imagenes/Logo-Duende.png';
 import Footer from '../../../Components/Footer/Footer';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import productosJSON from '../GalleryUser/Gallery.json';
 import PreviewGallery from '../../../Components/preview-gallery-admin/preview-gallery-admin.js';
 import Maquillaje from '../../../Imagenes/Acerca-de-nosotros.png';
@@ -9,36 +9,112 @@ import PopUpUser from './pop-up-admin/PopupAdmin.js';
 import IconButton from '../../../Components/Buttons/Button';
 import PopUpAnnadir from './pop-up-annadir-imagen/PopupAnnadir.js';
 import './GalleryAdmin.css';
+
+import axios from 'axios';
+
 function GalleryAdmin() {
-	//const [searchTerm, setSearchTerm] = useState('');
-	const [galleryItem, setGalleryItems] = useState(null);
+	const [galleryItem, setGalleryItem] = useState([]);
 	const [selectedCategory, setSelectedCategory] = useState('');
 	const [popUpOpen, setPopUpOpen] = useState(false);
 	const [popUpAgregarProductoOpen, setPopUpAgregarProductoOpen] =
 		useState(false); // Estado para el pop-up "Añadir Producto"
 	const [searchTerm, setSearchTerm] = useState('');
 
+	const [selectedGalleryItem, setGalleryItems] = useState(''); // Estado para el producto seleccionado
+
+	const fetchProducts = async () => {
+		try {
+			const response = await axios.get('http://localhost:3500/gallery/getImagesAdmin');
+			setGalleryItem(response.data);  // updated this line
+		} catch (error) {
+			console.error('Error fetching products:', error);
+		}
+	};
+	
+
+	useEffect(() => {
+		console.log('useEffect');
+		fetchProducts();
+	}, []);
+
 	const handleOpenAgregarProducto = () => {
 		setPopUpAgregarProductoOpen(true); // Abre el pop-up "Añadir Producto" al hacer clic
 	};
+
+	const handleEditGalleryItem = async editedGalleryItem => {
+		console.log('Editando el producto:', editedGalleryItem);
+		try{
+			// Send a PUT request to update the gallery item
+			const response = await axios.put(
+				'http://localhost:3500/gallery/update',  // Assuming your endpoint is similar
+				editedGalleryItem,  // The updated gallery item data
+				{
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				}
+			);
+			console.log(response);
+			fetchProducts();  // Fetch the updated list of gallery items
+		}catch(error){
+			console.error('Error editando el producto:', error);
+		}
+	};
 	const uniqueCategories = [
-		...new Set(productosJSON.map(producto => producto.categoria)),
+		...new Set(galleryItem.map(image => image.category)),
 	];
 	// Filtra los productos por categoría
 	const filteredProductos = selectedCategory
-		? productosJSON.filter(
-				producto =>
-					producto.categoria === selectedCategory &&
-					producto.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
+		? galleryItem.filter(
+				image =>
+				image.category === selectedCategory &&
+				image.name.toLowerCase().includes(searchTerm.toLowerCase()),
 		  )
-		: productosJSON.filter(producto =>
-				producto.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
+		: galleryItem.filter(image =>
+			image.name.toLowerCase().includes(searchTerm.toLowerCase()),
 		  );
 
-	const handleAgregarProducto = nuevoProducto => {
-		// Aquí debes implementar la lógica para agregar el nuevo producto a tus datos (por ejemplo, productosJSON)
-		// Luego, cierra el pop-up de "Añadir Producto"
+	const handleAgregarImage = async nuevoProducto => {
 		setPopUpAgregarProductoOpen(false);
+		console.log('Agregando el producto:', nuevoProducto);
+
+		// Create a FormData object
+		const formData = new FormData();
+
+		// Append the fields to the FormData object
+		for (const key in nuevoProducto) {
+			if (nuevoProducto[key] instanceof Array) {
+				// If the value is an array (e.g., secondaryImages), append each item individually
+				nuevoProducto[key].forEach(item => {
+					formData.append(key, item);
+				});
+			} else {
+				// Otherwise, just append the value as-is
+				formData.append(key, nuevoProducto[key]);
+			}
+		}
+		
+		try {
+			// Send a POST request to the server with the new gallery item data
+			const response = await axios.post(
+				'http://localhost:3500/gallery/create', // Assuming your endpoint is similar
+				nuevoProducto,
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				}
+			);
+			console.log('Gallery item created:', response.data);
+	
+			// Update the state to include the new gallery item
+			setGalleryItem(prevGalleryItem => [...prevGalleryItem, response.data]);
+			
+			// Optionally, re-fetch all gallery items from the server to ensure state is up-to-date
+			fetchProducts();
+		} catch (error) {
+			console.error('Error creating gallery item:', error);
+		}
 	};
 	const handleCloseAgregarProducto = () => {
 		setPopUpAgregarProductoOpen(false); // Cierra el pop-up "Añadir Producto"
@@ -84,13 +160,13 @@ function GalleryAdmin() {
 					onChange={e => setSearchTerm(e.target.value)}
 				/>
 				<div className='productos-container'>
-					{filteredProductos.map((producto, index) => (
+					{filteredProductos.map((image, index) => (
 						<PreviewGallery
 							key={index}
-							imagen={Maquillaje} // {producto.imagen}
-							titulo={producto.titulo}
+							imagen={image.mainImage} // {producto.imagen}
+							titulo={image.name}
 							onClick={() => {
-								setGalleryItems(producto); // Establecer el producto seleccionado
+								setGalleryItems(image); // Establecer el producto seleccionado
 								setPopUpOpen(true); // Abrir el pop-up al hacer clic en la imagen
 							}}
 						/>
@@ -100,13 +176,14 @@ function GalleryAdmin() {
 				{popUpAgregarProductoOpen && (
 					<PopUpAnnadir
 						onClose={handleCloseAgregarProducto}
-						onProductoCreate={handleAgregarProducto}
+						onAgregar={handleAgregarImage}
 					/>
 				)}
 				{popUpOpen && (
 					<PopUpUser
-						producto={galleryItem} // Pasa el producto seleccionado al pop-up
+						producto={selectedGalleryItem} // Pasa el producto seleccionado al pop-up
 						onClose={() => setPopUpOpen(false)}
+						onEdit={handleEditGalleryItem}
 					/>
 				)}
 				<Footer />

@@ -13,7 +13,7 @@ function PreviewProducto({
     const onAgregarCarrito = () => {
         // Logic to handle adding to cart
     };
-    
+
     console.log('mainImageUrl:', mainImageUrl);  // Log the mainImageUrl prop
     console.log('name:', name);  // Log the name prop
     console.log('price:', price);  // Log the price prop
@@ -21,7 +21,11 @@ function PreviewProducto({
     return (
         <div className='preview-producto' onClick={onClick}>
             <div className='imgProducto'>
-                <img src={mainImageUrl} alt='Producto' />  {/* updated from imagen */}
+                {mainImageUrl ? (
+                    <img src={`http://localhost:3500${mainImageUrl.url}`} alt='Producto' />
+                ) : (
+                    <div>No image available</div>
+                )}
             </div>
             <h3>{name}</h3>  {/* updated from subtitulo */}
             <div className='precio-boton'>
@@ -40,3 +44,4 @@ function PreviewProducto({
 }
 
 export default PreviewProducto;
+

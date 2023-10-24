@@ -15,15 +15,15 @@ function PopUpProducto({ producto, onClose }) {
 	const handleAgregarAlCarrito = () => {
 		// Lógica para agregar el producto al carrito con la cantidad seleccionada (cantidad)
 	};
-
+	console.log(producto);
 	return (
 		<div className='popup-container'>
 			<div className='popup-content'>
 				<div className='left-side-popup'>
-				<img
-					src={producto.mainImage.url}
-					alt={producto.mainImage.altText || producto.name}
-				/>
+					<img
+						src={producto.mainImage ? `${process.env.REACT_APP_BACKEND_URL}${producto.mainImage.url}` : ''}
+						alt={producto.mainImage ? producto.mainImage.altText || producto.name : producto.name}
+					/>
 					<div className='fotos-producto-pequennas'>
 						{/*<img
 							src={Producto}
@@ -49,7 +49,7 @@ function PopUpProducto({ producto, onClose }) {
 					</div>
 					<h2>{producto.name}</h2>
 					<p className='texto-pequenno-pop-up'>
-						Categoría: {producto.CantidadCounter}
+						Categoría: {producto.category}
 					</p>
 					<p className='Descripcion-pop-up'>{producto.description}</p>
 					<p className='texto-pequenno-pop-up'>

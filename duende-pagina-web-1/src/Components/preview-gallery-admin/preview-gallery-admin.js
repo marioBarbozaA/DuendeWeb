@@ -17,7 +17,10 @@ function PreviewGalleryAdmin({ imagen, titulo, onClick }) {
 				className={`imgProducto ${candadoCerrado ? 'red-blur' : ''}`}
 				onClick={onClick}
 			>
-				<img src={imagen} alt='Producto' />
+				<img
+                    src={imagen ? `http://localhost:3500${imagen.url}` : ''}  // Adjusted src
+                    alt={imagen ? imagen.altText || 'No image available' : 'No image available'}
+                />
 			</div>
 			<div className='candado-titulo-container'>
 				<h3>{titulo}</h3>

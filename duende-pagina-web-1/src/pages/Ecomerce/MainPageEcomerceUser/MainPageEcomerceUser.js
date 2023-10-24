@@ -94,8 +94,8 @@ function MainPageEcomerceUser() {
 				<div className='productos-container'>
 					{filteredProducts.map((product, index) => (
 						<PreviewProducto
-							key={index}
-							mainImageUrl={product.mainImage.url}
+							key={product._id || index}
+							mainImageUrl={product.mainImage}  
 							name={product.name}
 							price={product.price}
 							onClick={() => {
