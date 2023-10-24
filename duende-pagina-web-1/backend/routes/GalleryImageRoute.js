@@ -17,8 +17,8 @@ router.route('/create')
 router.route('/update')
     .put(Gallery.updateGalleryImage);
 
-router.route('/delete')
-    .post(Gallery.deleteGalleryImage);
+router.route('/delete/:id')
+    .put(Gallery.deleteGalleryImage);
 
 router.route('/getGalleryImageByID')
     .get(Gallery.getGalleryImageByID);

@@ -31,6 +31,7 @@ const addGalleryImage = async (req, res, next) => {
   };
   
   const deleteGalleryImage = async (req, res, next) => {
+    console.log('Received gallery item data (before):', req.params.id);
     await SingletonDAO.deleteGalleryImage(req, res, next);
   };
   

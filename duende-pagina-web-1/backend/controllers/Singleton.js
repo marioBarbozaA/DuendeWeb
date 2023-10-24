@@ -79,19 +79,12 @@ class Singleton {
     
 
     async deleteGalleryImage(req, res, next) {
+        console.log('deleteGalleryImage singleton:',req.params.id);
         try {
-            const jsonImage = req.body;
-            const imageId = jsonImage.imageId; 
-            
-            const imageFound = await Gallery.findOne({ _id: imageId });
-    
-            if (!imageFound) {
-                return res.status(404).json({ message: 'La imagen no se encuentra' });
+            const product = await Gallery.findByIdAndDelete(req.params.id);
+            if(!product){
+                return res.status(404).json({ msg: 'Product not found' });
             }
-    
-            // Eliminar la imagen de la base de datos
-            await Gallery.deleteOne({ _id: imageId });
-    
             res.status(200).json({ state: true, message: 'La imagen se ha eliminado exitosamente' });
         } catch (error) {
             res.status(500).json({ message: `Error del servidor: ${error}` });

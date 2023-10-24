@@ -119,6 +119,10 @@ function GalleryAdmin() {
 	const handleCloseAgregarProducto = () => {
 		setPopUpAgregarProductoOpen(false); // Cierra el pop-up "Añadir Producto"
 	};
+	const handleCloseCnfirm = () => {
+		setPopUpOpen(false);
+		fetchProducts();
+	};
 	return (
 		<>
 			<NavBar
@@ -182,7 +186,7 @@ function GalleryAdmin() {
 				{popUpOpen && (
 					<PopUpUser
 						producto={selectedGalleryItem} // Pasa el producto seleccionado al pop-up
-						onClose={() => setPopUpOpen(false)}
+						onClose={handleCloseCnfirm}
 						onEdit={handleEditGalleryItem}
 					/>
 				)}

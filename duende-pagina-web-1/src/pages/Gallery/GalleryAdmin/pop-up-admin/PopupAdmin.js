@@ -5,6 +5,8 @@ import pen from '../../../../Imagenes/pen.png';
 import trash from '../../../../Imagenes/trash.png';
 import Confirmacion from '../../../../Components/Confirmacion/Confirmacion';
 
+import axios from 'axios';
+
 function EditGalleryItem({ producto, onClose, onEdit }) {
 
 	const [editingProducto, setEditingProducto] = useState(producto);
@@ -49,8 +51,16 @@ function EditGalleryItem({ producto, onClose, onEdit }) {
 		return null; // No mostrar el pop-up si no hay producto seleccionado
 	}
 
-	const borrarProducto = () => {
-		console.log('Borrar Producto');
+	const borrarProducto = async () => {
+		console.log('Borrando el producto:', producto);
+		try {
+			const response = await axios.put(`http://localhost:3500/gallery/delete/${producto._id}`);
+			console.log('Product deleted:', response.data);
+			// Optionally, you can call onClose to close the popup after successful deletion
+			onClose();
+		} catch (error) {
+			console.error('Error deleting product:', error);
+		}
 	};
 
 	const ocultarConfirmacion = () => {
