@@ -9,6 +9,8 @@ const Message = require("../models/Message.js");
 const ShoppingCart = require("../models/ShoppingCart.js");
 const Gallery = require("../models/GalleryImage.js");
 const { createAccessToken } = require("../libs/jwt.js");
+const { TOKEN_SECRET } = require("../config/config.js");
+const jwt = require("jsonwebtoken");
 
 class Singleton {
   static instance;
@@ -356,7 +358,7 @@ class Singleton {
   // Gestion Usuarios
   //-------------------------------------------------------------------------------------
   async registerUser(req, res, next) {
-    const { email, password } = req.body;
+    const { email, password, name, phone } = req.body;
     if (!email || !password) {
       return res.status(400).json({ msg: "Please enter all fields" });
     }
@@ -370,18 +372,21 @@ class Singleton {
     try {
       //encrypt password
       const hashedPassword = await bcrypt.hash(password, 10);
-
-      //create and store the new user
-      const newUserResult = new User({
-        email: email,
+      // creating the user
+      const newUser = new User({
+        email,
         password: hashedPassword,
-        name: "name",
-        phone: "phone",
+        name,
+        phone,
       });
-      const userSaved = await newUserResult.save();
+      // saving the user in the database
+      const userSaved = await newUser.save();
 
-      const token = createAccessToken({ id: userSaved._id });
+      const token = await createAccessToken({ id: userSaved._id });
+
+      console.log("Token generado:", token);
       res.cookie("token", token);
+
       res.status(200).json({ userSaved, msg: "User created" });
     } catch (error) {
       res.status(500).json({ msg: "Server error" });
@@ -404,7 +409,8 @@ class Singleton {
         const match = await bcrypt.compare(password, userFound.password);
 
         if (match) {
-          const token = createAccessToken({ id: userFound._id });
+          const token = await createAccessToken({ id: userFound._id });
+          console.log("Token generado:", token);
           res.cookie("token", token);
 
           res.status(200).json({
@@ -459,6 +465,17 @@ class Singleton {
     return res.sendStatus(200);
   }
 
+  // create VerifyToken
+  async verifyToken(req, res, next) {
+    const userFound = await User.findById(req.user.id);
+    if (!userFound) return res.status(400).json({ msg: "User not found" });
+    return res.json({
+      id: userFound._id,
+      email: userFound.email,
+      name: userFound.name,
+      phone: userFound.phone,
+    });
+  }
   /////////////////////////////////////
   ////////////  PRODUCT  //////////////
   /////////////////////////////////////

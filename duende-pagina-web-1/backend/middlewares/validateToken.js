@@ -10,8 +10,8 @@ const authRequire = (req, res, next) => {
     if (err) {
       return res.status(401).json({ msg: "Token is not valid" });
     }
-    //req.user = decoded;
     console.log(decoded);
+    req.user = decoded;
   });
   next();
 };
