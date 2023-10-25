@@ -4,7 +4,7 @@ import IconButton from '../../../Components/Buttons/Button.js'; // Asegúrate de
 import InputText from '../../../Components/Inputs/InputText.js';
 import Fondo from '../../../Imagenes/Fondo-Login.png';
 import instagram from '../../../Imagenes/instagram.png';
-import { useAuth } from '../../../Context/AuthContext.js';
+import { useAuth } from '../../../Context/Authcontext.js';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../../axios.js';
 

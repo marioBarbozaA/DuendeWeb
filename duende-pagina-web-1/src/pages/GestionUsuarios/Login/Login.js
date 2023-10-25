@@ -3,7 +3,7 @@ import Fondo from '../../../Imagenes/Fondo-Login.png';
 import instagram from '../../../Imagenes/instagram.png';
 import './Login.css';
 import { useState, useEffect } from 'react';
-import { useAuth } from '../../../Context/AuthContext.js';
+import { useAuth } from '../../../Context/Authcontext.js';
 import { useNavigate } from 'react-router-dom';
 
 import axios from '../../../axios.js';

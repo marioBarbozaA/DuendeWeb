@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
-import { useAuth } from '../../Context/AuthContext.js';
+import { useAuth } from '../../Context/Authcontext.js';
 
 function NavBar(props) {
 	const pathTienda = props.pathTienda;

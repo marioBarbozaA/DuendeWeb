@@ -23,9 +23,9 @@ import MainPageAdmin from './pages/MainPage/MainPageAdmin/MainPageAdmin.js';
 import MainPageEcomerceAdmin from './pages/Ecomerce/MainPageEcomerceAdmin/MainPageEcomerceAdmin.js';
 import GalleryAdmin from './pages/Gallery/GalleryAdmin/GalleryAdmin.js';
 import CuentaAdmin from './pages/GestionUsuarios/CuentaAdmin/Cuenta.js';
-import { AuthProvider } from './Context/AuthContext.js';
-
+import { AuthProvider } from './Context/Authcontext.js';
 import ProtectedRoute from './ProtectedRoute.js';
+
 function App() {
 	return (
 		<>
