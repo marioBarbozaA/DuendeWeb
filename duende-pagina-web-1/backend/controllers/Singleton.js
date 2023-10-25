@@ -466,7 +466,7 @@ class Singleton {
   }
 
   // create VerifyToken
-  async verifyToken(req, res, next) {
+  async profile(req, res, next) {
     const userFound = await User.findById(req.user.id);
     if (!userFound) return res.status(400).json({ msg: "User not found" });
     return res.json({
@@ -476,6 +476,28 @@ class Singleton {
       phone: userFound.phone,
     });
   }
+
+  // create VerifyToken
+
+  async verifyToken(req, res, next) {
+    const { token } = req.cookies;
+    if (!token) return res.status(401).json({ msg: "Unauthorized1" });
+
+    jwt.verify(token, TOKEN_SECRET, async (err, user) => {
+      if (err) return res.status(401).json({ msg: "Unauthorized2" });
+
+      const userFound = await User.findById(user.id);
+      if (!userFound) return res.status(401).json({ msg: "Unauthorized3" });
+
+      return res.json({
+        id: userFound._id,
+        email: userFound.email,
+        name: userFound.name,
+        phone: userFound.phone,
+      });
+    });
+  }
+
   /////////////////////////////////////
   ////////////  PRODUCT  //////////////
   /////////////////////////////////////

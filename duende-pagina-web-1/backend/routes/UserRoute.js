@@ -7,5 +7,6 @@ router.route("/auth").post(adminUserControllers.loginUser);
 router.route("/register").post(adminUserControllers.registerUser);
 router.route("/updatePassword").put(adminUserControllers.updatePassword);
 router.route("/logout").put(adminUserControllers.logout);
-router.route("/profile").get(authRequire, adminUserControllers.verifyToken);
+router.route("/verifyToken").get(adminUserControllers.verifyToken);
+router.route("/profile").get(authRequire, adminUserControllers.profile);
 module.exports = router;

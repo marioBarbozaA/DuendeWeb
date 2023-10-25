@@ -57,14 +57,17 @@ const logout = async (req, res, next) => {
   await SingletonDAO.logout(req, res, next);
 };
 
+const profile = async (req, res, next) => {
+  await SingletonDAO.profile(req, res, next);
+};
 const verifyToken = async (req, res, next) => {
   await SingletonDAO.verifyToken(req, res, next);
 };
-
 module.exports = {
   loginUser,
   registerUser,
   updatePassword,
   logout,
+  profile,
   verifyToken,
 };

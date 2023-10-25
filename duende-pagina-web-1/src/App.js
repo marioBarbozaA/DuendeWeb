@@ -24,6 +24,8 @@ import MainPageEcomerceAdmin from './pages/Ecomerce/MainPageEcomerceAdmin/MainPa
 import GalleryAdmin from './pages/Gallery/GalleryAdmin/GalleryAdmin.js';
 import CuentaAdmin from './pages/GestionUsuarios/CuentaAdmin/Cuenta.js';
 import { AuthProvider } from './Context/AuthContext.js';
+
+import ProtectedRoute from './ProtectedRoute.js';
 function App() {
 	return (
 		<>
@@ -35,30 +37,36 @@ function App() {
 							<Route path='/Recovery' element={<Recuperacion />} />
 							<Route path='/Login' element={<Login />} />
 							<Route path='/Register' element={<Register />} />
-							<Route path='/MainPageUser' element={<MainPageUser />} />
-							<Route
-								path='/MainPageEcomerceUser'
-								element={<MainPageEcomerceUser />}
-							/>
-							<Route path='/CarritoDeCompras' element={<CarritoDeCompras />} />
-							<Route
-								path='/FinalizaCompraUser'
-								element={<FinalizaCompraUser />}
-							/>
-							<Route
-								path='/HistorialComprasUser'
-								element={<HistorialComprasUser />}
-							/>
-							<Route path='/Cuenta' element={<Cuenta />} />
-							<Route path='/GalleryUser' element={<GalleryUser />} />
-							<Route path='/MainPageAdmin' element={<MainPageAdmin />} />
-							<Route
-								path='/MainPageEcomerceAdmin'
-								element={<MainPageEcomerceAdmin />}
-							/>
-							<Route path='/HistorialVentas' element={<HistorialVentas />} />
-							<Route path='/GalleryAdmin' element={<GalleryAdmin />} />
-							<Route path='/CuentaAdmin' element={<CuentaAdmin />} />
+
+							<Route element={<ProtectedRoute />}>
+								<Route path='/MainPageUser' element={<MainPageUser />} />
+								<Route
+									path='/MainPageEcomerceUser'
+									element={<MainPageEcomerceUser />}
+								/>
+								<Route
+									path='/CarritoDeCompras'
+									element={<CarritoDeCompras />}
+								/>
+								<Route
+									path='/FinalizaCompraUser'
+									element={<FinalizaCompraUser />}
+								/>
+								<Route
+									path='/HistorialComprasUser'
+									element={<HistorialComprasUser />}
+								/>
+								<Route path='/Cuenta' element={<Cuenta />} />
+								<Route path='/GalleryUser' element={<GalleryUser />} />
+								<Route path='/MainPageAdmin' element={<MainPageAdmin />} />
+								<Route
+									path='/MainPageEcomerceAdmin'
+									element={<MainPageEcomerceAdmin />}
+								/>
+								<Route path='/HistorialVentas' element={<HistorialVentas />} />
+								<Route path='/GalleryAdmin' element={<GalleryAdmin />} />
+								<Route path='/CuentaAdmin' element={<CuentaAdmin />} />
+							</Route>
 						</Routes>
 					</Router>
 					{/*BrowserRouter*/}

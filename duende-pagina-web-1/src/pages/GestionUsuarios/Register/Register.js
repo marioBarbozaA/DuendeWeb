@@ -4,9 +4,9 @@ import IconButton from '../../../Components/Buttons/Button.js'; // Asegúrate de
 import InputText from '../../../Components/Inputs/InputText.js';
 import Fondo from '../../../Imagenes/Fondo-Login.png';
 import instagram from '../../../Imagenes/instagram.png';
-import axios from 'axios';
 import { useAuth } from '../../../Context/AuthContext.js';
 import { useNavigate } from 'react-router-dom';
+import axios from '../../../axios.js';
 
 export const handleRegister = async formData => {
 	event.preventDefault();
@@ -24,10 +24,7 @@ export const handleRegister = async formData => {
 	};
 
 	try {
-		const response = await axios.post(
-			'http://localhost:3500/login/register',
-			registerData,
-		);
+		const response = await axios.post('/login/register', registerData);
 		console.log(response.data); // Log the response from the server
 		alert('User registered successfully');
 		return response;
