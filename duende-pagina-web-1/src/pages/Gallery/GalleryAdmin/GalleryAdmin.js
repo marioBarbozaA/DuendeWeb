@@ -169,6 +169,8 @@ function GalleryAdmin() {
 							key={index}
 							imagen={image.mainImage} // {producto.imagen}
 							titulo={image.name}
+							id={image._id}
+							status={image.status}
 							onClick={() => {
 								setGalleryItems(image); // Establecer el producto seleccionado
 								setPopUpOpen(true); // Abrir el pop-up al hacer clic en la imagen

@@ -49,6 +49,11 @@ const addGalleryImage = async (req, res, next) => {
   const getImagesAdmin = async (req, res, next) => {
     await SingletonDAO.getImagesAdmin(req, res, next);
   }
+
+  const changeStatus = async (req, res, next) => {
+    console.log('CONTROLLER CHANGE:', req.params.id);
+    await SingletonDAO.changeStatus(req, res, next);
+  }
   
   module.exports = {
     addGalleryImage,
@@ -58,5 +63,6 @@ const addGalleryImage = async (req, res, next) => {
     getGalleryImagesByCategory,
     getAllImages,
     getImagesAdmin,
+    changeStatus,
   };
   

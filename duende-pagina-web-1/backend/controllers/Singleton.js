@@ -111,7 +111,7 @@ class Singleton {
 
     async getAllImages(req, res, next) {
         try {
-            const images = await Gallery.find({status: true});
+            const images = await Gallery.find({status: false});
     
             if (images.length === 0) {
                 return res.status(404).json({ message: 'No se encontraron imágenes en la galería' });
@@ -138,6 +138,29 @@ class Singleton {
         next();
     }
 
+    async changeStatus(req, res, next) {
+        console.log('changeStatus singleton:',req.params.id);
+        try {
+            const imageId = req.params.id; 
+            const image = await Gallery.findOne({ _id: imageId });
+            console.log('changeStatus singleton:',image);
+            if (!image) {
+                return res.status(404).json({ message: 'La imagen no se encuentra' });
+            }
+    
+            const updateFields = {
+                "status": !image.status
+            };
+    
+            // Actualizar la imagen en la base de datos
+            await Gallery.updateOne({ _id: req.params.id }, { $set: updateFields });
+    
+            res.status(200).json({ state: true, message: 'La imagen se ha modificado exitosamente' });
+        } catch (error) {
+            res.status(500).json({ message: `Error del servidor: ${error}` });
+        }
+        next();
+    }
 
     //-------------------------------------------------------------------------------------
     //                                 Message Functions
@@ -422,16 +445,14 @@ class Singleton {
         next();
     }
 
-    async createProduct(req, res, next) {
-        const productData = req.body;
-        console.log(productData);
+    async createProduct(productData) {
         try {
             const product = await Product.create(productData);
-            return res.status(201).json(product);
+            return { data: productData, result: product };  // Return the product instead of sending a response
         } catch (error) {
-            return res.status(500).json({ msg: 'Server error' + error });
+            console.error(error);
+            throw new Error('Server error' + error);  // Throw an error to be caught by the calling function
         }
-        next();
     }
 
     async updateProduct(req, res, next) {

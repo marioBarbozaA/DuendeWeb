@@ -86,7 +86,7 @@ const handleAgregarProducto = async nuevoProducto => {
         console.log('Product created:', response.data);
 
         // Update the state to include the new product
-        setProducts(prevProducts => [...prevProducts, response.data]);
+        setProducts(prevProducts => [...prevProducts, response.data.data]);
         
         // Optionally, re-fetch all products from the server to ensure state is up-to-date
         fetchProducts();

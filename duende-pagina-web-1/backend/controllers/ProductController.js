@@ -31,16 +31,17 @@ const createProduct = async (req, res, next) => {
       stock: req.body.stock,
       mainImage: req.files.mainImage ? { url: `/uploads/${req.files.mainImage[0].filename}`, altText: 'Main Image Alt Text' } : null,
       secondaryImages: req.files.secondaryImages ? req.files.secondaryImages.map(file => ({ url: `/uploads/${file.filename}`, altText: 'Secondary Image Alt Text' })) : [],
+      status: true,
   };
 
   console.log('Received product data (before):', productData);
-
+  req.body = productData;
   try {
-      const product = await SingletonDAO.createProduct(productData,res);
-      res.status(201).json(product);
+      const product = await SingletonDAO.createProduct(productData);  // Call your Singleton method
+      res.status(201).json(product);  // Send the response here
   } catch (error) {
       console.error(error);
-      res.status(500).json({ msg: 'Server error' + error });
+      res.status(500).json({ msg: 'Server error' + error });  // Handle any errors here
   }
 };
 

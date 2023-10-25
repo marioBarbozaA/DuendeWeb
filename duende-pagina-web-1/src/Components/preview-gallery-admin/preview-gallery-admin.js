@@ -3,12 +3,21 @@ import '../preview-producto/preview-producto.css';
 import CandadoAbierto from '../../Imagenes/CandadoAbierto.png';
 import CandadoCerrado from '../../Imagenes/CandadoCerrado.png';
 
-function PreviewGalleryAdmin({ imagen, titulo, onClick }) {
-	const [candadoCerrado, setCandadoCerrado] = useState(false);
+import axios from 'axios';
 
-	const toggleCandado = () => {
+function PreviewGalleryAdmin({ imagen, titulo, id, status,onClick }) {
+	const [candadoCerrado, setCandadoCerrado] = useState(status);
+
+	const toggleCandado = async () => {
 		setCandadoCerrado(!candadoCerrado);
 		//funcion cambiar estado imagen
+		console.log('CONTROLLER CHANGE:', id);
+		try{
+			const response = await axios.put(`http://localhost:3500/gallery/changeStatus/${id}`);
+			console.log(response);
+		}catch(error){
+			console.error('Error editando el producto:', error);
+		}
 	};
 
 	return (

@@ -32,4 +32,7 @@ router.route('/getAllImages')
 router.route('/getImagesAdmin')
     .get(Gallery.getImagesAdmin);
 
+router.route('/changeStatus/:id')
+    .put(Gallery.changeStatus);
+
 module.exports = router;
