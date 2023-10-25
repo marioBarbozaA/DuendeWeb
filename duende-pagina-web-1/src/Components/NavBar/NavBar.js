@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
+import { useAuth } from '../../Context/AuthContext.js';
 
 function NavBar(props) {
 	const pathTienda = props.pathTienda;
@@ -8,6 +9,7 @@ function NavBar(props) {
 	const pathMain = props.pathMain;
 	const pathCuenta = props.pathCuenta;
 	const pathCarrito = props.pathCarrito;
+	const { isAuthenticated, logout } = useAuth();
 	return (
 		<nav
 			className='navbar navbar-expand-lg navbar-dark p-3'
@@ -36,7 +38,13 @@ function NavBar(props) {
 				<div className='collapse navbar-collapse' id='navbarNav'>
 					<ul className='navbar-nav ms-auto'>
 						<li className='nav-item active'>
-							<Link to='/Login' className='nav-link'>
+							<Link
+								to='/Login'
+								onClick={() => {
+									logout();
+								}}
+								className='nav-link'
+							>
 								Log out
 							</Link>
 						</li>
