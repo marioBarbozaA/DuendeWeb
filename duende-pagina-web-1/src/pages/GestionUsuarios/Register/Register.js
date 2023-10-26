@@ -1,64 +1,93 @@
-import React,{useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Login/Login.css'; // Asegúrate de tener un archivo CSS para estilizar este componente
 import IconButton from '../../../Components/Buttons/Button.js'; // Asegúrate de proporcionar la ruta correcta al archivo de tu componente IconButton
 import InputText from '../../../Components/Inputs/InputText.js';
 import Fondo from '../../../Imagenes/Fondo-Login.png';
 import instagram from '../../../Imagenes/instagram.png';
-import axios from 'axios';
+import { useAuth } from '../../../Context/Authcontext.js';
+import { useNavigate } from 'react-router-dom';
+import axios from '../../../axios.js';
 
+export const handleRegister = async formData => {
+	event.preventDefault();
+	console.log(formData);
+	if (formData.password !== formData.confirmPassword) {
+		alert('Passwords do not match');
+		return;
+	}
+
+	const registerData = {
+		email: formData.email,
+		password: formData.password,
+		name: formData.nombre,
+		phone: formData.telefono,
+	};
+
+	try {
+		const response = await axios.post('/login/register', registerData);
+		console.log(response.data); // Log the response from the server
+		alert('User registered successfully');
+		return response;
+	} catch (error) {
+		console.error(error);
+		if (error.response) {
+			// The request was made and the server responded with a status code
+			// that falls out of the range of 2xx
+			console.error(error.response.data);
+			alert(`Error: ${error.response.data.msg}`);
+		} else if (error.request) {
+			// The request was made but no response was received
+			console.error(error.request);
+			alert('Network error, please try again later.');
+		} else {
+			// Something happened in setting up the request that triggered an Error
+			alert('Error: ', error.message);
+		}
+	}
+};
 function Registro() {
+	const { signup, isAuthenticated } = useAuth();
+	const navigate = useNavigate();
+	useEffect(() => {
+		if (isAuthenticated) {
+			navigate('/MainPageUser');
+		}
+	}, [isAuthenticated]);
 
+	//OnSubmit
+	const onSubmit = async event => {
+		event.preventDefault();
+
+		if (formData.password !== formData.confirmPassword) {
+			alert('Passwords do not match');
+			return;
+		}
+
+		// Call the signup function from AuthContext
+		const user = {
+			nombre: formData.nombre,
+			email: formData.email,
+			telefono: formData.telefono,
+			password: formData.password,
+			confirmPassword: formData.confirmPassword,
+		};
+
+		await signup(user);
+	};
 	const [formData, setFormData] = useState({
 		nombre: '',
 		email: '',
 		telefono: '',
 		password: '',
-		confirmPassword: ''
+		confirmPassword: '',
 	});
 
-	const handleInputChange = (event) => {
+	const handleInputChange = event => {
 		const { name, value } = event.target;
 		setFormData({
 			...formData,
-			[name]: value
+			[name]: value,
 		});
-	};
-
-	const handleRegister = async () => {
-		event.preventDefault();
-		console.log(formData);
-		if (formData.password !== formData.confirmPassword) {
-			alert('Passwords do not match');
-			return;
-		}
-		
-		const registerData = {
-			email: formData.email,
-			password: formData.password,
-			name: formData.nombre,
-			phone: formData.telefono
-		};
-
-		try {
-			const response = await axios.post('http://localhost:3500/login/register', registerData);
-			console.log(response.data);  // Log the response from the server
-			alert('User registered successfully');
-		} catch (error) {
-			console.error(error);
-			if (error.response) {
-				// The request was made and the server responded with a status code
-				// that falls out of the range of 2xx
-				console.error(error.response.data);
-				alert(`Error: ${error.response.data.msg}`);
-			} else if (error.request) {
-				// The request was made but no response was received
-				console.error(error.request);
-				alert('Network error, please try again later.');
-			} else {
-				// Something happened in setting up the request that triggered an Error
-				alert('Error: ', error.message);
-			}
-		}
 	};
 
 	return (
@@ -120,18 +149,17 @@ function Registro() {
 								labelText='Confirmar contraseña'
 								inputClassname='form-login'
 								typeInput='password'
-								idInput='confirmPassword'  
-								inputName='confirmPassword'  
-								value={formData.confirmPassword}  
-								onChange={handleInputChange} 
+								idInput='confirmPassword'
+								inputName='confirmPassword'
+								value={formData.confirmPassword}
+								onChange={handleInputChange}
 							/>
 						</div>
 
 						<IconButton
 							buttonText='Registrar'
 							buttonClassname='login-button'
-							handleOnClick={handleRegister}
-							// Agrega el ícono deseado aquí
+							handleOnClick={onSubmit}
 						/>
 					</form>
 				</div>

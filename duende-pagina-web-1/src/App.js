@@ -23,44 +23,54 @@ import MainPageAdmin from './pages/MainPage/MainPageAdmin/MainPageAdmin.js';
 import MainPageEcomerceAdmin from './pages/Ecomerce/MainPageEcomerceAdmin/MainPageEcomerceAdmin.js';
 import GalleryAdmin from './pages/Gallery/GalleryAdmin/GalleryAdmin.js';
 import CuentaAdmin from './pages/GestionUsuarios/CuentaAdmin/Cuenta.js';
-
-
+import { AuthProvider } from './Context/Authcontext.js';
+import ProtectedRoute from './ProtectedRoute.js';
 
 function App() {
 	return (
 		<>
 			<div className='App'>
-				<Router>
-					<Routes>
-						<Route path='/Recovery' element={<Recuperacion />} />
-						<Route path='/Login' element={<Login />} />
-						<Route path='/Register' element={<Register />} />
-						<Route path='/MainPageUser' element={<MainPageUser />} />
-						<Route
-							path='/MainPageEcomerceUser'
-							element={<MainPageEcomerceUser />}
-						/>
-						<Route path='/CarritoDeCompras' element={<CarritoDeCompras />} />
-						<Route
-							path='/FinalizaCompraUser'
-							element={<FinalizaCompraUser />}
-						/>
-						<Route
-							path='/HistorialComprasUser'
-							element={<HistorialComprasUser />}
-						/>
-						<Route path='/Cuenta' element={<Cuenta />} />
-						<Route path='/GalleryUser' element={<GalleryUser />} />
-						<Route path='/MainPageAdmin' element={<MainPageAdmin />} />
-						<Route
-							path='/MainPageEcomerceAdmin'
-							element={<MainPageEcomerceAdmin />}
-						/>
-						<Route path='/HistorialVentas' element={<HistorialVentas />} />
-						<Route path='/GalleryAdmin' element={<GalleryAdmin />} />
-						<Route path='/CuentaAdmin' element={<CuentaAdmin />} />
-					</Routes>
-				</Router>
+				<AuthProvider>
+					<Router>
+						{/*BrowserRouter*/}
+						<Routes>
+							<Route path='/Recovery' element={<Recuperacion />} />
+							<Route path='/Login' element={<Login />} />
+							<Route path='/Register' element={<Register />} />
+
+							<Route element={<ProtectedRoute />}>
+								<Route path='/MainPageUser' element={<MainPageUser />} />
+								<Route
+									path='/MainPageEcomerceUser'
+									element={<MainPageEcomerceUser />}
+								/>
+								<Route
+									path='/CarritoDeCompras'
+									element={<CarritoDeCompras />}
+								/>
+								<Route
+									path='/FinalizaCompraUser'
+									element={<FinalizaCompraUser />}
+								/>
+								<Route
+									path='/HistorialComprasUser'
+									element={<HistorialComprasUser />}
+								/>
+								<Route path='/Cuenta' element={<Cuenta />} />
+								<Route path='/GalleryUser' element={<GalleryUser />} />
+								<Route path='/MainPageAdmin' element={<MainPageAdmin />} />
+								<Route
+									path='/MainPageEcomerceAdmin'
+									element={<MainPageEcomerceAdmin />}
+								/>
+								<Route path='/HistorialVentas' element={<HistorialVentas />} />
+								<Route path='/GalleryAdmin' element={<GalleryAdmin />} />
+								<Route path='/CuentaAdmin' element={<CuentaAdmin />} />
+							</Route>
+						</Routes>
+					</Router>
+					{/*BrowserRouter*/}
+				</AuthProvider>
 			</div>
 		</>
 	);
