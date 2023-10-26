@@ -9,7 +9,7 @@ function NavBar(props) {
 	const pathMain = props.pathMain;
 	const pathCuenta = props.pathCuenta;
 	const pathCarrito = props.pathCarrito;
-	const { isAuthenticated, logout } = useAuth();
+	const { logout } = useAuth();
 	return (
 		<nav
 			className='navbar navbar-expand-lg navbar-dark p-3'
