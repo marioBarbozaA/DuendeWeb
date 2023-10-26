@@ -37,6 +37,15 @@ function App() {
 							<Route path='/Recovery' element={<Recuperacion />} />
 							<Route path='/Login' element={<Login />} />
 							<Route path='/Register' element={<Register />} />
+							
+							<Route path='/GalleryAdmin' element={<GalleryAdmin />} />
+							<Route path='/CuentaAdmin' element={<CuentaAdmin />} />
+						
+							<Route path='/MainPageAdmin' element={<MainPageAdmin />} />
+							<Route
+								path='/MainPageEcomerceAdmin'
+								element={<MainPageEcomerceAdmin />}
+							/>
 
 							<Route element={<ProtectedRoute />}>
 								<Route path='/MainPageUser' element={<MainPageUser />} />
@@ -58,14 +67,7 @@ function App() {
 								/>
 								<Route path='/Cuenta' element={<Cuenta />} />
 								<Route path='/GalleryUser' element={<GalleryUser />} />
-								<Route path='/MainPageAdmin' element={<MainPageAdmin />} />
-								<Route
-									path='/MainPageEcomerceAdmin'
-									element={<MainPageEcomerceAdmin />}
-								/>
 								<Route path='/HistorialVentas' element={<HistorialVentas />} />
-								<Route path='/GalleryAdmin' element={<GalleryAdmin />} />
-								<Route path='/CuentaAdmin' element={<CuentaAdmin />} />
 							</Route>
 						</Routes>
 					</Router>
