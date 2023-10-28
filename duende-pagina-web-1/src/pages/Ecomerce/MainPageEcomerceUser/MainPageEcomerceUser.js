@@ -8,6 +8,7 @@ import PopUpProducto from '../MainPageEcomerceUser/pop-up-producto-user/PopUpPro
 import './MainPageEcomerceUser.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../../../Context/Authcontext.js';
 
 
 function MainPageEcomerceUser() {
@@ -16,8 +17,22 @@ function MainPageEcomerceUser() {
 	const [selectedCategory, setSelectedCategory] = useState(''); // Estado para la categoría seleccionada
 	const [searchTerm, setSearchTerm] = useState('');
 
+
+
 	//backend
 	const [products, setProducts] = useState([]);
+	const [userCart, setUserCart] = useState([]);
+	const {user} = useAuth();
+
+	async function fetchCart() {
+		try {
+			console.log('Fetching cart...');
+			const response = await axios.get(`http://localhost:3500/shoppingCart/${user.id}`);
+			setUserCart(response.data);
+		} catch (error) {
+			console.error('Error fetching cart:', error);
+		}
+	}
 
 	useEffect(() => {
         async function fetchProducts() {
@@ -28,7 +43,7 @@ function MainPageEcomerceUser() {
                 console.error('Error fetching products:', error);
             }
         }
-
+		fetchCart();
         fetchProducts();
     }, []);
 
@@ -98,6 +113,7 @@ function MainPageEcomerceUser() {
 							mainImageUrl={product.mainImage}  
 							name={product.name}
 							price={product.price}
+							id={product._id}
 							onClick={() => {
 								setSelectedProduct(product);
 								setPopUpOpen(true);

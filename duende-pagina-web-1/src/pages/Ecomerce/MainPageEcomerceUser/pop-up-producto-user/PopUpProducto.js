@@ -2,18 +2,28 @@ import React, { useState } from 'react';
 import './PopUpProducto.css';
 import Producto from '../../../../Imagenes/Aretes.png';
 import CantidadCounter from '../../../../Components/CantidadCounter/CantidadCounter.js';
+import axios from 'axios';
+import { useAuth } from '../../../../Context/Authcontext.js';
 
 import IconButton from '../../../../Components/Buttons/Button.js';
 
 function PopUpProducto({ producto, onClose }) {
 	const [cantidad, setCantidad] = useState(0); // Estado para la cantidad seleccionada
+	const {user} = useAuth();
 
 	if (!producto) {
 		return null; // No mostrar el pop-up si no hay producto seleccionado
 	}
 
-	const handleAgregarAlCarrito = () => {
-		// Lógica para agregar el producto al carrito con la cantidad seleccionada (cantidad)
+	const handleAgregarAlCarrito = async () => {
+		try{
+			console.log('Adding product to cart...');
+            const response = await axios.put(`http://localhost:3500/shoppingCart/addProduct/${user.id}/${producto._id}/${cantidad}`);
+            console.log('response:', response);
+
+        } catch (error) {
+            console.error('Error adding product to cart:', error);
+        }
 	};
 	console.log(producto);
 	return (
@@ -21,7 +31,7 @@ function PopUpProducto({ producto, onClose }) {
 			<div className='popup-content'>
 				<div className='left-side-popup'>
 					<img
-						src={producto.mainImage ? `${process.env.REACT_APP_BACKEND_URL}${producto.mainImage.url}` : ''}
+						src={producto.mainImage ? `http://localhost:3500${producto.mainImage.url}` : ''}
 						alt={producto.mainImage ? producto.mainImage.altText || producto.name : producto.name}
 					/>
 					<div className='fotos-producto-pequennas'>

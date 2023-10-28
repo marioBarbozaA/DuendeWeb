@@ -8,6 +8,9 @@ const Product = require("../models/Product.js");
 const Message = require("../models/Message.js");
 const ShoppingCart = require("../models/ShoppingCart.js");
 const Gallery = require("../models/GalleryImage.js");
+const Sale = require("../models/Sales.js");
+
+
 const { createAccessToken } = require("../libs/jwt.js");
 const { TOKEN_SECRET } = require("../config/config.js");
 const jwt = require("jsonwebtoken");
@@ -370,7 +373,7 @@ class Singleton {
       console.log("Token generado:", token);
       res.cookie("token", token);
 
-      res.status(200).json({ userSaved, msg: "User created" });
+      res.status(200).json({ roles:['client'],userSaved, msg: "User created" });
     } catch (error) {
       res.status(500).json({ msg: "Server error" });
     }
@@ -405,13 +408,16 @@ class Singleton {
         const match = await bcrypt.compare(password, userFound.password);
 
         if (match) {
+
+          const userTypeFound = await Usertype.findOne({ _id: userFound.type }).exec();
+
           const token = await createAccessToken({ id: userFound._id });
           console.log("Token generado:", token);
           res.cookie("token", token);
 
           res.status(200).json({
             status: true,
-            roles: [userFound.roles],
+            roles: [userTypeFound.name],
             message: "User logged perfectly ",
           });
           return true;
@@ -761,63 +767,6 @@ class Singleton {
     //-------------------------------------------------------------------------------------
     //                                
     //-------------------------------------------------------------------------------------
-    async registerUser(req, res, next) {
-
-        const { email, password, name , phone } = req.body;
-        if (!email || !password) {
-            return res.status(400).json({ msg: 'Please enter all fields' });
-        }
-        //check for duplicate usernames in the db
-        const duplicate = await User.findOne({ email: email }).exec();
-
-        if (duplicate) {
-            return res.status(400).json({ msg: 'User already exists' });
-        }
-
-        try {
-            //encrypt password
-            const hashedPassword = await bcrypt.hash(password, 10);
-
-            //create and store the new user
-            const newUserResult = await User.create({ "email": email, "password": hashedPassword, name: name, phone: phone});
-            res.status(200).json({ msg: 'User created' });
-        } catch {
-            res.status(500).json({ msg: 'Server error' });
-        }
-    }
-
-    async loginUser(req, res, next) {
-        try {
-
-            //check for find the user usernames in the db
-            const { email, password } = req.body;
-            console.log(email, password);
-            const userFound = await User.findOne({ email: email }).exec();
-            if (!userFound) {
-                res.status(400).json({ status: false, message: 'User has no register' });
-                return false;
-            }
-            if (userFound) {
-
-                const match = await bcrypt.compare(password, userFound.password);
-
-                if (match) {
-
-                    res.status(200).json({ status: true, roles: [userFound.roles], message: 'User logged perfectly ' });
-                    return true;
-
-                } else {
-                    res.status(400).json({ status: false, message: 'User not logged' });
-                    return false;
-                }
-            }
-
-        } catch {
-            res.status(500).json({ status: false, message: 'Server error' });
-            return false;
-        }
-    }
-
     async updatePassword(req, res, next) {
         try{
             const { email, newPassword, confirmPassword } = req.body;
@@ -904,8 +853,61 @@ class Singleton {
             console.error(error);
             return res.status(500).json({ msg: 'Server error' + error });
         }
+      }
+
+      //////////////////////////////
+      //ShoppingCart
+      //////////////////////////////
+
+      async getCarUser (req, res, next) {
+        try {
+            console.log("entro a getCarUser singleton",req.params.id);
+            const carts = await ShoppingCart.find({ user: req.params.id });
+            if (carts.length === 0) {  // Check if the array is empty
+                const newCart = await ShoppingCart.create({ user: req.params.id });
+                if (!newCart) {
+                    return res.status(404).json({ msg: 'Error creating cart' });
+                }
+                return res.status(200).json(newCart);
+            } else {
+                return res.status(200).json(carts[0]);  // Return the first cart
+            }
+        } catch (error) {
+            res.status(500).json({ message: "Server error: " + error });
+        }
     }
+
+    async addProduct (req, res, next) {
+      try {
+          const cart = await ShoppingCart.findOne({ user: req.params.userId });
+          if (!cart) {
+              return res.status(404).json({ msg: 'Cart not found' });
+          }
+          // Find if the product is already in the cart
+          const productIndex = cart.products.findIndex(p => p.product.toString() === req.params.productId);
+          if (productIndex > -1) {
+              // Update the quantity if the product is already in the cart
+              cart.products[productIndex].quantity += parseInt(req.params.quantity);
+          } else {
+              // Add the product with quantity to the cart
+              cart.products.push({ product: req.params.productId, quantity: parseInt(req.params.quantity) });
+          }
+          
+          // Update the date
+          cart.updateDate = Date.now();
+
+          // Save the updated cart
+          await cart.save();
+  
+          res.status(200).json(cart);
+  
+      } catch (error) {
+          res.status(500).json({ message: "Server error: " + error });
+      }
+  }
+  
 }
+
 
 let instance = null;
 

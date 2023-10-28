@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Assets/tipografias.css';
 
@@ -34,19 +34,11 @@ function App() {
 					<Router>
 						{/*BrowserRouter*/}
 						<Routes>
+							<Route path="*" element={<Navigate to="/Login" />} />
 							<Route path='/Recovery' element={<Recuperacion />} />
 							<Route path='/Login' element={<Login />} />
 							<Route path='/Register' element={<Register />} />
 							
-							<Route path='/GalleryAdmin' element={<GalleryAdmin />} />
-							<Route path='/CuentaAdmin' element={<CuentaAdmin />} />
-						
-							<Route path='/MainPageAdmin' element={<MainPageAdmin />} />
-							<Route
-								path='/MainPageEcomerceAdmin'
-								element={<MainPageEcomerceAdmin />}
-							/>
-
 							<Route element={<ProtectedRoute />}>
 								<Route path='/MainPageUser' element={<MainPageUser />} />
 								<Route
@@ -68,6 +60,16 @@ function App() {
 								<Route path='/Cuenta' element={<Cuenta />} />
 								<Route path='/GalleryUser' element={<GalleryUser />} />
 								<Route path='/HistorialVentas' element={<HistorialVentas />} />
+
+								{/*Administrador*/}
+								<Route path='/GalleryAdmin' element={<GalleryAdmin />} />
+								<Route path='/CuentaAdmin' element={<CuentaAdmin />} />
+							
+								<Route path='/MainPageAdmin' element={<MainPageAdmin />} />
+								<Route
+									path='/MainPageEcomerceAdmin'
+									element={<MainPageEcomerceAdmin />}
+								/>
 							</Route>
 						</Routes>
 					</Router>

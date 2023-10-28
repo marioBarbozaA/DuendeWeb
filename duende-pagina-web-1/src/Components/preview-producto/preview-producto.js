@@ -2,16 +2,18 @@ import React from 'react';
 import IconButton from '../Buttons/Button.js';
 import carrito from '../../Imagenes/add-to-cart.png';
 import './preview-producto.css';
+import { useAuth } from '../../Context/Authcontext.js';
+import axios from 'axios';
 
 function PreviewProducto({
     mainImageUrl,  // updated from imagen
     name,  // updated from subtitulo
     price,  // updated from precio
+    id,
     onClick,
     mostrarCarrito = true,
 }) {
-    const onAgregarCarrito = () => {
-        // Logic to handle adding to cart
+    const onAgregarCarrito = async () => {
     };
 
     console.log('mainImageUrl:', mainImageUrl);  // Log the mainImageUrl prop
