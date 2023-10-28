@@ -8,4 +8,10 @@ router.route('/:id')
 router.route('/addProduct/:userId/:productId/:quantity')
     .put(ShoppingCart.addProduct)
 
+    router.route('/:userId/deleteProduct/:productId')
+    .delete(ShoppingCart.deleteProductFromCart);
+
+    router.route('/updateProductQuantity/:userId/:productId')
+    .patch(ShoppingCart.updateProductQuantity);
+
 module.exports = router;

@@ -20,4 +20,7 @@ router.route('/admin')
 router.route('/admin/:id')
         .put(productControllers.deleteProduct)
 
+router.route('/:id')
+    .get(productControllers.getProductById)
+
 module.exports = router;

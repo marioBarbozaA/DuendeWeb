@@ -855,6 +855,20 @@ class Singleton {
         }
       }
 
+      async getProductById(req, res, next) {
+        try{
+          const product = await Product.findById(req.params.id);
+          if(!product){
+            return res.status(404).json({ msg: 'Product not found' });
+          }
+          return res.status(200).json(product);
+        }catch(error){
+            console.error(error);
+            return res.status(500).json({ msg: 'Server error' + error });
+        }
+      
+      }
+
       //////////////////////////////
       //ShoppingCart
       //////////////////////////////
@@ -862,15 +876,16 @@ class Singleton {
       async getCarUser (req, res, next) {
         try {
             console.log("entro a getCarUser singleton",req.params.id);
-            const carts = await ShoppingCart.find({ user: req.params.id });
-            if (carts.length === 0) {  // Check if the array is empty
+            const carts = await ShoppingCart.findOne({ user: req.params.id });
+            console.log("carts",carts);
+            if (!carts) {  // Check if the array is empty
                 const newCart = await ShoppingCart.create({ user: req.params.id });
                 if (!newCart) {
                     return res.status(404).json({ msg: 'Error creating cart' });
                 }
                 return res.status(200).json(newCart);
             } else {
-                return res.status(200).json(carts[0]);  // Return the first cart
+                return res.status(200).json(carts);  // Return the first cart
             }
         } catch (error) {
             res.status(500).json({ message: "Server error: " + error });
@@ -905,6 +920,104 @@ class Singleton {
           res.status(500).json({ message: "Server error: " + error });
       }
   }
+
+  async deleteProductFromCart(req, res, next) {
+      try {
+        console.log("Start deleteProductFromCart");
+    
+        const userId = req.params.userId;
+        const productId = req.params.productId;
+    
+        console.log("userId:", userId);
+        console.log("productId:", productId);
+    
+        // Find the cart by user ID
+        const cart = await ShoppingCart.findOne({ user: userId });
+    
+        console.log("cart:", cart);
+    
+        if (!cart) {
+          return res.status(404).json({ message: "Cart not found" });
+        }
+    
+        // Find the index of the product in the cart's products array
+        const productIndex = cart.products.findIndex(
+          (p) => p.product.toString() === productId
+        );
+    
+        console.log("productIndex:", productIndex);
+    
+        // If product is not found, return 404
+        if (productIndex === -1) {
+          return res.status(404).json({ message: "Product not found in cart" });
+        }
+    
+        // Remove the product from the cart's products array
+        cart.products.splice(productIndex, 1);
+    
+        // Save the updated cart back to the database
+        await cart.save();
+    
+        console.log("Product removed from cart");
+    
+        res.status(200).json({ message: "Product removed from cart" });
+      } catch (error) {
+        console.log("Error:", error);
+        res.status(500).json({ message: "Server error: " + error });
+      }
+  }
+
+      async updateProductQuantity (req, res, next) {
+        try {
+          const userId = req.params.userId;
+          const productId = req.params.productId;
+          const { newQuantity } = req.body;
+
+          if (newQuantity === 0) {
+              // If the new quantity is 0, remove the product from the cart
+              const cart = await ShoppingCart.findOne({ user: userId });
+              if (!cart) {
+                  return res.status(404).json({ message: "Cart not found" });
+              }
+
+              const productIndex = cart.products.findIndex(
+                  (p) => p.product.toString() === productId
+              );
+
+              if (productIndex === -1) {
+                  return res.status(404).json({ message: "Product not found in cart" });
+              }
+
+              cart.products.splice(productIndex, 1);
+              await cart.save();
+
+              return res.status(200).json({ message: "Product removed from cart" });
+          }
+
+          // If the new quantity is not 0, update the quantity in the cart
+          const cart = await ShoppingCart.findOne({ user: userId });
+          if (!cart) {
+              return res.status(404).json({ message: "Cart not found" });
+          }
+
+          const productIndex = cart.products.findIndex(
+              (p) => p.product.toString() === productId
+          );
+
+          if (productIndex === -1) {
+              return res.status(404).json({ message: "Product not found in cart" });
+          }
+
+          cart.products[productIndex].quantity = newQuantity;
+          await cart.save();
+
+          res.status(200).json({ message: "Product quantity updated" });
+      } catch (error) {
+          res.status(500).json({ message: "Server error: " + error });
+      }
+
+    }
+  
   
 }
 

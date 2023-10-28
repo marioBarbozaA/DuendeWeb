@@ -20,4 +20,22 @@ const addProduct = async (req, res, next) => {
     }
 }
 
-module.exports = { getCarUser, addProduct };
+const deleteProductFromCart = async (req, res, next) => {
+    try{
+        console.log("entro a deleteProduct Controller", req.params.userId);
+      await SingletonDAO.deleteProductFromCart(req, res, next);      
+    } catch(error) {
+        res.status(500).json({ message: "Server error: "+ error });
+    }
+}
+
+const updateProductQuantity = async (req, res, next) => {
+    try{
+        console.log("entro a updateProductQuantity Controller", req.params.userId);
+      await SingletonDAO.updateProductQuantity(req, res, next);      
+    } catch(error) {
+        res.status(500).json({ message: "Server error: "+ error });
+    }
+}
+
+module.exports = { getCarUser, addProduct, deleteProductFromCart, updateProductQuantity };

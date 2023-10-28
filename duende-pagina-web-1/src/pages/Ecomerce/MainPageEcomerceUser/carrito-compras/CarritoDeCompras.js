@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import IconButton from '../../../../Components/Buttons/Button.js';
 import CantidadCounter from '../../../../Components/CantidadCounter/CantidadCounter.js'; // Importa el componente de contador de cantidad
 import NavBar from '../../../../Components/NavBar/NavBar.js';
@@ -7,53 +7,68 @@ import trash from '../../../../Imagenes/trash1.png';
 import Logo from '../../../../Imagenes/Logo-Duende.png';
 import Footer from '../../../../Components/Footer/Footer.js';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useAuth } from '../../../../Context/Authcontext.js';
 
 import './CarritoDeCompras.css'; // Importa el archivo CSS para estilizar
 
 function CarritoDeCompras() {
-	// Lista de productos en el carrito (ejemplo de datos)
-	const [carrito, setCarrito] = useState([
-		{
-			id: 1,
-			imagen: 'URL_imagen_1',
-			subtitulo: 'Producto 1',
-			precio: 20.99,
-			cantidad: 2,
-			stock: 10,
-		},
-		{
-			id: 2,
-			imagen: 'URL_imagen_2',
-			subtitulo: 'Producto 2',
-			precio: 15.49,
-			cantidad: 1,
-			stock: 5,
-		},
-		// Agrega más productos según sea necesario
-	]);
+	const [carrito, setCarrito] = useState([]);
 
-	// Función para eliminar un producto del carrito
-	const eliminarProducto = id => {
-		const nuevoCarrito = carrito.filter(producto => producto.id !== id);
-		setCarrito(nuevoCarrito);
-	};
+	const { user } = useAuth();
+
+	const fetchCart = async () => {
+		try {
+			console.log('Fetching cart...');
+			const response = await axios.get(`http://localhost:3500/shoppingCart/${user.id}`);
+			const products = response.data.products;
+			console.log('products:', products);
+			const fullProducts = await Promise.all(products.map(async (item) => {
+				console.log('item:', item);
+				const productResponse = await axios.get(`http://localhost:3500/product/${item.product}`);
+				console.log('productResponse:', productResponse);
+				return {
+					...productResponse.data,
+					quantity: item.quantity,
+				};
+			}));
+	
+			setCarrito(fullProducts);
+		} catch (error) {
+			console.error('Error fetching cart:', error);
+		}
+	}
+
+	useEffect(() => {
+		fetchCart();
+		console.log('useEffect');
+	}, []);
+
+	const eliminarProducto = async (id) => {
+		const response = await axios.delete(`http://localhost:3500/shoppingCart/${user.id}/deleteProduct/${id}`);
+		console.log('response:', response);
+		fetchCart();
+	  };
+	  
 
 	// Función para actualizar la cantidad de un producto en el carrito
-	const actualizarCantidad = (id, nuevaCantidad) => {
-		const nuevoCarrito = carrito.map(producto => {
-			if (producto.id === id) {
-				return { ...producto, cantidad: nuevaCantidad };
-			}
-			return producto;
-		});
-		setCarrito(nuevoCarrito);
+	const actualizarCantidad = async (id, nuevaCantidad) => {
+		try {
+			const response = await axios.patch(`http://localhost:3500/shoppingCart/updateProductQuantity/${user.id}/${id}`, {
+				newQuantity: nuevaCantidad,
+			});
+			console.log('response:', response);
+			fetchCart();  // fetch updated cart from the server
+		} catch (error) {
+			console.error('Error updating product quantity:', error);
+		}
 	};
 
 	// Función para calcular el total del carrito
 	const calcularTotal = () => {
 		let total = 0;
 		carrito.forEach(producto => {
-			total += producto.precio * producto.cantidad;
+			total += producto.price * producto.quantity;
 		});
 		return total.toFixed(2); // Redondea el total a 2 decimales
 	};
@@ -89,28 +104,31 @@ function CarritoDeCompras() {
 							</thead>
 							<tbody>
 								{carrito.map(producto => (
-									<tr key={producto.id}>
+									<tr key={producto._id}>
 										<td className='casilla-producto'>
-											<img src={Producto} alt={producto.subtitulo} />
+										<img
+											src={producto.mainImage ? `http://localhost:3500${producto.mainImage.url}` : ''}
+											alt={producto.mainImage ? producto.mainImage.altText || producto.name : producto.name}
+										/>
 										</td>
-										<td>{producto.subtitulo}</td>
-										<td>${producto.precio.toFixed(2)}</td>
+										<td>{producto.name}</td>
+										<td>${producto.price.toFixed(2)}</td>
 										<td>
 											<CantidadCounter
-												cantidad={producto.cantidad}
+												cantidad={producto.quantity}
 												stock={producto.stock}
 												onCantidadChange={nuevaCantidad =>
-													actualizarCantidad(producto.id, nuevaCantidad)
+													actualizarCantidad(producto._id, nuevaCantidad)
 												}
 											/>
 										</td>
 										<td className='total-casilla'>
-											${(producto.precio * producto.cantidad).toFixed(2)}
+											${(producto.price * producto.quantity).toFixed(2)}
 										</td>
 										<td className='borrar-producto'>
 											<IconButton
 												buttonClassname='login-button'
-												handleOnClick={() => eliminarProducto(producto.id)}
+												handleOnClick={() => eliminarProducto(producto._id)}
 												icon={trash}
 											/>
 										</td>

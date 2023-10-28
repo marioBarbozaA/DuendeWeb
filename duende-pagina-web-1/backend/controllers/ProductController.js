@@ -64,4 +64,12 @@ const deleteProduct = async (req, res, next) => {
     }
   };  
 
-module.exports = { getAllProducts, createProduct,getAllProductsActive, updateProduct, deleteProduct };
+const getProductById = async (req, res, next) => {
+    try {
+      const product = await SingletonDAO.getProductById(req, res, next);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+module.exports = { getAllProducts, createProduct,getAllProductsActive, updateProduct, deleteProduct, getProductById };
