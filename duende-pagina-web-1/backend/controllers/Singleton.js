@@ -498,6 +498,102 @@ class Singleton {
     });
   }
 
+  async editProfile(req, res, next) {
+    try {
+      const { currentPassword, newName, newEmail } = req.body;
+      const userId = req.user.id;
+      console.log(currentPassword, newName, newEmail);
+      if (!newName && !newEmail) {
+        return res.status(400).json({
+          msg: "Por favor, ingresa al menos un campo para actualizar.",
+        });
+      }
+
+      const userToUpdate = await User.findById(userId).exec();
+
+      if (!userToUpdate) {
+        return res.status(400).json({ msg: "Usuario no encontrado" });
+      }
+
+      // Verificar si la contraseña actual proporcionada coincide con la contraseña almacenada
+      const isPasswordMatch = await bcrypt.compare(
+        currentPassword,
+        userToUpdate.password
+      );
+
+      if (!isPasswordMatch) {
+        return res
+          .status(400)
+          .json({ msg: "La contraseña actual es incorrecta." });
+      }
+
+      if (newName) {
+        userToUpdate.name = newName;
+      }
+
+      if (newEmail) {
+        userToUpdate.email = newEmail;
+      }
+
+      const updatedUser = await userToUpdate.save();
+
+      res
+        .status(200)
+        .json({ user: updatedUser, msg: "Perfil actualizado con éxito" });
+    } catch (error) {
+      res.status(500).json({ msg: "Error en el servidor" });
+    }
+  }
+
+  async editarContraseña(req, res, next) {
+    try {
+      const { currentPassword, newPassword, confirmPassword } = req.body;
+      const userId = req.user.id;
+
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        return res
+          .status(400)
+          .json({ msg: "Por favor, ingresa todas las contraseñas." });
+      }
+
+      if (newPassword !== confirmPassword) {
+        return res
+          .status(400)
+          .json({ msg: "Las contraseñas nuevas no coinciden." });
+      }
+
+      const userToUpdate = await User.findById(userId).exec();
+
+      if (!userToUpdate) {
+        return res.status(400).json({ msg: "Usuario no encontrado" });
+      }
+
+      // Verificar si la contraseña actual proporcionada coincide con la contraseña almacenada
+      const isPasswordMatch = await bcrypt.compare(
+        currentPassword,
+        userToUpdate.password
+      );
+
+      if (!isPasswordMatch) {
+        return res
+          .status(400)
+          .json({ msg: "La contraseña actual es incorrecta." });
+      }
+
+      // Hash de la nueva contraseña
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      userToUpdate.password = hashedPassword;
+
+      const updatedUser = await userToUpdate.save();
+
+      res
+        .status(200)
+        .json({ user: updatedUser, msg: "Contraseña actualizada con éxito" });
+    } catch (error) {
+      res.status(500).json({ msg: "Error en el servidor" });
+    }
+  }
+
   /////////////////////////////////////
   ////////////  PRODUCT  //////////////
   /////////////////////////////////////
