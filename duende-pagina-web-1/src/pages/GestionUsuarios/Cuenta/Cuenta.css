@@ -48,3 +48,11 @@
 	margin-bottom: 60px;
 	color: white;
 }
+.botonetes {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+.botonetes button {
+	margin: 10px;
+}

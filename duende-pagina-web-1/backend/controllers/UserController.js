@@ -63,6 +63,13 @@ const profile = async (req, res, next) => {
 const verifyToken = async (req, res, next) => {
   await SingletonDAO.verifyToken(req, res, next);
 };
+const editProfile = async (req, res, next) => {
+  await SingletonDAO.editProfile(req, res, next);
+};
+const editarContraseña = async (req, res, next) => {
+  await SingletonDAO.editarContraseña(req, res, next);
+};
+
 module.exports = {
   loginUser,
   registerUser,
@@ -70,4 +77,6 @@ module.exports = {
   logout,
   profile,
   verifyToken,
+  editProfile,
+  editarContraseña,
 };
