@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '../../../../Components/NavBar/NavBar.js';
 import Footer from '../../../../Components/Footer/Footer.js';
 import Logo from '../../../../Imagenes/Logo-Duende.png';
+import { useAuth } from '../../../../Context/Authcontext.js';
+import axios from 'axios';
 
 import './FinalizarCompra.css';
 import data from './provincias.json';
@@ -19,6 +21,10 @@ function FinalizarCompra() {
 	const [selectedProvincia, setSelectedProvincia] = useState(null);
 	const [selectedCanton, setSelectedCanton] = useState(null);
 	const [selectedDistrito, setSelectedDistrito] = useState(null);
+
+	//backend
+	const { user } = useAuth();
+	const [carrito, setCarrito] = useState([]);
 
 	const handleProvinciaChange = event => {
 		const selectedProvincia = event.target.value;
@@ -46,20 +52,20 @@ function FinalizarCompra() {
 
 	const cantonesOptions = selectedProvincia
 		? Object.keys(provincias[selectedProvincia].cantones).map(cantonKey => (
-				<option key={cantonKey} value={cantonKey}>
-					{provincias[selectedProvincia].cantones[cantonKey].nombre}
-				</option>
-		  ))
+			<option key={cantonKey} value={cantonKey}>
+				{provincias[selectedProvincia].cantones[cantonKey].nombre}
+			</option>
+		))
 		: [];
 
 	const distritosOptions = selectedCanton
 		? Object.entries(
-				provincias[selectedProvincia].cantones[selectedCanton].distritos,
-		  ).map(([distritoKey, distritoNombre]) => (
-				<option key={distritoKey} value={distritoKey}>
-					{distritoNombre}
-				</option>
-		  ))
+			provincias[selectedProvincia].cantones[selectedCanton].distritos,
+		).map(([distritoKey, distritoNombre]) => (
+			<option key={distritoKey} value={distritoKey}>
+				{distritoNombre}
+			</option>
+		))
 		: [];
 
 	// lo de arriba es para manejo de provincias
@@ -82,28 +88,40 @@ function FinalizarCompra() {
 	};
 	//Funcion para Obtener el total
 
+	const fetchCart = async () => {
+		try {
+			console.log('Fetching cart...');
+			const response = await axios.get(`http://localhost:3500/shoppingCart/${user.id}`);
+			const products = response.data.products;
+			console.log('products:', products);
+			const fullProducts = await Promise.all(products.map(async (item) => {
+				console.log('item:', item);
+				const productResponse = await axios.get(`http://localhost:3500/product/${item.product}`);
+				console.log('productResponse:', productResponse);
+				return {
+					...productResponse.data,
+					quantity: item.quantity,
+				};
+			}));
+			setCarrito(fullProducts);
+		} catch (error) {
+			console.error('Error fetching cart:', error);
+		}
+	}
+
 	// Función para calcular el total del carrito
-	const calcularTotal = carrito => {
+	const calcularTotal = () => {
 		let total = 0;
-		// Recorre el carrito y suma los precios de los productos
 		carrito.forEach(producto => {
-			total += producto.precio;
+			total += producto.price * producto.quantity;
 		});
-		return total;
+		return total.toFixed(2); // Redondea el total a 2 decimales
 	};
 
 	// Simulación de obtener el carrito desde una base de datos o JSON
 	useEffect(() => {
-		// Supongamos que tienes una función para obtener el carrito
-		//const carrito = obtenerCarritoDesdeBaseDeDatos(); // Debes implementar esta función
-		const carrito = [
-			{ id: 1, nombre: 'Producto 1', precio: 10.99 },
-			{ id: 2, nombre: 'Producto 2', precio: 5.49 },
-			{ id: 3, nombre: 'Producto 3', precio: 7.99 },
-			{ id: 4, nombre: 'Producto 4', precio: 12.99 },
-		];
-		const nuevoTotal = calcularTotal(carrito);
-		setTotal(nuevoTotal);
+		fetchCart();
+		setTotal(calcularTotal());
 	}, []); // Se ejecuta una vez al cargar el componente
 
 	// Función para finalizar el pago

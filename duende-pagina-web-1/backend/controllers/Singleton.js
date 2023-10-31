@@ -396,6 +396,7 @@ class Singleton {
     try {
       //check for find the user usernames in the db
       const { email, password } = req.body;
+      console.log('Singleton loginUser:')
       console.log(email, password);
       const userFound = await User.findOne({ email: email }).exec();
       if (!userFound) {
@@ -422,7 +423,9 @@ class Singleton {
           });
           return true;
         } else {
+          console.log("Password incorrect");
           res.status(400).json({ status: false, message: "User not logged" });
+          console.log("After res");
           return false;
         }
       }

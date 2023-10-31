@@ -36,17 +36,18 @@ export const AuthProvider = ({ children }) => {
     
     const signin = async user => {
         try {
+            console.log('AuthContext: signin');
             const res = await handleLogin(user.email, user.password);
-            console.log(res.data);
+            console.log(res);
             if (res.status === 200 && res.data) { // Check if response is successful
                 setUser({ ...res.data});
                 setIsAuthenticated(true);
             } else {
-                throw new Error('Failed to login');
+                alert('Failed to login'); // Display popup message
             }
         } catch (error) {
             console.log(error);
-            throw error; // Return the error to the caller
+            alert('Failed to login'); // Display popup message
         }
     };
     

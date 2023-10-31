@@ -20,19 +20,26 @@ export const handleLogin = async (email, password) => {
 			password,
 		});
 
-		if (response.data.status) {
-			// Login successful, handle the user's session or redirect
-			console.log('User logged in:', response.data.message);
-			return response;
+		console.log('Response:', response);
+		if(response !== undefined){
+			if (response.data.status) {
+				// Login successful, handle the user's session or redirect
+				console.log('User logged in:', response.data.message);
+				return response;
+			} else {
+				// Login failed, display an error message to the user
+				console.error('Login failed:', response.data.message);
+				return response;
+			}
 		} else {
-			// Login failed, display an error message to the user
-			console.error('Login failed:', response.data.message);
+			console.log('Response undefined');
 		}
 	} catch (error) {
 		console.error('Error:', error);
 		// Log the response data if available
 		if (error.response) {
 			console.error('Response Data:', error.response.data);
+			return error.response;
 		}
 	}
 };

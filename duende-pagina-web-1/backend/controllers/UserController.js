@@ -4,17 +4,17 @@ const User = require("../models/auth/user.js");
 const { sendRecoveryEmail } = require("../utilities/email");
 
 const loginUser = async (req, res, next) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ msg: "Please enter all fields" });
-  }
-  let valueLoggin = await SingletonDAO.loginUser(req, res, next);
+  // const { email, password } = req.body;
+  // if (!email || !password) {
+  //   return res.status(400).json({ msg: "Please enter all fields" });
+  // }
+  await SingletonDAO.loginUser(req, res, next);
 
-  if (valueLoggin == false) {
-    console.log("User login failed");
-  } else {
-    console.log("User login success");
-  }
+  // if (valueLoggin == false) {
+  //   console.log("User login failed");
+  // } else {
+  //   console.log("User login success");
+  // }
 };
 
 const registerUser = async (req, res, next) => {
