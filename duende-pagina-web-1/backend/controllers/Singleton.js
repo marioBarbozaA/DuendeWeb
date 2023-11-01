@@ -407,7 +407,6 @@ class Singleton {
       console.log("tempPassword:", tempPassword);
       // Update user's document in the database with the temporary password or reset token
       await User.findOneAndUpdate({ email }, { password: tempPassword});      
-     
       return randPass;
     } catch (error) {
       res.status(500).json({ msg: "Server error" });
@@ -1194,13 +1193,42 @@ class Singleton {
       }
     }
 
+    async updateInventory(productId, quantity) {
+      const product = await Product.findById(productId);
+      if (!product) {
+        throw new Error('Product not found');
+      }
+      
+      product.stock -= quantity;
+      
+      if (product.stock < 0) {
+        throw new Error('Not enough stock');
+      }
+      
+      await product.save();
+    }
+    
     async updateSale(saleId, saleData){
       try{
-        const sale = await Sales.findByIdAndUpdate(saleId, saleData, { new: true, lean: true });
+        console.log("Singleton updateSale...");
+        const sale = await Sales.findById(saleId);
         if (!sale) {
           throw new Error('Sale not found');
         }
-        return sale
+        
+        console.log("Singleton updateSale saleData:",saleData);
+        console.log("Singleton updateSale sale:",sale);
+        // If the sale is being updated to "Aceptado", update the inventory
+        if (saleData.status === 'Aceptado' && sale.status !== 'Aceptado') {
+          for (const product of sale.products) {
+            console.log("Singleton updateSale product:",product);
+            this.updateInventory(product._id, product.quantity);
+          }
+        }
+        
+        // Update the sale
+        const updatedSale = await Sales.findByIdAndUpdate(saleId, saleData, { new: true, lean: true });
+        return updatedSale;
       }catch(error){
         res.status(500).json({ message: "Server error: " + error });
       }
