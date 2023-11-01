@@ -14,6 +14,7 @@ const Sale = require("../models/Sales.js");
 const { createAccessToken } = require("../libs/jwt.js");
 const { TOKEN_SECRET } = require("../config/config.js");
 const jwt = require("jsonwebtoken");
+const Sales = require("../models/Sales.js");
 
 class Singleton {
   static instance;
@@ -1115,6 +1116,46 @@ class Singleton {
           res.status(500).json({ message: "Server error: " + error });
       }
 
+    }
+
+    async emptyCart (userId) {
+      try{
+        const cart = await ShoppingCart.findOne({ user: userId });
+        cart.products = [];
+        await cart.save();
+
+        return { message: "Cart emptied" };
+      }catch(error){
+        throw new Error("Server error: " + error);
+      }
+    }
+
+    /////////////////////////////////////
+    ////////////  Sale  //////////////
+    /////////////////////////////////////
+
+    async createSale(saleData) {
+      try{
+        console.log("Singleton createSale...");
+        const newSale = await Sales.create(saleData);
+        if(!newSale){
+          throw new Error("Sale not found");
+        }
+        await this.emptyCart(saleData.userBuyer);
+        return newSale;
+      } catch(error){
+        throw new Error("Server error: " + error);
+      }
+    }
+
+    async userHistory(userId) {
+      try{  
+         const history = await Sales.find({userBuyer: userId}).exec();
+         console.log("Singleton userHistory:",history);
+         return history;
+      }catch(error){
+        res.status(500).json({ message: "Server error: " + error });
+      }
     }
   
   

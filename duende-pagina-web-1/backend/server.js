@@ -56,6 +56,7 @@ app.use("/appointments", require("./routes/AppointmentRoute.js"));
 app.use("/shoppingCart", require("./routes/ShoppingCartRoute.js"));
 app.use("/product", require("./routes/ProductRoute.js"));
 app.use("/message", require("./routes/MessageRoute.js"));
+app.use("/sales", require("./routes/SalesRouter.js"));
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

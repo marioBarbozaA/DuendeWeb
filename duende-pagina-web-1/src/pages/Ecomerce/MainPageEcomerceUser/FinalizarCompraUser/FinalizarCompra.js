@@ -72,8 +72,11 @@ function FinalizarCompra() {
 
 	// Función para manejar la subida de la imagen del comprobante
 	const handleComprobanteChange = e => {
-		const file = e.target.files[0];
-		setComprobante(file);
+		const imageFile = e.target.files[0];  // Get the selected file
+		console.log('imageFile:', imageFile);
+		if (imageFile) {  // Check if a file was selected
+			setComprobante(imageFile);  // Update the mainImage state
+		}
 	};
 
 	const validarTelefono = telefono => {
@@ -103,46 +106,93 @@ function FinalizarCompra() {
 					quantity: item.quantity,
 				};
 			}));
+			console.log('fullProducts:', fullProducts);
 			setCarrito(fullProducts);
+			setTotal(calcularTotal(fullProducts));
 		} catch (error) {
 			console.error('Error fetching cart:', error);
 		}
 	}
 
 	// Función para calcular el total del carrito
-	const calcularTotal = () => {
+	const calcularTotal = (lista) => {
 		let total = 0;
-		carrito.forEach(producto => {
+		console.log('carrito:', carrito);
+		lista.forEach(producto => {
+			console.log('producto:', producto);
 			total += producto.price * producto.quantity;
 		});
+		console.log('total:', total);
 		return total.toFixed(2); // Redondea el total a 2 decimales
 	};
 
 	// Simulación de obtener el carrito desde una base de datos o JSON
-	useEffect(() => {
+	useEffect( () => {
 		fetchCart();
-		setTotal(calcularTotal());
+		
 	}, []); // Se ejecuta una vez al cargar el componente
 
 	// Función para finalizar el pago
-	const finalizarPago = () => {
+	const finalizarPago = async () => {
 		if (
-			nombre &&
-			validarTelefono(telefono) && // Validar número de teléfono
-			validarEmail(email) && // Validar dirección de correo electrónico
+		  nombre &&
+		  validarTelefono(telefono) &&
+		  validarEmail(email) &&
+		  selectedProvincia &&
+		  selectedCanton &&
+		  selectedDistrito &&
+		  detalles &&
+		  comprobante
+		) {
+			console.log('Finalizing payment...');
+			console.log(comprobante);
+		  try {
+			const formData = new FormData();
+			formData.append('actualBuyerName', nombre);
+			formData.append('actualBuyerPhone', telefono);
+			formData.append('actualBuyerEmail', email);
+			formData.append('location', JSON.stringify({
+				provincia: provincias[selectedProvincia].nombre,
+				canton: provincias[selectedProvincia].cantones[selectedCanton].nombre,
+				distrito: provincias[selectedProvincia].cantones[selectedCanton].distritos[selectedDistrito],
+				details: detalles,
+			  }));
+			formData.append('cost', total);
+			formData.append('carrito', JSON.stringify(carrito));
+			formData.append('mainImage', comprobante);
+			formData.append('userId', user.id);  // Add the user ID
+			
+			for (let pair of formData.entries()) {
+				console.log(pair[0] + ': ' + pair[1]);
+			}
+			
+
+			const response = await axios.post('http://localhost:3500/sales/newSale', formData, {
+			  headers: {
+				'Content-Type': 'multipart/form-data',
+			  },
+			});
+	  
+			console.log('Sale created:', response.data);
+			alert('Pago finalizado con éxito');
+		  } catch (error) {
+			console.error('Error finalizing payment:', error);
+			alert('Error finalizando el pago. Por favor, inténtelo de nuevo.');
+		  }
+		} else {
+			console.log(nombre &&
+			validarTelefono(telefono) &&
+			validarEmail(email) &&
 			selectedProvincia &&
 			selectedCanton &&
 			selectedDistrito &&
 			detalles &&
-			comprobante
-		) {
-			alert('Pago finalizado con éxito');
-		} else {
-			alert(
-				'Por favor completa todos los campos correctamente antes de finalizar el pago.',
-			);
+			comprobante);
+		  alert(
+			'Por favor completa todos los campos correctamente antes de finalizar el pago.',
+		  );
 		}
-	};
+	  };
 
 	return (
 		<>
@@ -247,7 +297,7 @@ function FinalizarCompra() {
 							: 'Ningún archivo seleccionado'}
 					</span>
 
-					<p>Total: ${total.toFixed(2)}</p>
+					<p>Total: ${total}</p>
 					<div>
 						<button onClick={finalizarPago}>Finalizar el pago</button>
 					</div>

@@ -21,4 +21,14 @@ const updateImagePaths = (req, res, next) => {
     next();
 };
 
-module.exports = { upload, updateImagePaths };
+const uploadSingle = multer({ storage: storage }).single('mainImage');
+
+const updateImagePathsForSale = (req, res, next) => {
+    console.log(req.file);
+    if (req.file) {
+        req.body.mainImage = `/uploads/${req.file.filename}`;
+    }
+    next();
+};
+
+module.exports = { upload, updateImagePaths, uploadSingle, updateImagePathsForSale };
