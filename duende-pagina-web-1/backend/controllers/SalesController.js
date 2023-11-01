@@ -82,7 +82,28 @@ const newSale = async (req, res) => {
         res.status(500).json({ msg: 'Server error' + error });
         }
     }
+
+    const adminHistory = async(req, res) => {
+        console.log('Admin history controller...');
+        try {
+            const sales = await SingletonDAO.adminHistory();
+            res.status(200).json(sales);
+            } catch (error) {
+            console.error('Error getting admin history:', error);
+            res.status(500).json({ msg: 'Server error' + error });
+            }
+    }
+
+    const updateSale = async (req, res) => {
+        try {
+          const updatedSale = await SingletonDAO.updateSale(req.params.id, req.body);
+          res.status(200).json(updatedSale);
+        } catch (error) {
+          console.error('Error updating sale:', error);
+          res.status(error.message === 'Sale not found' ? 404 : 500).json({ msg: 'Server error: ' + error.message });
+        }
+      }
   
   module.exports = {
-    newSale,userHistory
+    newSale,userHistory,adminHistory,updateSale
   };

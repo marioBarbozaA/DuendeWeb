@@ -58,7 +58,6 @@ function HistorialComprasUser() {
 							<th>Fecha</th>
 							<th>Estado</th>
 							<th>Pago</th>
-							<th>Nota</th>
 						</tr>
 					</thead>
 					<tbody>

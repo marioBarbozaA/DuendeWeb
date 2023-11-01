@@ -628,15 +628,6 @@ class Singleton {
     next();
   }
 
-  async getAllProductsActive(req, res, next) {
-    try {
-      const products = await Product.find({ status: "active" });
-      res.status(200).json(products);
-    } catch (error) {
-      res.status(500).json({ msg: "Server error" + error });
-    }
-    next();
-  }
 
     async getAllImages(req, res, next) {
         try {
@@ -909,7 +900,7 @@ class Singleton {
 
     async getAllProductsActive(req, res, next) {
         try {
-            const products = await Product.find({ status: 'active' });
+          const products = await Product.find({ $or: [{ status: "active" }, { status: "disponible" }] });
             res.status(200).json(products);
         } catch (error) {
             res.status(500).json({ msg: 'Server error' + error });
@@ -1153,6 +1144,27 @@ class Singleton {
          const history = await Sales.find({userBuyer: userId}).exec();
          console.log("Singleton userHistory:",history);
          return history;
+      }catch(error){
+        res.status(500).json({ message: "Server error: " + error });
+      }
+    }
+
+    async adminHistory(){
+      try{
+        const history = await Sales.find({}).exec();
+        return history;
+      }catch(error){
+        res.status(500).json({ message: "Server error: " + error });
+      }
+    }
+
+    async updateSale(saleId, saleData){
+      try{
+        const sale = await Sales.findByIdAndUpdate(saleId, saleData, { new: true, lean: true });
+        if (!sale) {
+          throw new Error('Sale not found');
+        }
+        return sale
       }catch(error){
         res.status(500).json({ message: "Server error: " + error });
       }

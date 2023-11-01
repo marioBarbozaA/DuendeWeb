@@ -19,4 +19,10 @@ router.route('/newSale')
 router.route('/:id')
     .get(saleController.userHistory);
 
+router.route('/admin/ventas')
+    .get(saleController.adminHistory);
+
+router.route('/admin/ventas/:id')
+    .put(saleController.updateSale);
+
 module.exports = router;

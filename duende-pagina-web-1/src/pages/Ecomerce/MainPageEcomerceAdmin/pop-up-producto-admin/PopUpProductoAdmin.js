@@ -30,6 +30,7 @@ function PopUpProducto({ product, onClose, onProductoChange }) {
 		setConfirmacionEliminarVisible(false);
 	};
 	const handleSaveChanges = () => {
+		console.log("HandleSaveChage",editingProductoRef.current);
 		onProductoChange(editingProductoRef.current);  // Use the ref instead of the state directly
 		onClose();
 	};
@@ -50,14 +51,15 @@ function PopUpProducto({ product, onClose, onProductoChange }) {
 	}
 
 	const quitarImagen = () => {
-		setEditingProducto({ ...editingProducto, imagen: null });
+		setEditingProducto({ ...editingProducto, mainImage: null });
 	};
 
 	const handleImageChange = e => {
 		const imageFile = e.target.files[0];
+		console.log('imageFile:', imageFile);
 		if (imageFile) {
 			const imageUrl = URL.createObjectURL(imageFile);
-			setEditingProducto({ ...editingProducto, imagen: imageUrl });
+			setEditingProducto({ ...editingProducto, mainImage: imageUrl });
 		}
 	};
 
@@ -92,8 +94,12 @@ function PopUpProducto({ product, onClose, onProductoChange }) {
 		<div className='popup-container'>
 			<div className='popup-content'>
 				<div className='left-side-popup'>
-					{editingProducto.mainImageUrl ? (
-						<img src={editingProducto.mainImageUrl} alt={editingProducto.name} />
+
+					{editingProducto.mainImage ? (
+						<img
+						src={editingProducto.mainImage ? `http://localhost:3500${editingProducto.mainImage.url}` : ''}
+						alt={editingProducto.mainImage ? editingProducto.mainImage.altText || editingProducto.name : editingProducto.name}
+						/>
 					) : (
 						<label className='image-input-label'>
 							<input
