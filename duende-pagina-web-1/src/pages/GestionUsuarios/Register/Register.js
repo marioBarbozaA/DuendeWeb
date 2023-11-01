@@ -25,7 +25,7 @@ export const handleRegister = async formData => {
 
 	try {
 		const response = await axios.post('/login/register', registerData);
-		console.log(response.data); // Log the response from the server
+		// console.log(response.data); // Log the response from the server
 		alert('User registered successfully');
 		return response;
 	} catch (error) {
@@ -35,13 +35,16 @@ export const handleRegister = async formData => {
 			// that falls out of the range of 2xx
 			console.error(error.response.data);
 			alert(`Error: ${error.response.data.msg}`);
+			return error.response;
 		} else if (error.request) {
 			// The request was made but no response was received
 			console.error(error.request);
 			alert('Network error, please try again later.');
+			return error.request;
 		} else {
 			// Something happened in setting up the request that triggered an Error
 			alert('Error: ', error.message);
+			return error.message;
 		}
 	}
 };

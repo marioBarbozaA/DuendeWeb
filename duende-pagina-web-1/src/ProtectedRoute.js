@@ -15,6 +15,7 @@ function ProtectedRoute() {
 	console.log('Protected Route File:', user);
 
 	const userRole = user?.roles?.[0];
+	console.log('Protected Route File:', userRole);
 	if (userRole) {
 		if (userRole === 'client') {
 			// Redirigir a la página de MainPageUser y luego recargar la página

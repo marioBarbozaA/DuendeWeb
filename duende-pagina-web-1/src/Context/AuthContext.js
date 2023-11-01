@@ -21,12 +21,12 @@ export const AuthProvider = ({ children }) => {
     const signup = async user => {
         try {
             const res = await handleRegister(user);
-            console.log(res.data);
+            console.log(res);
             if (res.status === 200 && res.data) { // Check if response is successful
                 setUser(res.data);
                 setIsAuthenticated(true);
             } else {
-                throw new Error('Failed to register');
+                alert('Failed to register');
             }
         } catch (error) {
             console.log(error);

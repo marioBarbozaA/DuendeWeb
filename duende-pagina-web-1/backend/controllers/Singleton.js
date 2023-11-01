@@ -379,6 +379,42 @@ class Singleton {
       res.status(500).json({ msg: "Server error" });
     }
   }
+
+  async generateTempPassword(){
+    // Simple example: generate a random string
+    return Math.random().toString(36).slice(2);
+  };
+
+  async updatePasswordEmail(req, res) {
+    try{
+      console.log("updatePassword DAO");
+      const { email } = req.body;
+      console.log(email);
+
+      // Check if email exists in the database
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res
+          .status(400)
+          .json({ msg: "No account with this email address exists." });
+      }
+
+      const randPass = await this.generateTempPassword()
+      console.log("randPass:", randPass);
+      // Generate temporary password or reset token
+      const tempPassword = await bcrypt.hash(randPass, 10);
+
+      console.log("tempPassword:", tempPassword);
+      // Update user's document in the database with the temporary password or reset token
+      await User.findOneAndUpdate({ email }, { password: tempPassword});      
+     
+      return randPass;
+    } catch (error) {
+      res.status(500).json({ msg: "Server error" });
+    }
+}
+
+
     
     //-------------------------------------------------------------------------------------
     //                               GalleryImage Functions

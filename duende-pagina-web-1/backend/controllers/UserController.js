@@ -28,28 +28,14 @@ const generateTempPassword = () => {
 
 const updatePassword = async (req, res) => {
   const { email } = req.body;
+  console.log("updatePassword controller");
+  const newPass = await SingletonDAO.updatePasswordEmail(req, res);
+   // Send email to user
+   const emailSent = await sendRecoveryEmail(email, newPass);
+   if (!emailSent) {
+     return res.status(500).json({ msg: "Failed to send recovery email." });
+   }
 
-  // Check if email exists in the database
-  const user = await User.findOne({ email });
-  if (!user) {
-    return res
-      .status(400)
-      .json({ msg: "No account with this email address exists." });
-  }
-
-  // Generate temporary password or reset token
-  const tempPassword = generateTempPassword();
-
-  // Update user's document in the database with the temporary password or reset token
-  await User.updateOne({ email }, { tempPassword });
-
-  // Send email to user
-  const emailSent = await sendRecoveryEmail(email, tempPassword);
-  if (!emailSent) {
-    return res.status(500).json({ msg: "Failed to send recovery email." });
-  }
-
-  res.json({ msg: "Recovery email sent." });
 };
 
 //logout
