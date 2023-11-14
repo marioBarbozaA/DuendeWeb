@@ -1,79 +1,68 @@
-const { getInstance: getSingleton } = require('./Singleton.js');
+const { getInstance: getSingleton } = require("./Singleton.js");
 const SingletonDAO = getSingleton();
-const User = require('../models/auth/user.js');
-const bcrypt = require('bcrypt');
+const User = require("../models/auth/user.js");
+const { sendRecoveryEmail } = require("../utilities/email");
 
 const loginUser = async (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ msg: "Please enter all fields" });
+  }
+  await SingletonDAO.loginUser(req, res, next);
 
-    const { email, password } = req.body;
-    if(!email || !password) {
-        return res.status(400).json({ msg: 'Please enter all fields' });
-    }    
-    let valueLoggin = await SingletonDAO.loginUser(req, res, next);
-
-    if (valueLoggin == false) {
-        console.log("User login failed");
-    } else {
-        console.log("User login success");
-    }
-}
+  // if (valueLoggin == false) {
+  //   console.log("User login failed");
+  // } else {
+  //   console.log("User login success");
+  // }
+};
 
 const registerUser = async (req, res, next) => {
-    
-    const { email, password, name, phone } = req.body;
+  await SingletonDAO.registerUser(req, res, next);
+};
 
-    if (!email || !password) {
-        return res.status(400).json({ msg: 'Invalid request body' });
-    }
-    //check for duplicate usernames in the db
-    const duplicate = await User.findOne({ email: email }).exec();
+const generateTempPassword = () => {
+  // Simple example: generate a random string
+  return Math.random().toString(36).slice(2);
+};
 
-    if (duplicate) {
-        return res.status(400).json({ msg: 'User already exists' });
-    }
+const updatePassword = async (req, res) => {
+  const { email } = req.body;
+  console.log("updatePassword controller");
+  const newPass = await SingletonDAO.updatePasswordEmail(req, res);
+   // Send email to user
+   const emailSent = await sendRecoveryEmail(email, newPass);
+   if (!emailSent) {
+     return res.status(500).json({ msg: "Failed to send recovery email." });
+   }
 
-    try {
-        //encrypt password
+};
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        
-        //create and store the new user        
-        await User.create({ "email": email, "password": hashedPassword , 
-        "name": name, "phone": phone});
-        
-        res.status(200).json({ msg: 'User created' });
-    } catch (e) {
-        res.status(500).json({ msg: 'Server error'+ e });
-    }
-}
+//logout
+const logout = async (req, res, next) => {
+  await SingletonDAO.logout(req, res, next);
+};
 
-const updatePassword = async (req, res, next) => {
-    try{
-        const jsonBody = req.body;
+const profile = async (req, res, next) => {
+  await SingletonDAO.profile(req, res, next);
+};
+const verifyToken = async (req, res, next) => {
+  await SingletonDAO.verifyToken(req, res, next);
+};
+const editProfile = async (req, res, next) => {
+  await SingletonDAO.editProfile(req, res, next);
+};
+const editarContraseña = async (req, res, next) => {
+  await SingletonDAO.editarContraseña(req, res, next);
+};
 
-        if (!jsonBody.usuario || !jsonBody.newPassword || !jsonBody.confirmPassword) {
-            return res.status(400).json({ msg: 'Please enter all fields' });
-        }
-
-        if (jsonBody.newPassword !== jsonBody.confirmPassword) {
-            return res.status(400).json({ msg: 'Passwords do not match' });
-        }
-
-        const userToUpdate = await User.findOne({ email: jsonBody.usuario });
-        
-        if (!userToUpdate) {
-            return res.status(400).json({ msg: 'User does not exist' });
-        }
-
-        const hashedPassword = await bcrypt.hash(jsonBody.newPassword, 10);
-
-        await User.updateOne({ email: jsonBody.usuario }, { password: hashedPassword });
-
-        res.status(200).json({ msg: 'Password updated' });
-
-    }catch(e){
-        res.status(500).json({ msg: 'Server error'+ e });
-    }
-}
-
-module.exports = { loginUser, registerUser, updatePassword };
+module.exports = {
+  loginUser,
+  registerUser,
+  updatePassword,
+  logout,
+  profile,
+  verifyToken,
+  editProfile,
+  editarContraseña,
+};

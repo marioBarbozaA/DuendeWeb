@@ -3,10 +3,13 @@ const Schema = mongoose.Schema;
 
 const shoppingCartSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    updateDate: Date,
-    products: [{ type: Schema.Types.ObjectId, ref: 'Product' }],  // assuming you have a separate SelectedProducts model
-    status: String,
-    total: Number
+    updateDate: {type: Date, default: Date.now()},
+    products: [{ 
+        product: { type: Schema.Types.ObjectId, ref: 'Product' },
+        quantity: { type: Number, default: 1 }
+    }],
+    status: {type: Boolean, default: true},
+    total: {type: Number, default: 0}
 });
 
 module.exports = mongoose.model('ShoppingCart', shoppingCartSchema);
